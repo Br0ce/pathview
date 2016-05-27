@@ -1,6 +1,6 @@
-/** @file main_window.h
+/** @file field.h
  *
- * @brief Main window for pathview
+ * @brief Smallest unit in a maze.
  *
  * Copyright (C) 2016  @author Niklas Beck, beck@informatik.uni-bonn.de
  *
@@ -21,56 +21,29 @@
  */
 
 
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#ifndef FIELD_H
+#define FIELD_H
 
-
-// #include <QMainWindow> //TODO WIDGHETS
-#include <QtWidgets>
-#include <QSettings>
-#include <QDockWidget>
-#include <QFrame>
-#include <QGridLayout>
-#include <QGroupBox>
-#include <QPushButton>
-
+#include <QTextBrowser>
 
 #include "defines.h"
-#include "field.h"
 
 
-class Main_window : public QMainWindow
+class Field : public QTextBrowser
 {
-
   Q_OBJECT
 
 public:
 
+  explicit Field(dim pos, QWidget* parent = 0);
+  virtual ~Field() = default;
 
-  explicit Main_window(QWidget* parent = 0);
-  virtual ~Main_window() = default;
-
-  void read_settings();
-  void save_settings();
   void init_gui();
-
-  void build_grid(dim d);
-
-protected:
-
-  void closeEvent(QCloseEvent* event) override;
 
 private:
 
-  QSettings settings_;
-  QWidget* main_widget_;
-  QDockWidget* dock_widget_;
-  QFrame* frame_;
-  QGridLayout* grid_;
-  QGroupBox* maze_group_;
-  QGridLayout* maze_group_layout_;
+  dim position_;
 
-  dim maze_dim_;
 };
 
-#endif // MAIN_WINDOW_H
+#endif // FIELD_H
