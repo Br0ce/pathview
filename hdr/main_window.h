@@ -63,10 +63,27 @@ protected:
 private:
 
   QSettings settings_;
+
   QWidget* main_widget_;
   QDockWidget* dock_widget_;
-  QFrame* frame_;
-  QGridLayout* grid_;
+
+  QFrame* grid_frame_;
+  QGridLayout* grid_layout_;
+
+  QFrame* dock_frame_;
+  QVBoxLayout* dock_layout_;
+
+  QGroupBox* search_group_;
+  QGridLayout* search_group_layout_;
+
+  QComboBox* search_combo_;
+
+  QGroupBox* stats_group_;
+  QFormLayout* stats_group_layout_;
+
+  QGroupBox* field_settings_group_;
+  QGridLayout* field_settings_group_layout_;
+
   QGroupBox* maze_group_;
   QGridLayout* maze_group_layout_;
 
