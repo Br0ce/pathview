@@ -35,21 +35,7 @@ Main_window::Main_window(QWidget* parent):
   grid_layout_(new QGridLayout(grid_frame_)),
 
   dock_frame_(new QFrame(dock_widget_)),
-  dock_layout_(new QVBoxLayout(dock_frame_)),
-
-  search_group_(new QGroupBox(tr("search"), dock_widget_)),
-  search_group_layout_(new QGridLayout(search_group_)),
-
-  search_combo_(new QComboBox(search_group_)), // TODO needed!?
-
-  stats_group_(new QGroupBox(tr("stats"), dock_frame_)),
-  stats_group_layout_(new QFormLayout(stats_group_)),
-
-  field_settings_group_(new QGroupBox(tr("field settings"), dock_frame_)),
-  field_settings_group_layout_(new QGridLayout(field_settings_group_)),
-
-  maze_group_(new QGroupBox(tr("maze builder"), dock_frame_)),
-  maze_group_layout_(new QGridLayout(maze_group_))
+  dock_layout_(new QVBoxLayout(dock_frame_))
 {
   settings_.setFallbacksEnabled(false);
   read_settings();
@@ -112,94 +98,143 @@ void Main_window::init_gui()
 
   /* search-elements */
 
-  search_combo_->addItem(" A*");
-  search_combo_->addItem(" D*-light");
-
-  auto pb_search = new QPushButton(tr("search path"), search_group_);
-  auto pb_go = new QPushButton(tr("go"), search_group_);
-  auto pb_pause = new QPushButton(tr("pause"), search_group_);
-
-  search_group_layout_->setSpacing(4);
-  search_group_layout_->setSizeConstraint(QLayout::SetFixedSize);
-
-  search_group_layout_->addWidget(search_combo_, 0, 0, 2, 2);
-  search_group_layout_->addWidget(pb_search, 2, 0, 2, 2);
-  search_group_layout_->addWidget(pb_go, 4, 0, 1, 1);
-  search_group_layout_->addWidget(pb_pause, 4, 1, 1, 1);
-
-  search_group_->setLayout(search_group_layout_);
-  dock_layout_->addWidget(search_group_);
+  dock_layout_->addWidget(make_search_group(dock_widget_));
 
 
   /* stats-elements */
 
-  auto ledit_status = new QLineEdit(stats_group_);
-  ledit_status->setReadOnly(true);
-  ledit_status->setAlignment(Qt::AlignLeft);
-
-  auto ledit_expanded = new QLineEdit(stats_group_);
-  ledit_expanded->setReadOnly(true);
-  ledit_expanded->setAlignment(Qt::AlignLeft);
-
-  auto ledit_reached_in = new QLineEdit(stats_group_);
-  ledit_reached_in->setReadOnly(true);
-  ledit_reached_in->setAlignment(Qt::AlignLeft);
-
-  stats_group_layout_->setSpacing(4);
-  stats_group_layout_->setSizeConstraint(QLayout::SetFixedSize);
-
-  stats_group_layout_->addRow(tr("status"), ledit_status); //TODO check parent
-  stats_group_layout_->addRow(tr("expanded"), ledit_expanded);
-  stats_group_layout_->addRow(tr("reached in"), ledit_reached_in);
-
-  stats_group_->setLayout(stats_group_layout_);
-  dock_layout_->addWidget(stats_group_);
+  dock_layout_->addWidget(make_stats_group(dock_frame_));
 
 
   /* field settings-elements */
 
-  auto cb_g_value = new QCheckBox(tr("g-value"), field_settings_group_);
-  auto cb_h_value = new QCheckBox(tr("h-value"), field_settings_group_);
-  auto cb_f_value = new QCheckBox(tr("f-value"), field_settings_group_);
-  auto cb_rhs_value = new QCheckBox(tr("rhs-value"), field_settings_group_);
-  auto cb_expanded = new QCheckBox(tr("expanded"), field_settings_group_);
-
-  field_settings_group_layout_->setSpacing(4);
-  field_settings_group_layout_->setSizeConstraint(QLayout::SetFixedSize);
-
-  field_settings_group_layout_->addWidget(cb_g_value, 0, 0);
-  field_settings_group_layout_->addWidget(cb_h_value, 1, 0);
-  field_settings_group_layout_->addWidget(cb_f_value, 2, 0);
-  field_settings_group_layout_->addWidget(cb_rhs_value, 0, 1);
-  field_settings_group_layout_->addWidget(cb_expanded, 1, 1);
-
-  field_settings_group_->setLayout(field_settings_group_layout_);
-  dock_layout_->addWidget(field_settings_group_);
+  dock_layout_->addWidget(make_field_settings_group(dock_frame_));
 
 
   /* maze builder-elements */
 
-  auto pb_load_maze = new QPushButton(tr("load maze"), maze_group_);
-  auto pb_save_maze = new QPushButton(tr("save maze"), maze_group_);
-  auto pb_set_start = new QPushButton(tr("set start"), maze_group_);
-  auto pb_set_goal = new QPushButton(tr("set goal"), maze_group_);
-  auto pb_set_dim = new QPushButton(tr("set dim"), maze_group_);
-  auto pb_set_wall = new QPushButton(tr("set wall"), maze_group_);
+  dock_layout_->addWidget(make_maze_group(dock_frame_));
 
-  maze_group_layout_->setSpacing(4);
-  maze_group_layout_->setSizeConstraint(QLayout::SetFixedSize);
-
-  maze_group_layout_->addWidget(pb_load_maze, 0, 0);
-  maze_group_layout_->addWidget(pb_save_maze, 0, 1);
-  maze_group_layout_->addWidget(pb_set_start, 1, 0);
-  maze_group_layout_->addWidget(pb_set_goal, 1, 1);
-  maze_group_layout_->addWidget(pb_set_dim, 2, 0);
-  maze_group_layout_->addWidget(pb_set_wall, 2, 1);
-
-  maze_group_->setLayout(maze_group_layout_);
-  dock_layout_->addWidget(maze_group_);
 
   dock_widget_->setWidget(dock_frame_);
+}
+
+
+QGroupBox* Main_window::make_search_group(QWidget* parent)
+{
+  auto g_box = new QGroupBox(tr("search"), parent); //dock_widget_
+
+  auto pb_search = new QPushButton(tr("search path"), g_box);
+  auto pb_go = new QPushButton(tr("go"), g_box);
+  auto pb_pause = new QPushButton(tr("pause"), g_box);
+
+  auto search_combo = new QComboBox(g_box);
+  search_combo->addItem(" A*");
+  search_combo->addItem(" D*-light");
+
+  connect(search_combo, SIGNAL(activated(int)), this, SLOT(search_mode(int)));
+
+  auto g_layout = new QGridLayout(g_box);
+  g_layout->setSpacing(4);
+  g_layout->setSizeConstraint(QLayout::SetFixedSize);
+
+  g_layout->addWidget(search_combo, 0, 0, 2, 2);
+  g_layout->addWidget(pb_search, 2, 0, 2, 2);
+  g_layout->addWidget(pb_go, 4, 0, 1, 1);
+  g_layout->addWidget(pb_pause, 4, 1, 1, 1);
+
+
+  g_box->setLayout(g_layout);
+
+  return g_box;
+}
+
+
+QGroupBox* Main_window::make_stats_group(QWidget* parent)
+{
+  auto g_box = (new QGroupBox(tr("stats"), parent)); // dock_frame_
+
+  auto l_edit_status = new QLineEdit(g_box);
+  l_edit_status->setReadOnly(true);
+  l_edit_status->setAlignment(Qt::AlignLeft);
+
+  auto l_edit_expanded = new QLineEdit(g_box);
+  l_edit_expanded->setReadOnly(true);
+  l_edit_expanded->setAlignment(Qt::AlignLeft);
+
+  auto l_edit_reached_in = new QLineEdit(g_box);
+  l_edit_reached_in->setReadOnly(true);
+  l_edit_reached_in->setAlignment(Qt::AlignLeft);
+
+  auto f_layout = new QFormLayout(g_box);
+
+  f_layout->setSpacing(4);
+  f_layout->setSizeConstraint(QLayout::SetFixedSize);
+
+  f_layout->addRow(tr("status"), l_edit_status); //TODO check parent
+  f_layout->addRow(tr("expanded"), l_edit_expanded);
+  f_layout->addRow(tr("reached in"), l_edit_reached_in);
+
+
+  g_box->setLayout(f_layout);
+
+  return g_box;
+}
+
+
+QGroupBox* Main_window::make_field_settings_group(QWidget* parent)
+{
+  auto g_box = new QGroupBox(tr("field settings"), parent); // dock_frame_
+  auto g_layout = new QGridLayout(g_box);
+
+  auto cb_g_value = new QCheckBox(tr("g-value"), g_box);
+  auto cb_h_value = new QCheckBox(tr("h-value"), g_box);
+  auto cb_f_value = new QCheckBox(tr("f-value"), g_box);
+  auto cb_rhs_value = new QCheckBox(tr("rhs-value"), g_box);
+  auto cb_expanded = new QCheckBox(tr("expanded"), g_box);
+
+  g_layout->setSpacing(4);
+  g_layout->setSizeConstraint(QLayout::SetFixedSize);
+
+  g_layout->addWidget(cb_g_value, 0, 0);
+  g_layout->addWidget(cb_h_value, 1, 0);
+  g_layout->addWidget(cb_f_value, 2, 0);
+  g_layout->addWidget(cb_rhs_value, 0, 1);
+  g_layout->addWidget(cb_expanded, 1, 1);
+
+
+  g_box->setLayout(g_layout);
+
+  return g_box;
+}
+
+
+QGroupBox* Main_window::make_maze_group(QWidget* parent)
+{
+  auto g_box = new QGroupBox(tr("maze builder"), parent); // dock_frame_
+  auto g_layout = new QGridLayout(g_box);
+
+  auto pb_load_maze = new QPushButton(tr("load maze"), g_box);
+  auto pb_save_maze = new QPushButton(tr("save maze"), g_box);
+  auto pb_set_start = new QPushButton(tr("set start"), g_box);
+  auto pb_set_goal = new QPushButton(tr("set goal"), g_box);
+  auto pb_set_dim = new QPushButton(tr("set dim"), g_box);
+  auto pb_set_wall = new QPushButton(tr("set wall"), g_box);
+
+  g_layout->setSpacing(4);
+  g_layout->setSizeConstraint(QLayout::SetFixedSize);
+
+  g_layout->addWidget(pb_load_maze, 0, 0);
+  g_layout->addWidget(pb_save_maze, 0, 1);
+  g_layout->addWidget(pb_set_start, 1, 0);
+  g_layout->addWidget(pb_set_goal, 1, 1);
+  g_layout->addWidget(pb_set_dim, 2, 0);
+  g_layout->addWidget(pb_set_wall, 2, 1);
+
+
+  g_box->setLayout(g_layout);
+
+  return g_box;
 }
 
 
@@ -221,4 +256,13 @@ void Main_window::closeEvent(QCloseEvent* event)
 {
   save_settings();
   QWidget::closeEvent(event);
+}
+
+void Main_window::search_mode(int i)
+{
+  // TODO dummy
+  if(i == 0)
+    qDebug() << "A*";
+  if(i == 1)
+    qDebug() << "D*";
 }

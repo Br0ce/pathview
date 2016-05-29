@@ -54,11 +54,20 @@ public:
   void save_settings();
   void init_gui();
 
+  QGroupBox* make_search_group(QWidget* parent);
+  QGroupBox* make_stats_group(QWidget* parent);
+  QGroupBox* make_field_settings_group(QWidget* parent);
+  QGroupBox* make_maze_group(QWidget* parent);
+
   void build_grid(dim d);
 
 protected:
 
   void closeEvent(QCloseEvent* event) override;
+
+private slots:
+
+  void search_mode(int i);
 
 private:
 
@@ -72,20 +81,6 @@ private:
 
   QFrame* dock_frame_;
   QVBoxLayout* dock_layout_;
-
-  QGroupBox* search_group_;
-  QGridLayout* search_group_layout_;
-
-  QComboBox* search_combo_;
-
-  QGroupBox* stats_group_;
-  QFormLayout* stats_group_layout_;
-
-  QGroupBox* field_settings_group_;
-  QGridLayout* field_settings_group_layout_;
-
-  QGroupBox* maze_group_;
-  QGridLayout* maze_group_layout_;
 
   dim maze_dim_;
 };
