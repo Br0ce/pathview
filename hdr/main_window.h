@@ -37,6 +37,7 @@
 
 #include "defines.h"
 #include "field.h"
+#include "graph.h"
 
 
 class Main_window : public QMainWindow
@@ -83,6 +84,7 @@ private:
   QVBoxLayout* dock_layout_;
 
   dim maze_dim_;
+  Graph graph_;
 };
 
 #endif // MAIN_WINDOW_H
