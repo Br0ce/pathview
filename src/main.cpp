@@ -21,14 +21,75 @@
  */
 
 
+
 #include <QApplication>
+#include <QDebug>
+#include <QFile>
+#include <QTextStream>
+#include <QDateTime>
 
 #include "main_window.h"
 
 
+
+#ifdef QT_VERSION_5_4_REACHED // QtInfoMsg is defined QT_Version >= 5.4
+
+/**
+  * @brief redirect debug-messages to file: /log/debug_log.txt
+  *
+  * @param type QtMsgType
+  * @param con QMessageLogContext -- not used
+  * @param msg QString
+  * @return void
+  */
+void log_to_file(QtMsgType type, const QMessageLogContext& con, const
+                 QString& msg)
+{
+  QString txt;
+  QString header = QDateTime::currentDateTime().toString();
+
+  switch(type)
+  {
+  case QtDebugMsg:
+    txt = "Debug: " + header + " " + msg;
+    break;
+
+  case QtInfoMsg:
+    txt = "Info: " + header + " " + msg;
+    break;
+
+  case QtWarningMsg:
+    txt = "Warning: " + header + " " + msg;
+    break;
+
+  case QtCriticalMsg:
+    txt = "Critical: " + header + " " + msg;
+    break;
+
+  case QtFatalMsg:
+    txt = "Fatal: " + header + " " + msg;
+    abort();
+  }
+
+  QFile f(QDir::currentPath() + "/log/debug_msg.log");
+
+  if(f.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))
+  {
+    QTextStream ts(&f);
+    ts << txt << endl;
+  }
+}
+
+
+#endif
+
 int main(int argc, char** argv)
 {
   QApplication app(argc, argv);
+
+  #ifdef QT_VERSION_5_4_REACHED
+  qInstallMessageHandler(log_to_file);
+  #endif
 
   Main_window main_window;
   main_window.show();

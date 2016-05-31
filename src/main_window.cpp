@@ -39,6 +39,7 @@ Main_window::Main_window(QWidget* parent):
 {
   settings_.setFallbacksEnabled(false);
   read_settings();
+  graph_.init_4_neighborhood(maze_dim_);
   init_gui();
 }
 
@@ -245,6 +246,7 @@ void Main_window::build_grid(dim d)
     for(auto j = 0; j < d.second; ++j)
     {
       auto f = new Field(std::make_pair(i, j), grid_frame_);
+      f->set_name(QStringLiteral("Field_%1").arg(i));
 
       grid_layout_->addWidget(f, i, j);
     }

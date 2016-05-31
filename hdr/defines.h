@@ -24,9 +24,25 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
+#include <QDebug>
+
+
 #include <utility>
 
 
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+#define QT_VERSION_5_4_REACHED
+#endif
+
+#define __LOG__FUNC \
+  qDebug() << Q_FUNC_INFO;
+
+#define __LOG(msg) \
+  qDebug() << Q_FUNC_INFO << "in Line" << __LINE__ << ":" << msg;
+
+
 using dim = std::pair<int, int>;
+
 
 #endif // DEFINES_H
