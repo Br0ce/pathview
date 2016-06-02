@@ -39,6 +39,7 @@
 #include "field.h"
 #include "graph.h"
 #include "position.h"
+#include "maze_admin.h"
 
 
 class Main_window : public QMainWindow
@@ -61,8 +62,6 @@ public:
   QGroupBox* make_field_settings_group(QWidget* parent);
   QGroupBox* make_maze_group(QWidget* parent);
 
-  void build_grid(Dim d);
-
 protected:
 
   void closeEvent(QCloseEvent* event) override;
@@ -79,10 +78,11 @@ private:
   QDockWidget* dock_widget_;
 
   QFrame* grid_frame_;
-  QGridLayout* grid_layout_;
 
   QFrame* dock_frame_;
   QVBoxLayout* dock_layout_;
+
+  Maze_admin* maze_admin_;
 
   Dim maze_dim_;
   Graph graph_;

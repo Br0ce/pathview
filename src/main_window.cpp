@@ -32,10 +32,11 @@ Main_window::Main_window(QWidget* parent):
   dock_widget_(new QDockWidget(this)),
 
   grid_frame_(new QFrame(main_widget_)),
-  grid_layout_(new QGridLayout(grid_frame_)),
 
   dock_frame_(new QFrame(dock_widget_)),
-  dock_layout_(new QVBoxLayout(dock_frame_))
+  dock_layout_(new QVBoxLayout(dock_frame_)),
+
+  maze_admin_(new Maze_admin(this))
 {
   __LOG("START")
 
@@ -79,13 +80,8 @@ void Main_window::init_gui()
   this->setCentralWidget(main_widget_);
 
   grid_frame_->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
-  grid_layout_->setSpacing(2);
-  grid_layout_->setSizeConstraint(QLayout::SetFixedSize);
-  main_widget_->setLayout(grid_layout_);
 
-
-  build_grid(std::make_pair(maze_dim_.first, maze_dim_.second)); // TODO Dummy
-
+  main_widget_->setLayout(maze_admin_->make_maze(maze_dim_));
 
   /*
    * Dock
@@ -241,19 +237,6 @@ QGroupBox* Main_window::make_maze_group(QWidget* parent)
   g_box->setLayout(g_layout);
 
   return g_box;
-}
-
-
-void Main_window::build_grid(Dim d)
-{
-  for(auto i = 0; i < d.first; ++i)
-  {
-    for(auto j = 0; j < d.second; ++j)
-    {
-      auto f = new Field(Position(std::make_pair(i, j)), grid_frame_);
-      grid_layout_->addWidget(f, i, j);
-    }
-  }
 }
 
 
