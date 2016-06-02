@@ -250,9 +250,7 @@ void Main_window::build_grid(Dim d)
   {
     for(auto j = 0; j < d.second; ++j)
     {
-      auto f = new Field(std::make_pair(i, j), grid_frame_);
-      f->set_name(QStringLiteral("Field_%1").arg(i));
-
+      auto f = new Field(Position(std::make_pair(i, j)), grid_frame_);
       grid_layout_->addWidget(f, i, j);
     }
   }
