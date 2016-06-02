@@ -38,6 +38,7 @@
 #include "defines.h"
 #include "field.h"
 #include "graph.h"
+#include "position.h"
 
 
 class Main_window : public QMainWindow
