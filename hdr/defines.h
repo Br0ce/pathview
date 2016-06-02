@@ -42,7 +42,7 @@
   qDebug() << Q_FUNC_INFO << "in Line" << __LINE__ << ":" << msg;
 
 
-using dim = std::pair<int, int>;
-
+using Dim = std::pair<int, int>;
+using Index = int;
 
 #endif // DEFINES_H

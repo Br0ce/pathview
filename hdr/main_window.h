@@ -61,7 +61,7 @@ public:
   QGroupBox* make_field_settings_group(QWidget* parent);
   QGroupBox* make_maze_group(QWidget* parent);
 
-  void build_grid(dim d);
+  void build_grid(Dim d);
 
 protected:
 
@@ -84,7 +84,7 @@ private:
   QFrame* dock_frame_;
   QVBoxLayout* dock_layout_;
 
-  dim maze_dim_;
+  Dim maze_dim_;
   Graph graph_;
 };
 

@@ -244,7 +244,7 @@ QGroupBox* Main_window::make_maze_group(QWidget* parent)
 }
 
 
-void Main_window::build_grid(dim d)
+void Main_window::build_grid(Dim d)
 {
   for(auto i = 0; i < d.first; ++i)
   {
