@@ -36,7 +36,9 @@ Main_window::Main_window(QWidget* parent):
   dock_frame_(new QFrame(dock_widget_)),
   dock_layout_(new QVBoxLayout(dock_frame_)),
 
-  maze_admin_(new Maze_admin(this))
+  maze_admin_(new Maze_admin(this)),
+
+  dim_dialog_(new Set_dim_dialog(this))
 {
   __LOG("START")
 
@@ -44,6 +46,7 @@ Main_window::Main_window(QWidget* parent):
   read_settings();
 
   Position::set_dimensions(maze_dim_);
+  dim_dialog_->init_dim(maze_dim_);
 
   graph_.init_4_neighborhood(maze_dim_);
   init_gui();
@@ -119,6 +122,9 @@ void Main_window::init_gui()
 
 
   dock_widget_->setWidget(dock_frame_);
+
+  connect(dim_dialog_, SIGNAL(publish_dim_request(Dim)), this,
+          SLOT(receive_dim_request(Dim)));
 }
 
 
@@ -223,6 +229,8 @@ QGroupBox* Main_window::make_maze_group(QWidget* parent)
   auto pb_set_dim = new QPushButton(tr("set dim"), g_box);
   auto pb_set_wall = new QPushButton(tr("set wall"), g_box);
 
+  connect(pb_set_dim, SIGNAL(clicked(bool)), this, SLOT(pb_set_dim_clicked()));
+
   g_layout->setSpacing(4);
   g_layout->setSizeConstraint(QLayout::SetFixedSize);
 
@@ -253,4 +261,16 @@ void Main_window::search_mode(int i)
     qDebug() << "A*";
   if(i == 1)
     qDebug() << "D*";
+}
+
+
+void Main_window::pb_set_dim_clicked()
+{
+  dim_dialog_->show();
+  dim_dialog_->exec();
+}
+
+void Main_window::receive_dim_request(Dim d)
+{
+  __LOG("d first: " << d.first)
 }

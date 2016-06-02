@@ -40,6 +40,7 @@
 #include "graph.h"
 #include "position.h"
 #include "maze_admin.h"
+#include "set_dim_dialog.h"
 
 
 class Main_window : public QMainWindow
@@ -69,6 +70,8 @@ protected:
 private slots:
 
   void search_mode(int i);
+  void pb_set_dim_clicked();
+  void receive_dim_request(Dim d);
 
 private:
 
@@ -86,6 +89,8 @@ private:
 
   Dim maze_dim_;
   Graph graph_;
+
+  Set_dim_dialog* dim_dialog_;
 };
 
 #endif // MAIN_WINDOW_H
