@@ -37,8 +37,13 @@ Main_window::Main_window(QWidget* parent):
   dock_frame_(new QFrame(dock_widget_)),
   dock_layout_(new QVBoxLayout(dock_frame_))
 {
+  __LOG("START")
+
   settings_.setFallbacksEnabled(false);
   read_settings();
+
+  Position::set_dimensions(maze_dim_);
+
   graph_.init_4_neighborhood(maze_dim_);
   init_gui();
 }
