@@ -25,17 +25,15 @@
 #include "graph.h"
 
 
-Graph::Graph(dim d) :
-  states_((d.first * d.second), std::make_shared<State>(d.first * d.second)),
-  edges_((d.first * d.second), (d.first * d.second)), //TODO test for zero init
-  dim_(d)
-{
-  init_4_neighorhood();
-}
 
 
-void Graph::init_4_neighorhood()
+void Graph::init_4_neighborhood(const Dim d)
 {
+  states_.resize((d.first * d.second), std::make_shared<State>());
+  Eigen::MatrixXd m((d.first * d.second), (d.first * d.second));
+  dim_ = d;
+  edges_ = std::move(m);
+
   for(std::size_t i = 0; i < states_.size(); ++i)
   {
     if(check_right_bound(i))
@@ -52,22 +50,22 @@ void Graph::init_4_neighorhood()
   }
 }
 
-bool Graph::check_right_bound(int i)
+bool Graph::check_right_bound(const int i) const
 {
   return ((i % dim_.second) + 1) < dim_.second;
 }
 
-bool Graph::check_left_bound(int i)
+bool Graph::check_left_bound(const int i) const
 {
-  return ((i % dim_.second) - 1) >= dim_.second;
+  return ((i % dim_.second) - 1) >= 0;
 }
 
-bool Graph::check_upper_bound(int i)
+bool Graph::check_upper_bound(const int i) const
 {
   return (i - dim_.second) >= 0;
 }
 
-bool Graph::check_lower_bound(int i)
+bool Graph::check_lower_bound(const int i) const
 {
   return (i + dim_.second) < (dim_.first * dim_.second);
 }

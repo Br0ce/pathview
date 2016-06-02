@@ -27,6 +27,8 @@
 #include <vector>
 #include <memory>
 
+#include <iostream>
+
 #include <Eigen/Dense>
 
 #include "defines.h"
@@ -37,20 +39,19 @@ class Graph
 {
 
 public:
-  explicit Graph(dim d);
 
-  void init_4_neighorhood();
+  void init_4_neighborhood(const Dim d);
 
-  inline bool check_right_bound(int i);
-  inline bool check_left_bound(int i);
-  inline bool check_upper_bound(int i);
-  inline bool check_lower_bound(int i);
+  inline bool check_right_bound(const int i) const;
+  inline bool check_left_bound(const int i) const;
+  inline bool check_upper_bound(const int i) const;
+  inline bool check_lower_bound(const int i) const;
 
 private:
 
   std::vector<std::shared_ptr<State>> states_;
   Eigen::MatrixXd edges_;
-  dim dim_;
+  Dim dim_;
 
 };
 
