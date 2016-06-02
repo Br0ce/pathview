@@ -22,3 +22,26 @@
 
 
 #include "maze_admin.h"
+
+Maze_admin::Maze_admin(QWidget* parent) :
+  QWidget(parent),
+  grid_(new QGridLayout(this))
+{
+  grid_->setSpacing(2);
+  grid_->setSizeConstraint(QLayout::SetFixedSize);
+}
+
+
+QGridLayout* Maze_admin::make_maze(Dim d)
+{
+  for(auto i = 0; i < d.first; ++i)
+  {
+    for(auto j = 0; j < d.second; ++j)
+    {
+      auto f = new Field(Position(std::make_pair(i, j)), this);
+      grid_->addWidget(f, i, j);
+      fields_.push_back(f); //TODO needed?
+    }
+  }
+  return grid_;
+}

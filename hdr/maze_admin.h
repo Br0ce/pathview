@@ -23,8 +23,34 @@
 #ifndef MAZE_ADMIN_H
 #define MAZE_ADMIN_H
 
-class Maze_admin
+
+#include <QWidget>
+#include <QGridLayout>
+
+
+#include "defines.h"
+#include "position.h"
+#include "field.h"
+
+
+
+class Maze_admin : public QWidget
 {
+
+  Q_OBJECT
+
+public:
+
+  explicit Maze_admin(QWidget* parent = 0);
+  virtual ~Maze_admin() = default;
+
+  QGridLayout* make_maze(Dim d);
+
+private:
+
+  QGridLayout* grid_;
+  QList<Field*> fields_; //TODO needed?
+
 };
 
 #endif // MAZE_ADMIN_H
