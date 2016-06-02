@@ -24,25 +24,32 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-#include <QTextBrowser>
+#include <QTextEdit>
+#include <QEvent>
 
 #include "defines.h"
+#include "position.h"
 
 
-class Field : public QTextBrowser
+class Field : public QTextEdit
 {
+
   Q_OBJECT
 
 public:
 
-  explicit Field(dim pos, QWidget* parent = 0);
+  explicit Field(Position p, QWidget* parent = 0);
   virtual ~Field() = default;
 
   void init_gui();
 
+protected:
+
+  void mousePressEvent(QMouseEvent* m) override;
+
 private:
 
-  dim position_;
+  Position pos_;
 
 };
 

@@ -22,10 +22,13 @@
 
 #include "field.h"
 
-Field::Field(dim pos, QWidget* parent) :
-  QTextBrowser(parent),
-  position_(pos)
+
+
+Field::Field(Position p, QWidget* parent) :
+  QTextEdit(parent),
+  pos_(p)
 {
+  this->setObjectName(QStringLiteral("Field_%1").arg(pos_.index()));
   init_gui();
 }
 
@@ -35,4 +38,11 @@ void Field::init_gui()
   this->setReadOnly(true);
   this->setStyleSheet("background-color: white");
   this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+}
+
+
+void Field::mousePressEvent(QMouseEvent* m)
+{
+  QTextEdit::mousePressEvent(m);
+  qDebug() << this->objectName(); //TODO Dummy
 }
