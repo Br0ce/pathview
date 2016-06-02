@@ -84,7 +84,7 @@ void Main_window::init_gui()
   main_widget_->setLayout(grid_layout_);
 
 
-  build_grid(std::make_pair(10, 10)); // TODO just dummy
+  build_grid(std::make_pair(maze_dim_.first, maze_dim_.second)); // TODO Dummy
 
 
   /*
