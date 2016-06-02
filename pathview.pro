@@ -25,7 +25,8 @@ HEADERS += hdr/main_window.h \
            hdr/graph.h \
            hdr/state.h \
            hdr/position.h \
-           hdr/maze_admin.h
+           hdr/maze_admin.h \
+           hdr/set_dim_dialog.h
 
 
 SOURCES += src/main.cpp \
@@ -34,4 +35,5 @@ SOURCES += src/main.cpp \
            src/graph.cpp \
            src/state.cpp \
            src/position.cpp \
-           src/maze_admin.cpp
+           src/maze_admin.cpp \
+           src/set_dim_dialog.cpp
