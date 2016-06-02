@@ -29,6 +29,7 @@
 
 #include <utility>
 
+#include <Eigen/Dense>
 
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
@@ -44,5 +45,6 @@
 
 using Dim = std::pair<int, int>;
 using Index = int;
+using Map = Eigen::MatrixXd;
 
 #endif // DEFINES_H
