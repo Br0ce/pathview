@@ -39,8 +39,22 @@ class Search_case : public QWidget
 
 public:
 
-  explicit Search_case(Maze_admin* maze, QWidget* parent = 0);
+  explicit Search_case(Maze_admin* maze_ad, QWidget* parent = 0);
   virtual ~Search_case() = default;
+
+  /*
+  void resize_map(const Dim& d); //TODO avoid overload
+  void resize_map(Dim&& d);
+  */
+
+  template<typename T>
+  void resize_map(T&& d)
+  {
+    map_.resize(d.first, d.second);
+    Position::set_dimensions(std::forward<T>(d));
+  }
+
+  Dim map_size() const;
 
 private:
 

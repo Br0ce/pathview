@@ -24,6 +24,26 @@
 #include "search_case.h"
 
 
-Search_case::Search_case(Maze_admin* maze, QWidget* parent) :
+Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   QWidget(parent),
-  maze_(maze) {}
+  maze_(maze_ad) {}
+
+/*
+void Search_case::resize_map(const Dim& d)
+{
+  Position::set_dimensions(d);
+  map_.resize(d.first, d.second);
+}
+
+void Search_case::resize_map(Dim&& d)
+{
+  Position::set_dimensions(d);
+  map_.resize(d.first, d.second);
+}
+*/
+
+
+Dim Search_case::map_size() const
+{
+  return std::make_pair(map_.rows(), map_.cols());
+}
