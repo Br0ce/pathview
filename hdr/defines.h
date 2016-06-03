@@ -45,6 +45,6 @@
 
 using Dim = std::pair<int, int>;
 using Index = int;
-using Map = Eigen::MatrixXd;
+using Map = Eigen::MatrixXi;
 
 #endif // DEFINES_H
