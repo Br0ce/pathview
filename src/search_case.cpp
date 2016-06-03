@@ -47,3 +47,49 @@ Dim Search_case::map_size() const
 {
   return std::make_pair(map_.rows(), map_.cols());
 }
+
+
+void Search_case::pb_load_maze_clicked()
+{
+  try
+  {
+    QString q_form = QFileDialog::getOpenFileName(this, tr("Load Map"));
+
+    std::ifstream f(q_form.toStdString());
+
+    if(f.is_open())
+    {
+      std::string tmp;
+      std::getline(f, tmp);
+      int rows = std::stoi(tmp);
+      std::getline(f, tmp);
+      int cols = std::stoi(tmp);
+
+      if((rows < 1) || (rows > 25))
+        throw Pathview_error("rows are not in range");
+      if((cols < 1) || (cols > 25))
+        throw Pathview_error("cols are not in range");
+
+      Eigen::MatrixXi m(rows, cols);
+      std::istream_iterator<int> ii{f};
+      std::istream_iterator<int> eos{};
+      std::vector<int> v{ii, eos};
+
+      // TODO check num of elements in v to fit with rows*cols
+
+      f.close();
+
+      int k = 0;
+      for(auto i = 0; i < m.rows(); ++i)
+        for(auto j = 0; j < m.cols(); ++j)
+          m(i, j) = v.at(k);
+
+      map_ = m;
+    }
+  }
+  catch(std::exception& e)
+  {
+    __LOG(e.what())
+  }
+  std::cout << map_;
+}

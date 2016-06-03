@@ -24,7 +24,13 @@
 #ifndef SEARCH_CASE_H
 #define SEARCH_CASE_H
 
+#include <fstream>
+
+
 #include <QWidget>
+#include <QFileDialog>
+#include <QSettings>
+
 
 #include "defines.h"
 #include "maze_admin.h"
@@ -55,6 +61,10 @@ public:
   }
 
   Dim map_size() const;
+
+public slots:
+
+  void pb_load_maze_clicked();
 
 private:
 
