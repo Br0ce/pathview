@@ -220,8 +220,8 @@ QGroupBox* Main_window::make_maze_group(QWidget* parent)
   auto g_box = new QGroupBox(tr("maze builder"), parent); // dock_frame_
   auto g_layout = new QGridLayout(g_box);
 
-  auto pb_load_maze = new QPushButton(tr("load maze"), g_box);
-  auto pb_save_maze = new QPushButton(tr("save maze"), g_box);
+  auto pb_load_maze = new QPushButton(tr("load map"), g_box);
+  auto pb_save_maze = new QPushButton(tr("save map"), g_box);
   auto pb_set_start = new QPushButton(tr("set start"), g_box);
   auto pb_set_goal = new QPushButton(tr("set goal"), g_box);
   auto pb_set_dim = new QPushButton(tr("set dim"), g_box);
