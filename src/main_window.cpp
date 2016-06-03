@@ -257,6 +257,7 @@ QGroupBox* Main_window::make_maze_group(QWidget* parent)
 
 void Main_window::closeEvent(QCloseEvent* event)
 {
+  __LOG("END")
   save_settings();
   QWidget::closeEvent(event);
 }
