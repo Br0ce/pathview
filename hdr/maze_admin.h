@@ -45,6 +45,7 @@ public:
   virtual ~Maze_admin() = default;
 
   QGridLayout* make_maze(Dim d);
+  void remove_maze();
 
 private:
 
