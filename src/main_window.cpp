@@ -79,9 +79,7 @@ void Main_window::init_gui()
    *
    */
 
-
   this->setCentralWidget(main_widget_);
-
   grid_frame_->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
 
   main_widget_->setLayout(maze_admin_->make_maze(maze_dim_));
@@ -272,5 +270,6 @@ void Main_window::pb_set_dim_clicked()
 
 void Main_window::receive_dim_request(Dim d)
 {
-  __LOG("d first: " << d.first)
+  Position::set_dimensions(d);
+  main_widget_->setLayout(maze_admin_->make_maze(d));
 }

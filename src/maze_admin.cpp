@@ -32,7 +32,16 @@ Maze_admin::Maze_admin(QWidget* parent) :
 }
 
 
-QGridLayout* Maze_admin::make_maze(Dim d)
+QGridLayout* Maze_admin::make_maze(const Dim& d)
+{
+  remove_maze();
+  build_maze(d);
+
+  return grid_;
+}
+
+
+void Maze_admin::build_maze(const Dim& d)
 {
   for(auto i = 0; i < d.first; ++i)
   {
@@ -40,10 +49,9 @@ QGridLayout* Maze_admin::make_maze(Dim d)
     {
       auto f = new Field(Position(std::make_pair(i, j)), this);
       grid_->addWidget(f, i, j);
-      fields_.push_back(f); //TODO needed?
+      fields_.push_back(f);
     }
   }
-  return grid_;
 }
 
 

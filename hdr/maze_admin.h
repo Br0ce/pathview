@@ -44,10 +44,13 @@ public:
   explicit Maze_admin(QWidget* parent = 0);
   virtual ~Maze_admin() = default;
 
-  QGridLayout* make_maze(Dim d);
-  void remove_maze();
+  QGridLayout* make_maze(const Dim& d);
+
 
 private:
+
+  void build_maze(const Dim& d);
+  void remove_maze();
 
   QGridLayout* grid_;
   QList<Field*> fields_; //TODO needed?
