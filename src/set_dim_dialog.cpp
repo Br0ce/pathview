@@ -63,12 +63,19 @@ Set_dim_dialog::Set_dim_dialog(QWidget* parent) :
 }
 
 
-void Set_dim_dialog::init_dim(Dim& d)
+/*
+void Set_dim_dialog::init_dim(const Dim& d)
 {
   sb_rows_->setValue(d.first);
   sb_cols_->setValue(d.second);
 }
 
+void Set_dim_dialog::init_dim(Dim&& d)
+{
+  sb_rows_->setValue(d.first);
+  sb_cols_->setValue(d.second);
+}
+*/
 
 void Set_dim_dialog::pb_ok_clicked()
 {

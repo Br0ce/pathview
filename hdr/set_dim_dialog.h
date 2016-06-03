@@ -41,7 +41,17 @@ public:
   explicit Set_dim_dialog(QWidget* parent = 0);
   virtual ~Set_dim_dialog() = default;
 
-  void init_dim(Dim& d);
+  /*
+  void init_dim(const Dim& d);
+  void init_dim(Dim&& d);
+  */
+
+  template<typename T>
+  void init_dim(T&& d)
+  {
+    sb_rows_->setValue(d.first);
+    sb_cols_->setValue(d.second);
+  }
 
 signals:
 
