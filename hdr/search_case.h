@@ -48,8 +48,6 @@ private:
   Graph* graph_;
   Map map_;
 
-  Position start_;
-  Position goal_;
 };
 
 #endif // SEARCH_CASE_H
