@@ -46,10 +46,11 @@ QGridLayout* Maze_admin::make_maze(Dim d)
   return grid_;
 }
 
+
 void Maze_admin::remove_maze()
 {
-  auto all_fields = this->findChildren<Field*>();
-  for(auto& f : all_fields)
+  for(auto f : fields_)
     delete f;
-  all_fields.clear();
+
+  fields_.clear();
 }
