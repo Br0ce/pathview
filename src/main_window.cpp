@@ -37,6 +37,7 @@ Main_window::Main_window(QWidget* parent):
   dock_layout_(new QVBoxLayout(dock_frame_)),
 
   maze_admin_(new Maze_admin(this)),
+  search_case_(new Search_case(maze_admin_, this)),
 
   dim_dialog_(new Set_dim_dialog(this))
 {
@@ -45,26 +46,32 @@ Main_window::Main_window(QWidget* parent):
   settings_.setFallbacksEnabled(false);
   read_settings();
 
-  Position::set_dimensions(maze_dim_);
-  dim_dialog_->init_dim(maze_dim_);
-
-  graph_.init_4_neighborhood(maze_dim_);
+  init_dimensions();
   init_gui();
 }
 
 
 void Main_window::read_settings()
 {
-  maze_dim_.first = settings_.value("maze_dimension/maze_rows").toInt();
-  maze_dim_.second = settings_.value("maze_dimension/maze_cols").toInt();
+  auto rows = settings_.value("maze_dimension/maze_rows").toInt();
+  auto cols = settings_.value("maze_dimension/maze_cols").toInt();
+
+  search_case_->resize_map(std::make_pair(rows, cols));
 }
 
 
 void Main_window::save_settings()
 {
   settings_.beginGroup("maze_dimension");
-  settings_.setValue("maze_rows", maze_dim_.first);
-  settings_.setValue("maze_cols", maze_dim_.second);
+  settings_.setValue("maze_rows", search_case_->map_size().first);
+  settings_.setValue("maze_cols", search_case_->map_size().second);
+}
+
+
+void Main_window::init_dimensions()
+{
+  Position::set_dimensions(search_case_->map_size());
+  dim_dialog_->init_dim(search_case_->map_size());
 }
 
 
@@ -82,13 +89,13 @@ void Main_window::init_gui()
   this->setCentralWidget(main_widget_);
   grid_frame_->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
 
-  main_widget_->setLayout(maze_admin_->make_maze(maze_dim_));
+  main_widget_->setLayout(maze_admin_->make_maze(search_case_->map_size()));
+
 
   /*
    * Dock
    *
    */
-
 
   dock_widget_->setFeatures(QDockWidget::DockWidgetFloatable);
   dock_widget_->setAllowedAreas(Qt::LeftDockWidgetArea |
@@ -228,6 +235,8 @@ QGroupBox* Main_window::make_maze_group(QWidget* parent)
   auto pb_set_wall = new QPushButton(tr("set wall"), g_box);
 
   connect(pb_set_dim, SIGNAL(clicked(bool)), this, SLOT(pb_set_dim_clicked()));
+  connect(pb_load_maze, SIGNAL(clicked(bool)), search_case_,
+          SLOT(pb_load_maze_clicked()));
 
   g_layout->setSpacing(4);
   g_layout->setSizeConstraint(QLayout::SetFixedSize);
@@ -270,6 +279,6 @@ void Main_window::pb_set_dim_clicked()
 
 void Main_window::receive_dim_request(Dim d)
 {
-  Position::set_dimensions(d);
+  search_case_->resize_map(d);
   main_widget_->setLayout(maze_admin_->make_maze(d));
 }

@@ -40,6 +40,7 @@
 #include "graph.h"
 #include "position.h"
 #include "maze_admin.h"
+#include "search_case.h"
 #include "set_dim_dialog.h"
 
 
@@ -57,6 +58,7 @@ public:
   void read_settings();
   void save_settings();
   void init_gui();
+  void init_dimensions();
 
   QGroupBox* make_search_group(QWidget* parent);
   QGroupBox* make_stats_group(QWidget* parent);
@@ -86,9 +88,7 @@ private:
   QVBoxLayout* dock_layout_;
 
   Maze_admin* maze_admin_;
-
-  Dim maze_dim_;
-  Graph graph_;
+  Search_case* search_case_;
 
   Set_dim_dialog* dim_dialog_;
 };
