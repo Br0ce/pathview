@@ -43,6 +43,8 @@ Main_window::Main_window(QWidget* parent):
 {
   __LOG("START")
 
+  connect(search_case_, SIGNAL(refresh_maze(QGridLayout*)), this,
+          SLOT(set_maze_layout(QGridLayout*)));
   settings_.setFallbacksEnabled(false);
   read_settings();
 
