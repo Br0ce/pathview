@@ -24,20 +24,82 @@
 
 
 
-Field::Field(Position p, QWidget* parent) :
+Field::Field(const Position& p, const int cost, QWidget* parent) :
   QTextEdit(parent),
-  pos_(p)
+  pos_(p),
+  mode_(Mode::space)
 {
   this->setObjectName(QStringLiteral("Field_%1").arg(pos_.index()));
+
+  if(cost > 0)
+    mode_ = Mode::blocked;
+
   init_gui();
 }
+
 
 void Field::init_gui()
 {
   this->setFixedSize(60, 60);
   this->setReadOnly(true);
-  this->setStyleSheet("background-color: white");
-  this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  this->setLineWidth(3);
+  refresh_mode();
+}
+
+
+void Field::set_mode(const Mode& m)
+{
+  mode_ = m;
+  refresh_mode();
+}
+
+Mode Field::get_mode() const { return mode_; }
+
+void Field::refresh_mode()
+{
+  switch(mode_)
+  {
+  case Mode::space:
+
+    this->setStyleSheet("background-color: white");
+    this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    break;
+
+  case Mode::blocked:
+
+    this->setStyleSheet("background-color: black");
+    this->setFrameStyle(QFrame::Panel | QFrame::Raised);
+    break;
+
+  case Mode::start:
+
+    this->setStyleSheet("background-color: red");
+    this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    break;
+
+  case Mode::goal:
+
+    this->setStyleSheet("background-color: green");
+    this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    break;
+
+  case Mode::path:
+
+    this->setStyleSheet("background-color: blue");
+    this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    break;
+
+  case Mode::expanded:
+
+    this->setStyleSheet("background-color: yellow");
+    this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    break;
+
+  default:
+
+    this->setStyleSheet("background-color: white");
+    this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  }
 }
 
 

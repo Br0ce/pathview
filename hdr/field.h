@@ -38,10 +38,16 @@ class Field : public QTextEdit
 
 public:
 
-  explicit Field(Position p, QWidget* parent = 0);
+  explicit Field(const Position& p,
+                 const int cost = 0,
+                 QWidget* parent = 0);
+
   virtual ~Field() = default;
 
   void init_gui();
+  void set_mode(const Mode& m);
+  Mode get_mode() const;
+  void refresh_mode();
 
 protected:
 
@@ -50,6 +56,7 @@ protected:
 private:
 
   Position pos_;
+  Mode mode_;
 
 };
 
