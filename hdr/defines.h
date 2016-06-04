@@ -47,4 +47,13 @@ using Dim = std::pair<int, int>;
 using Index = int;
 using Map = Eigen::MatrixXi;
 
+
+enum class Mode { space,
+                  blocked,
+                  start,
+                  goal,
+                  path,
+                  expanded
+                };
+
 #endif // DEFINES_H
