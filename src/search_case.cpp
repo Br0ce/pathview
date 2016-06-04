@@ -88,7 +88,7 @@ void Search_case::pb_load_maze_clicked()
       int k = 0;
       for(auto i = 0; i < m.rows(); ++i)
         for(auto j = 0; j < m.cols(); ++j)
-          m(i, j) = v.at(k);
+          m(i, j) = v.at(k++);
 
       map_ = m;
     }
