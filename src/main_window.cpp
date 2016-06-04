@@ -89,7 +89,7 @@ void Main_window::init_gui()
   this->setCentralWidget(main_widget_);
   grid_frame_->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
 
-  main_widget_->setLayout(maze_admin_->make_maze(search_case_->map_size()));
+  main_widget_->setLayout(search_case_->get_maze_layout());
 
 
   /*
