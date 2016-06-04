@@ -65,6 +65,10 @@ public:
 
   Dim map_size() const;
 
+signals:
+
+  void refresh_maze(QGridLayout* l);
+
 public slots:
 
   void pb_load_maze_clicked();

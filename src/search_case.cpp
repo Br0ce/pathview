@@ -91,11 +91,13 @@ void Search_case::pb_load_maze_clicked()
           m(i, j) = v.at(k++);
 
       map_ = m;
+      Position::set_dimensions(std::make_pair(rows, cols));
     }
   }
   catch(std::exception& e)
   {
     __LOG(e.what())
   }
-  std::cout << map_;
+
+  emit refresh_maze(maze_ad_->make_maze(map_));
 }
