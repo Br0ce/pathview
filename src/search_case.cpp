@@ -45,7 +45,8 @@ void Search_case::resize_map(Dim&& d)
 
 QGridLayout* Search_case::get_maze_layout()
 {
-  return maze_ad_->make_maze(map_size());
+  map_.setZero();
+  return maze_ad_->make_maze(map_);
 }
 
 
