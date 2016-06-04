@@ -74,6 +74,10 @@ void Main_window::init_dimensions()
   dim_dialog_->init_dim(search_case_->map_size());
 }
 
+void Main_window::set_maze_layout(QGridLayout* l)
+{
+  main_widget_->setLayout(l);
+}
 
 void Main_window::init_gui()
 {
@@ -89,7 +93,7 @@ void Main_window::init_gui()
   this->setCentralWidget(main_widget_);
   grid_frame_->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
 
-  main_widget_->setLayout(search_case_->get_maze_layout());
+  set_maze_layout(search_case_->get_maze_layout());
 
 
   /*
