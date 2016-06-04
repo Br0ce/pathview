@@ -30,6 +30,7 @@
 #include <QWidget>
 #include <QFileDialog>
 #include <QSettings>
+#include <QGridLayout>
 
 
 #include "defines.h"
@@ -60,6 +61,8 @@ public:
     Position::set_dimensions(std::forward<T>(d));
   }
 
+  QGridLayout* get_maze_layout();
+
   Dim map_size() const;
 
 public slots:
@@ -68,7 +71,7 @@ public slots:
 
 private:
 
-  Maze_admin* maze_;
+  Maze_admin* maze_ad_;
   Graph* graph_;
   Map map_;
 

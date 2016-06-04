@@ -26,7 +26,7 @@
 
 Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   QWidget(parent),
-  maze_(maze_ad) {}
+  maze_ad_(maze_ad) {}
 
 /*
 void Search_case::resize_map(const Dim& d)
@@ -41,6 +41,12 @@ void Search_case::resize_map(Dim&& d)
   map_.resize(d.first, d.second);
 }
 */
+
+
+QGridLayout* Search_case::get_maze_layout()
+{
+  return maze_ad_->make_maze(map_size());
+}
 
 
 Dim Search_case::map_size() const
