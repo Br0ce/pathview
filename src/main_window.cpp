@@ -45,6 +45,11 @@ Main_window::Main_window(QWidget* parent):
 
   connect(search_case_, SIGNAL(refresh_maze(QGridLayout*)), this,
           SLOT(set_maze_layout(QGridLayout*)));
+
+  connect(dim_dialog_, SIGNAL(publish_dim_request(Dim)), this,
+          SLOT(receive_dim_request(Dim)));
+
+
   settings_.setFallbacksEnabled(false);
   read_settings();
 
@@ -133,9 +138,6 @@ void Main_window::init_gui()
 
 
   dock_widget_->setWidget(dock_frame_);
-
-  connect(dim_dialog_, SIGNAL(publish_dim_request(Dim)), this,
-          SLOT(receive_dim_request(Dim)));
 }
 
 
