@@ -26,7 +26,8 @@
 
 Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   QWidget(parent),
-  maze_ad_(maze_ad) {}
+  maze_ad_(maze_ad),
+  graph_(new Graph(this)) {}
 
 /*
 void Search_case::resize_map(const Dim& d)
@@ -46,6 +47,8 @@ void Search_case::resize_map(Dim&& d)
 QGridLayout* Search_case::get_maze_layout()
 {
   map_.setZero();
+  graph_->init_4_neighborhood(map_);
+
   return maze_ad_->make_maze(map_);
 }
 
@@ -100,5 +103,6 @@ void Search_case::pb_load_maze_clicked()
     __LOG(e.what())
   }
 
+  graph_->init_4_neighborhood(map_);
   emit refresh_maze(maze_ad_->make_maze(map_));
 }
