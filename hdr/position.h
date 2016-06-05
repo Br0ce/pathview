@@ -48,8 +48,18 @@ public:
   static void set_dimensions(const Dim& d);
   static void set_dimensions(Dim&& d);
 
+  bool check_right_succ() const;
+  bool check_left_succ() const;
+  bool check_upper_succ() const;
+  bool check_lower_succ() const;
+
+  Dim right_succ() const;
+  Dim left_succ() const;
+  Dim upper_succ() const;
+  Dim lower_succ() const;
+
   Index index() const;
-  Dim position() const;
+  Dim pos() const;
 
 private:
 
@@ -57,7 +67,7 @@ private:
   bool valid_position(const Dim& pos) const;
 
   Index index_;
-  static Dim dimension_;
+  static Dim dim_;
 
 };
 
