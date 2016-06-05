@@ -94,7 +94,7 @@ void Search_case::pb_load_maze_clicked()
         for(auto j = 0; j < m.cols(); ++j)
           m(i, j) = v.at(k++);
 
-      map_ = m;
+      map_ = std::move(m);
       Position::set_dimensions(std::make_pair(rows, cols));
     }
   }
