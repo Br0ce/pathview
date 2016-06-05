@@ -83,6 +83,7 @@ void Main_window::init_dimensions()
 
 void Main_window::set_maze_layout(QGridLayout* l)
 {
+  dim_dialog_->init_dim(search_case_->map_size());
   main_widget_->setLayout(l);
 }
 
