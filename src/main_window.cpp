@@ -290,5 +290,5 @@ void Main_window::pb_set_dim_clicked()
 void Main_window::receive_dim_request(Dim d)
 {
   search_case_->resize_map(d);
-  main_widget_->setLayout(maze_admin_->make_maze(d));
+  set_maze_layout(search_case_->get_maze_layout());
 }
