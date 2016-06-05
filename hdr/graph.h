@@ -24,34 +24,39 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+
 #include <vector>
 #include <memory>
 
-#include <iostream>
+
+#include <QWidget>
+
 
 #include <Eigen/Dense>
 
 #include "defines.h"
 #include "state.h"
+#include "position.h"
 
 
-class Graph
+class Graph : public QWidget
 {
+
+  Q_OBJECT
 
 public:
 
-  void init_4_neighborhood(const Dim d);
+  explicit Graph(QWidget* parent = 0);
+  virtual ~Graph() = default;
 
-  inline bool check_right_bound(const int i) const;
-  inline bool check_left_bound(const int i) const;
-  inline bool check_upper_bound(const int i) const;
-  inline bool check_lower_bound(const int i) const;
+  void init_4_neighborhood(const Map& m);
+
+  double get_edge_weight(const double d) const;
 
 private:
 
   std::vector<std::shared_ptr<State>> states_;
   Eigen::MatrixXd edges_;
-  Dim dim_;
 
 };
 

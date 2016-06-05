@@ -25,47 +25,55 @@
 #include "graph.h"
 
 
+Graph::Graph(QWidget* parent) :
+  QWidget(parent) {}
 
 
-void Graph::init_4_neighborhood(const Dim d)
+void Graph::init_4_neighborhood(const Map& m)
 {
-  states_.resize((d.first * d.second), std::make_shared<State>());
-  Eigen::MatrixXd m((d.first * d.second), (d.first * d.second));
-  dim_ = d;
-  edges_ = std::move(m);
+  int cnt = m.rows() * m.cols();
 
-  for(std::size_t i = 0; i < states_.size(); ++i)
+  states_.resize(cnt, std::make_shared<State>());
+
+  Eigen::MatrixXd e(cnt, cnt);
+  e.setZero();
+  edges_ = std::move(e);
+
+  for(int i = 0; i < cnt; ++i) // i is 0_index
   {
-    if(check_right_bound(i))
-      edges_(i, i + 1) = 1;
+    Position p(i);
 
-    if(check_left_bound(i))
-      edges_(i, i - 1) = 1;
+    if(p.check_right_succ())
+    {
+      edges_(i, i + 1) = get_edge_weight(m(p.right_succ().first,
+                                           p.right_succ().second));
+    }
 
-    if(check_upper_bound(i))
-      edges_(i, i - dim_.second) = 1;
+    if(p.check_left_succ())
+    {
+      edges_(i, i - 1) = get_edge_weight(m(p.left_succ().first,
+                                           p.left_succ().second));
+    }
 
-    if(check_lower_bound(i))
-      edges_(i, i + dim_.second) = 1;
+    if(p.check_upper_succ())
+    {
+      edges_(i, i - m.cols()) = get_edge_weight(m(p.upper_succ().first,
+                                p.upper_succ().second));
+    }
+
+    if(p.check_lower_succ())
+    {
+      edges_(i, i + m.cols()) = get_edge_weight(m(p.lower_succ().first,
+                                p.lower_succ().second));
+    }
   }
 }
 
-bool Graph::check_right_bound(const int i) const
-{
-  return ((i % dim_.second) + 1) < dim_.second;
-}
 
-bool Graph::check_left_bound(const int i) const
+double Graph::get_edge_weight(const double d) const
 {
-  return ((i % dim_.second) - 1) >= 0;
-}
-
-bool Graph::check_upper_bound(const int i) const
-{
-  return (i - dim_.second) >= 0;
-}
-
-bool Graph::check_lower_bound(const int i) const
-{
-  return (i + dim_.second) < (dim_.first * dim_.second);
+  if(d == 0)
+    return 1;
+  else
+    return d;
 }
