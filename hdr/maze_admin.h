@@ -26,6 +26,7 @@
 
 #include <QWidget>
 #include <QGridLayout>
+#include <QPushButton>
 
 
 #include "defines.h"
@@ -47,6 +48,17 @@ public:
   QGridLayout* make_maze(const Dim& d); // TODO not needed
   QGridLayout* make_maze(const Map& m);
 
+signals:
+
+  void enable_responsive(Mode);
+  void disable_responsive();
+  void publish_start(Position);
+  void unset_button();
+
+public slots:
+
+  void enable_responsive_mode(bool b);
+  void receive_start_request();
 
 private:
 
