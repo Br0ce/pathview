@@ -75,6 +75,7 @@ private slots:
   void search_mode(int i);
   void pb_set_dim_clicked();
   void receive_dim_request(Dim d);
+  void uncheck_button_group();
 
 private:
 
