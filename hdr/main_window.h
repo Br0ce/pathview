@@ -93,6 +93,11 @@ private:
   Search_case* search_case_;
 
   Set_dim_dialog* dim_dialog_;
+
+  QPushButton* pb_set_start_; //TODO make all groupbox become member
+  QPushButton* pb_set_goal_;
+  QPushButton* pb_set_wall_;
+
 };
 
 #endif // MAIN_WINDOW_H

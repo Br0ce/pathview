@@ -239,24 +239,39 @@ QGroupBox* Main_window::make_maze_group(QWidget* parent)
 
   auto pb_load_maze = new QPushButton(tr("load map"), g_box);
   auto pb_save_maze = new QPushButton(tr("save map"), g_box);
-  auto pb_set_start = new QPushButton(tr("set start"), g_box);
-  auto pb_set_goal = new QPushButton(tr("set goal"), g_box);
+  pb_set_start_ = new QPushButton(tr("set start"), g_box); // TODO hack !!!!!
+  pb_set_goal_ = new QPushButton(tr("set goal"), g_box);
   auto pb_set_dim = new QPushButton(tr("set dim"), g_box);
-  auto pb_set_wall = new QPushButton(tr("set wall"), g_box);
+  pb_set_wall_ = new QPushButton(tr("set wall"), g_box);
 
-  connect(pb_set_dim, SIGNAL(clicked(bool)), this, SLOT(pb_set_dim_clicked()));
-  connect(pb_load_maze, SIGNAL(clicked(bool)), search_case_,
-          SLOT(pb_load_maze_clicked()));
+  pb_set_start_->setCheckable(true);
+  pb_set_goal_->setCheckable(true);
+  pb_set_wall_->setCheckable(true);
+
+
+  connect(pb_set_dim, SIGNAL(clicked(bool)),
+          this, SLOT(pb_set_dim_clicked()));
+
+  connect(pb_load_maze, SIGNAL(clicked(bool)),
+          search_case_, SLOT(pb_load_maze_clicked()));
+
+  connect(pb_set_start_, SIGNAL(clicked(bool)),
+          maze_admin_, SLOT(enable_responsive_mode(bool)));
+
+  connect(maze_admin_, SIGNAL(unset_button()),
+          this, SLOT(uncheck_button_group()));
+
+
 
   g_layout->setSpacing(4);
   g_layout->setSizeConstraint(QLayout::SetFixedSize);
 
   g_layout->addWidget(pb_load_maze, 0, 0);
   g_layout->addWidget(pb_save_maze, 0, 1);
-  g_layout->addWidget(pb_set_start, 1, 0);
-  g_layout->addWidget(pb_set_goal, 1, 1);
+  g_layout->addWidget(pb_set_start_, 1, 0);
+  g_layout->addWidget(pb_set_goal_, 1, 1);
   g_layout->addWidget(pb_set_dim, 2, 0);
-  g_layout->addWidget(pb_set_wall, 2, 1);
+  g_layout->addWidget(pb_set_wall_, 2, 1);
 
 
   g_box->setLayout(g_layout);
@@ -292,4 +307,9 @@ void Main_window::receive_dim_request(Dim d)
 {
   search_case_->resize_map(d);
   set_maze_layout(search_case_->get_maze_layout());
+}
+
+void Main_window::uncheck_button_group()
+{
+  pb_set_start_->setChecked(false);
 }
