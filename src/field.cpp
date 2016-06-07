@@ -27,7 +27,8 @@
 Field::Field(const Position& p, const int cost, QWidget* parent) :
   QTextEdit(parent),
   pos_(p),
-  mode_(Mode::space)
+  mode_(Mode::space),
+  status_(3, false) // 0=start, 1=goal, 2=wall
 {
   this->setObjectName(QStringLiteral("Field_%1").arg(pos_.index()));
 
@@ -103,8 +104,63 @@ void Field::refresh_mode()
 }
 
 
+Position Field::get_position() const { return pos_; }
+
+bool Field::get_start_status() const { return status_.at(0); }
+
+bool Field::get_goal_status() const { return status_.at(1); }
+
+bool Field::get_wall_status() const { return status_.at(2); }
+
+void Field::set_start_status(const bool b) { status_.at(0) = b; }
+
+void Field::set_goal_status(const bool b) { status_.at(1) = b; }
+
+void Field::set_wall_status(const bool b) { status_.at(2) = b; }
+
+
+void Field::set_responsive(Mode m)
+{
+  switch(m)
+  {
+
+  case Mode::start :
+    set_start_status(true);
+    break;
+
+  case Mode::goal :
+    set_goal_status(true);
+    break;
+
+  }
+}
+
+
+void Field::unset_responsive()
+{
+  for(std::size_t i = 0; i < status_.size(); ++i)
+    status_.at(i) = false;
+}
+
+
+
 void Field::mousePressEvent(QMouseEvent* m)
 {
   QTextEdit::mousePressEvent(m);
-  qDebug() << this->objectName(); //TODO Dummy
+
+  if(status_.at(0) && (get_mode() != Mode::blocked))
+  {
+    set_mode(Mode::start);
+    set_start_status(false);
+
+    emit report_start_request();
+  }
+
+  if(status_.at(1) && (get_mode() != Mode::blocked))
+  {
+    set_mode(Mode::goal);
+    set_goal_status(false);
+
+    emit report_start_request(); // TODO dummy
+  }
 }

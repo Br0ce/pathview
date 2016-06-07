@@ -24,8 +24,13 @@
 #ifndef FIELD_H
 #define FIELD_H
 
+
+#include <vector>
+
+
 #include <QTextEdit>
 #include <QEvent>
+
 
 #include "defines.h"
 #include "position.h"
@@ -49,6 +54,25 @@ public:
   Mode get_mode() const;
   void refresh_mode();
 
+  Position get_position() const;
+
+  bool get_start_status() const;
+  bool get_goal_status() const;
+  bool get_wall_status() const;
+
+  void set_start_status(const bool b);
+  void set_goal_status(const bool b);
+  void set_wall_status(const bool b);
+
+signals:
+
+  void report_start_request();
+
+public slots:
+
+  void set_responsive(Mode m);
+  void unset_responsive();
+
 protected:
 
   void mousePressEvent(QMouseEvent* m) override;
@@ -57,6 +81,7 @@ private:
 
   Position pos_;
   Mode mode_;
+  std::vector<bool> status_;
 
 };
 
