@@ -43,11 +43,11 @@ Main_window::Main_window(QWidget* parent):
 {
   __LOG("START")
 
-  connect(search_case_, SIGNAL(refresh_maze(QGridLayout*)), this,
-          SLOT(set_maze_layout(QGridLayout*)));
+  connect(search_case_, SIGNAL(refresh_maze(QGridLayout*)),
+          this, SLOT(set_maze_layout(QGridLayout*)));
 
-  connect(dim_dialog_, SIGNAL(publish_dim_request(Dim)), this,
-          SLOT(receive_dim_request(Dim)));
+  connect(dim_dialog_, SIGNAL(publish_dim_request(Dim)),
+          this, SLOT(receive_dim_request(Dim)));
 
 
   settings_.setFallbacksEnabled(false);
@@ -154,7 +154,8 @@ QGroupBox* Main_window::make_search_group(QWidget* parent)
   search_combo->addItem(" A*");
   search_combo->addItem(" D*-light");
 
-  connect(search_combo, SIGNAL(activated(int)), this, SLOT(search_mode(int)));
+  connect(search_combo, SIGNAL(activated(int)),
+          this, SLOT(search_mode(int)));
 
   auto g_layout = new QGridLayout(g_box);
   g_layout->setSpacing(4);
