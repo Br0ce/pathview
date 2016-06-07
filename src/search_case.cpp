@@ -27,7 +27,11 @@
 Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   QWidget(parent),
   maze_ad_(maze_ad),
-  graph_(new Graph(this)) {}
+  graph_(new Graph(this))
+{
+  connect(maze_ad_, SIGNAL(publish_start(Position)),
+          this, SLOT(start_request(Position)));
+}
 
 /*
 void Search_case::resize_map(const Dim& d)
@@ -106,3 +110,13 @@ void Search_case::pb_load_maze_clicked()
   graph_->init_4_neighborhood(map_);
   emit refresh_maze(maze_ad_->make_maze(map_));
 }
+
+
+void Search_case::start_request(Position p) { start_ = p; }
+
+void Search_case::goal_request(Position p) { goal_ = p; }
+
+
+Position Search_case::get_start() const { return start_; }
+
+Position Search_case::get_goal() const { return goal_; }

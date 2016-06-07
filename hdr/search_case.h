@@ -65,6 +65,15 @@ public:
 
   Dim map_size() const;
 
+  template<typename T>
+  void set_start(T&& p) { start_ = std::forward<T>(p); }
+
+  template<typename T>
+  void set_goal(T&& p) { goal_ = std::forward<T>(p); }
+
+  Position get_start() const;
+  Position get_goal() const;
+
 signals:
 
   void refresh_maze(QGridLayout* l);
@@ -72,12 +81,16 @@ signals:
 public slots:
 
   void pb_load_maze_clicked();
+  void start_request(Position p);
+  void goal_request(Position p);
 
 private:
 
   Maze_admin* maze_ad_;
   Graph* graph_;
   Map map_;
+  Position start_;
+  Position goal_;
 
 };
 
