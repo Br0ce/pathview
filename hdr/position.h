@@ -39,6 +39,7 @@ class Position
 {
 public:
 
+  explicit Position();
   explicit Position(const Index& i);
   explicit Position(const Dim& p);
   explicit Position(Dim&& p);

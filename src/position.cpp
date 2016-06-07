@@ -29,6 +29,10 @@
 
 Dim Position::dim_;
 
+
+Position::Position() :
+  index_(0) {}
+
 Position::Position(const Index& i) :
   index_(i)
 {
