@@ -44,6 +44,17 @@ public:
   explicit Position(const Dim& p);
   explicit Position(Dim&& p);
 
+  bool operator==(const Position& p) const
+  {
+    return (index_ == p.index_);
+  }
+
+
+  bool operator!=(const Position& p) const
+  {
+    return !(*this == p);
+  }
+
   static void set_rows(int r);
   static void set_cols(int c);
   static void set_dimensions(const Dim& d);
