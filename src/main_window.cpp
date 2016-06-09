@@ -55,6 +55,9 @@ Main_window::Main_window(QWidget* parent):
   connect(maze_group_, SIGNAL(load_maze_clicked(bool)),
           search_case_, SLOT(load_maze()));
 
+  connect(maze_group_, SIGNAL(save_maze_clicked(bool)),
+          search_case_, SLOT(save_maze()));
+
   connect(maze_group_, SIGNAL(set_button_clicked(bool, QString)),
           maze_admin_, SLOT(enable_responsive_mode(bool, QString)));
 
