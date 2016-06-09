@@ -47,12 +47,14 @@ public:
 signals:
 
   void load_maze_clicked(bool);
+  void save_maze_clicked(bool);
   void set_button_clicked(bool, QString);
   void set_dim_clicked(bool);
 
 public slots:
 
   void pb_load_maze_clicked(bool b);
+  void pb_save_maze_clicked(bool b);
   void pb_set_start_clicked(bool b);
   void pb_set_goal_clicked(bool b);
   void pb_set_dim_clicked(bool b);

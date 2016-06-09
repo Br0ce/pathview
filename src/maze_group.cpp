@@ -41,6 +41,9 @@ Maze_group::Maze_group(QWidget* parent) :
   connect(pb_load_maze_, SIGNAL(clicked(bool)),
           this, SLOT(pb_load_maze_clicked(bool)));
 
+  connect(pb_save_maze_, SIGNAL(clicked(bool)),
+          this, SLOT(pb_save_maze_clicked(bool)));
+
   connect(pb_set_start_, SIGNAL(clicked(bool)),
           this, SLOT(pb_set_start_clicked(bool)));
 
@@ -77,6 +80,13 @@ void Maze_group::pb_load_maze_clicked(bool b)
 {
   emit load_maze_clicked(b);
 }
+
+
+void Maze_group::pb_save_maze_clicked(bool b)
+{
+  emit save_maze_clicked(b);
+}
+
 
 
 void Maze_group::pb_set_start_clicked(bool b)
