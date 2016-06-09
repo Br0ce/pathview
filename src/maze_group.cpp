@@ -78,12 +78,16 @@ Maze_group::Maze_group(QWidget* parent) :
 
 void Maze_group::pb_load_maze_clicked(bool b)
 {
+  uncheck_set_button();
+
   emit load_maze_clicked(b);
 }
 
 
 void Maze_group::pb_save_maze_clicked(bool b)
 {
+  uncheck_set_button();
+
   emit save_maze_clicked(b);
 }
 
@@ -118,6 +122,8 @@ void Maze_group::pb_set_wall_clicked(bool b)
 
 void Maze_group::pb_set_dim_clicked(bool b)
 {
+  uncheck_set_button();
+
   emit set_dim_clicked(b);
 }
 
