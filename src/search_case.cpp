@@ -36,8 +36,11 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   connect(maze_ad_, SIGNAL(publish_goal(Position)),
           this, SLOT(goal_request(Position)));
 
-  connect(this, SIGNAL(unset(Position)),
-          maze_ad_, SLOT(set_space(Position)));
+  connect(maze_ad_, SIGNAL(publish_wall(Position)),
+          this, SLOT(wall_request(Position)));
+
+  connect(maze_ad_, SIGNAL(publish_unset_wall(Position)),
+          this, SLOT(unset_wall_request(Position)));
 
   connect(this, SIGNAL(unset(Position)),
           maze_ad_, SLOT(set_space(Position)));
@@ -73,7 +76,7 @@ Dim Search_case::map_size() const
 }
 
 
-void Search_case::load_maze() // TODO split
+void Search_case::load_maze() // TODO split and unset set_start etc.
 {
   try
   {
@@ -173,6 +176,19 @@ void Search_case::goal_request(Position p)
   goal_ = p;
 }
 
+
+void Search_case::wall_request(Position p)
+{
+  map_(p.pos().first, p.pos().second) = MAX_WEIGHT;
+  graph_->add_wall(p);
+}
+
+
+void Search_case::unset_wall_request(Position p)
+{
+  map_(p.pos().first, p.pos().second) = 0;
+  graph_->remove_wall(p);
+}
 
 Position Search_case::get_start() const { return start_; }
 

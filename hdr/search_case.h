@@ -91,6 +91,8 @@ public slots:
   void save_maze();
   void start_request(Position p);
   void goal_request(Position p);
+  void wall_request(Position p);
+  void unset_wall_request(Position p);
 
 private:
 
