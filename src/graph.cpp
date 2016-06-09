@@ -77,3 +77,19 @@ double Graph::get_edge_weight(const double d) const
   else
     return d;
 }
+
+
+void Graph::add_wall(const Position& p)
+{
+  edges_.col(p.pos().second) *= MAX_WEIGHT;
+}
+
+
+void Graph::remove_wall(const Position& p)
+{
+  for(int i = 0; i < edges_.rows(); ++i)
+  {
+    if(edges_(i, p.pos().second) > 1)
+      edges_(i, p.pos().second) = 1;
+  }
+}

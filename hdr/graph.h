@@ -24,6 +24,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include <iostream> // for testing eigen
 
 #include <vector>
 #include <memory>
@@ -52,6 +53,8 @@ public:
   void init_4_neighborhood(const Map& m);
 
   double get_edge_weight(const double d) const;
+  void add_wall(const Position& p);
+  void remove_wall(const Position& p);
 
 private:
 
