@@ -122,6 +122,37 @@ void Search_case::load_maze() // TODO split
 }
 
 
+void Search_case::save_maze()
+{
+  try
+  {
+    QString q_form = QFileDialog::getSaveFileName(this, tr("Save Map"));
+
+    std::ofstream target(q_form.toStdString(), std::ios::trunc);
+
+    if(target.fail())
+      throw Pathview_error("cannot save map");
+
+    target << map_.rows() << "\n";
+    target << map_.cols() << "\n";
+
+    for(int i = 0; i < map_.rows(); ++i)
+    {
+      for(int j = 0; j < map_.cols(); ++j)
+      {
+        target << map_(i, j) << " ";
+      }
+      target << "\n";
+    }
+    target.close();
+  }
+  catch(std::exception& e)
+  {
+    __LOG(e.what());
+  }
+}
+
+
 void Search_case::start_request(Position p)
 {
   if(start_status())

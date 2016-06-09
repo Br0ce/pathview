@@ -88,6 +88,7 @@ signals:
 public slots:
 
   void load_maze();
+  void save_maze();
   void start_request(Position p);
   void goal_request(Position p);
 
