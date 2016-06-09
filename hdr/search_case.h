@@ -74,9 +74,16 @@ public:
   Position get_start() const;
   Position get_goal() const;
 
+  bool start_status() const;
+  bool goal_status() const;
+
+  void set_start_status(bool b);
+  void set_goal_status(bool b);
+
 signals:
 
   void refresh_maze(QGridLayout* l);
+  void unset(Position p);
 
 public slots:
 
@@ -91,6 +98,7 @@ private:
   Map map_;
   Position start_;
   Position goal_;
+  std::vector<bool> status_;
 
 };
 

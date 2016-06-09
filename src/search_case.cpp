@@ -27,10 +27,20 @@
 Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   QWidget(parent),
   maze_ad_(maze_ad),
-  graph_(new Graph(this))
+  graph_(new Graph(this)),
+  status_(2, false) // 0=start, 1=goal
 {
   connect(maze_ad_, SIGNAL(publish_start(Position)),
           this, SLOT(start_request(Position)));
+
+  connect(maze_ad_, SIGNAL(publish_goal(Position)),
+          this, SLOT(goal_request(Position)));
+
+  connect(this, SIGNAL(unset(Position)),
+          maze_ad_, SLOT(set_space(Position)));
+
+  connect(this, SIGNAL(unset(Position)),
+          maze_ad_, SLOT(set_space(Position)));
 }
 
 /*
@@ -112,11 +122,37 @@ void Search_case::load_maze() // TODO split
 }
 
 
-void Search_case::start_request(Position p) { start_ = p; }
+void Search_case::start_request(Position p)
+{
+  if(start_status())
+    emit unset(start_);
+  else
+    set_start_status(true);
 
-void Search_case::goal_request(Position p) { goal_ = p; }
+  start_ = p;
+}
+
+void Search_case::goal_request(Position p)
+{
+  if(goal_status())
+    emit unset(goal_);
+  else
+    set_goal_status(true);
+
+  goal_ = p;
+}
 
 
 Position Search_case::get_start() const { return start_; }
 
 Position Search_case::get_goal() const { return goal_; }
+
+
+bool Search_case::start_status() const { return status_.at(0); }
+
+bool Search_case::goal_status() const { return status_.at(1); }
+
+
+void Search_case::set_start_status(bool b) { status_.at(0) = b; }
+
+void Search_case::set_goal_status(bool b) { status_.at(1) = b; }
