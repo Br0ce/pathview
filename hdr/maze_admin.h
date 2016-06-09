@@ -54,6 +54,8 @@ signals:
   void disable_responsive();
   void publish_start(Position);
   void publish_goal(Position);
+  void publish_wall(Position);
+  void publish_unset_wall(Position);
   void uncheck_button();
 
 public slots:
@@ -61,6 +63,8 @@ public slots:
   void enable_responsive_mode(bool b, QString s);
   void receive_start_request();
   void receive_goal_request();
+  void receive_wall_request();
+  void receive_unset_wall_request();
   void set_space(Position p);
 
 private:

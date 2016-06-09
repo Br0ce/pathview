@@ -88,6 +88,12 @@ void Maze_admin::build_maze(const Map& m)
       connect(f, SIGNAL(report_goal_request()),
               this, SLOT(receive_goal_request()));
 
+      connect(f, SIGNAL(report_wall_request()),
+              this, SLOT(receive_wall_request()));
+
+      connect(f, SIGNAL(report_unset_wall_request()),
+              this, SLOT(receive_unset_wall_request()));
+
       grid_->addWidget(f, i, j);
       fields_.push_back(f);
     }
@@ -131,7 +137,6 @@ void Maze_admin::receive_start_request()
 
   emit disable_responsive();
   emit uncheck_button();
-  //TODO uncheck old start
 }
 
 
@@ -142,7 +147,20 @@ void Maze_admin::receive_goal_request()
 
   emit disable_responsive();
   emit uncheck_button();
-  //TODO uncheck old goal
+}
+
+
+void Maze_admin::receive_wall_request()
+{
+  if(auto f = qobject_cast<Field*>(sender()))
+    emit publish_wall(f->get_position());
+}
+
+
+void Maze_admin::receive_unset_wall_request()
+{
+  if(auto f = qobject_cast<Field*>(sender()))
+    emit publish_unset_wall(f->get_position());
 }
 
 
