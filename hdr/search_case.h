@@ -80,7 +80,7 @@ signals:
 
 public slots:
 
-  void pb_load_maze_clicked();
+  void load_maze();
   void start_request(Position p);
   void goal_request(Position p);
 

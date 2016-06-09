@@ -63,7 +63,7 @@ Dim Search_case::map_size() const
 }
 
 
-void Search_case::pb_load_maze_clicked()
+void Search_case::load_maze() // TODO split
 {
   try
   {
