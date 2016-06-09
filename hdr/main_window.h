@@ -43,6 +43,7 @@
 #include "search_case.h"
 #include "set_dim_dialog.h"
 #include "maze_group.h"
+#include "field_settings_group.h"
 
 
 class Main_window : public QMainWindow
@@ -63,7 +64,6 @@ public:
 
   QGroupBox* make_search_group(QWidget* parent);
   QGroupBox* make_stats_group(QWidget* parent);
-  QGroupBox* make_field_settings_group(QWidget* parent);
 
 protected:
 
@@ -88,16 +88,13 @@ private:
   QFrame* dock_frame_;
   QVBoxLayout* dock_layout_;
 
+  Field_settings_group* field_settings_group_;
   Maze_group* maze_group_;
 
   Maze_admin* maze_admin_;
   Search_case* search_case_;
 
   Set_dim_dialog* dim_dialog_;
-
-//   QPushButton* pb_set_start_; //TODO make all groupbox become member
-//   QPushButton* pb_set_goal_;
-//   QPushButton* pb_set_wall_;
 
 };
 

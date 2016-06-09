@@ -36,6 +36,7 @@ Main_window::Main_window(QWidget* parent):
   dock_frame_(new QFrame(dock_widget_)),
   dock_layout_(new QVBoxLayout(dock_frame_)),
 
+  field_settings_group_(new Field_settings_group(dock_frame_)),
   maze_group_(new Maze_group(dock_frame_)),
 
   maze_admin_(new Maze_admin(this)),
@@ -144,7 +145,7 @@ void Main_window::init_gui()
 
   /* field settings-elements */
 
-  dock_layout_->addWidget(make_field_settings_group(dock_frame_));
+  dock_layout_->addWidget(field_settings_group_);
 
 
   /* maze builder-elements */
@@ -214,33 +215,6 @@ QGroupBox* Main_window::make_stats_group(QWidget* parent)
 
 
   g_box->setLayout(f_layout);
-
-  return g_box;
-}
-
-
-QGroupBox* Main_window::make_field_settings_group(QWidget* parent)
-{
-  auto g_box = new QGroupBox(tr("field settings"), parent); // dock_frame_
-  auto g_layout = new QGridLayout(g_box);
-
-  auto cb_g_value = new QCheckBox(tr("g-value"), g_box);
-  auto cb_h_value = new QCheckBox(tr("h-value"), g_box);
-  auto cb_f_value = new QCheckBox(tr("f-value"), g_box);
-  auto cb_rhs_value = new QCheckBox(tr("rhs-value"), g_box);
-  auto cb_expanded = new QCheckBox(tr("expanded"), g_box);
-
-  g_layout->setSpacing(4);
-  g_layout->setSizeConstraint(QLayout::SetFixedSize);
-
-  g_layout->addWidget(cb_g_value, 0, 0);
-  g_layout->addWidget(cb_h_value, 1, 0);
-  g_layout->addWidget(cb_f_value, 2, 0);
-  g_layout->addWidget(cb_rhs_value, 0, 1);
-  g_layout->addWidget(cb_expanded, 1, 1);
-
-
-  g_box->setLayout(g_layout);
 
   return g_box;
 }
