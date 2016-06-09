@@ -36,6 +36,8 @@ Main_window::Main_window(QWidget* parent):
   dock_frame_(new QFrame(dock_widget_)),
   dock_layout_(new QVBoxLayout(dock_frame_)),
 
+  maze_group_(new Maze_group(dock_frame_)),
+
   maze_admin_(new Maze_admin(this)),
   search_case_(new Search_case(maze_admin_, this)),
 
@@ -48,6 +50,18 @@ Main_window::Main_window(QWidget* parent):
 
   connect(dim_dialog_, SIGNAL(publish_dim_request(Dim)),
           this, SLOT(receive_dim_request(Dim)));
+
+  connect(maze_group_, SIGNAL(load_maze_clicked(bool)),
+          search_case_, SLOT(load_maze()));
+
+  connect(maze_group_, SIGNAL(set_button_clicked(bool, QString)),
+          maze_admin_, SLOT(enable_responsive_mode(bool, QString)));
+
+  connect(maze_group_, SIGNAL(set_dim_clicked(bool)),
+          this, SLOT(show_dim_dialog()));
+
+  connect(maze_admin_, SIGNAL(uncheck_button()),
+          maze_group_, SLOT(uncheck_set_button()));
 
 
   settings_.setFallbacksEnabled(false);
@@ -135,7 +149,7 @@ void Main_window::init_gui()
 
   /* maze builder-elements */
 
-  dock_layout_->addWidget(make_maze_group(dock_frame_));
+  dock_layout_->addWidget(maze_group_);
 
 
   dock_widget_->setWidget(dock_frame_);
@@ -232,54 +246,6 @@ QGroupBox* Main_window::make_field_settings_group(QWidget* parent)
 }
 
 
-QGroupBox* Main_window::make_maze_group(QWidget* parent)
-{
-  auto g_box = new QGroupBox(tr("maze builder"), parent); // dock_frame_
-  auto g_layout = new QGridLayout(g_box);
-
-  auto pb_load_maze = new QPushButton(tr("load map"), g_box);
-  auto pb_save_maze = new QPushButton(tr("save map"), g_box);
-  pb_set_start_ = new QPushButton(tr("set start"), g_box); // TODO hack !!!!!
-  pb_set_goal_ = new QPushButton(tr("set goal"), g_box);
-  auto pb_set_dim = new QPushButton(tr("set dim"), g_box);
-  pb_set_wall_ = new QPushButton(tr("set wall"), g_box);
-
-  pb_set_start_->setCheckable(true);
-  pb_set_goal_->setCheckable(true);
-  pb_set_wall_->setCheckable(true);
-
-
-  connect(pb_set_dim, SIGNAL(clicked(bool)),
-          this, SLOT(pb_set_dim_clicked()));
-
-  connect(pb_load_maze, SIGNAL(clicked(bool)),
-          search_case_, SLOT(pb_load_maze_clicked()));
-
-  connect(pb_set_start_, SIGNAL(clicked(bool)),
-          maze_admin_, SLOT(enable_responsive_mode(bool)));
-
-  connect(maze_admin_, SIGNAL(unset_button()),
-          this, SLOT(uncheck_button_group()));
-
-
-
-  g_layout->setSpacing(4);
-  g_layout->setSizeConstraint(QLayout::SetFixedSize);
-
-  g_layout->addWidget(pb_load_maze, 0, 0);
-  g_layout->addWidget(pb_save_maze, 0, 1);
-  g_layout->addWidget(pb_set_start_, 1, 0);
-  g_layout->addWidget(pb_set_goal_, 1, 1);
-  g_layout->addWidget(pb_set_dim, 2, 0);
-  g_layout->addWidget(pb_set_wall_, 2, 1);
-
-
-  g_box->setLayout(g_layout);
-
-  return g_box;
-}
-
-
 void Main_window::closeEvent(QCloseEvent* event)
 {
   __LOG("END")
@@ -297,7 +263,7 @@ void Main_window::search_mode(int i)
 }
 
 
-void Main_window::pb_set_dim_clicked()
+void Main_window::show_dim_dialog()
 {
   dim_dialog_->show();
   dim_dialog_->exec();
@@ -307,9 +273,4 @@ void Main_window::receive_dim_request(Dim d)
 {
   search_case_->resize_map(d);
   set_maze_layout(search_case_->get_maze_layout());
-}
-
-void Main_window::uncheck_button_group()
-{
-  pb_set_start_->setChecked(false);
 }

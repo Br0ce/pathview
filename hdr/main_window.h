@@ -42,6 +42,7 @@
 #include "maze_admin.h"
 #include "search_case.h"
 #include "set_dim_dialog.h"
+#include "maze_group.h"
 
 
 class Main_window : public QMainWindow
@@ -63,7 +64,6 @@ public:
   QGroupBox* make_search_group(QWidget* parent);
   QGroupBox* make_stats_group(QWidget* parent);
   QGroupBox* make_field_settings_group(QWidget* parent);
-  QGroupBox* make_maze_group(QWidget* parent);
 
 protected:
 
@@ -73,9 +73,8 @@ private slots:
 
   void set_maze_layout(QGridLayout* l);
   void search_mode(int i);
-  void pb_set_dim_clicked();
+  void show_dim_dialog();
   void receive_dim_request(Dim d);
-  void uncheck_button_group();
 
 private:
 
@@ -89,14 +88,16 @@ private:
   QFrame* dock_frame_;
   QVBoxLayout* dock_layout_;
 
+  Maze_group* maze_group_;
+
   Maze_admin* maze_admin_;
   Search_case* search_case_;
 
   Set_dim_dialog* dim_dialog_;
 
-  QPushButton* pb_set_start_; //TODO make all groupbox become member
-  QPushButton* pb_set_goal_;
-  QPushButton* pb_set_wall_;
+//   QPushButton* pb_set_start_; //TODO make all groupbox become member
+//   QPushButton* pb_set_goal_;
+//   QPushButton* pb_set_wall_;
 
 };
 
