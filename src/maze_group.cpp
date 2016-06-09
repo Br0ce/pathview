@@ -51,7 +51,7 @@ Maze_group::Maze_group(QWidget* parent) :
           this, SLOT(pb_set_goal_clicked(bool)));
 
   connect(pb_set_wall_, SIGNAL(clicked(bool)),
-          this , SLOT(pb_set_goal_clicked(bool)));
+          this , SLOT(pb_set_wall_clicked(bool)));
 
   connect(pb_set_dim_, SIGNAL(clicked(bool)),
           this, SLOT(pb_set_dim_clicked(bool)));
@@ -107,7 +107,7 @@ void Maze_group::pb_set_goal_clicked(bool b)
 }
 
 
-void Maze_group::pb_set_wall(bool b)
+void Maze_group::pb_set_wall_clicked(bool b)
 {
   auto p = qobject_cast<QPushButton*>(sender()); //TODO no repeat
   exclusiv(p);

@@ -58,7 +58,7 @@ public slots:
   void pb_set_start_clicked(bool b);
   void pb_set_goal_clicked(bool b);
   void pb_set_dim_clicked(bool b);
-  void pb_set_wall(bool b);
+  void pb_set_wall_clicked(bool b);
   void uncheck_set_button();
 
 private:
