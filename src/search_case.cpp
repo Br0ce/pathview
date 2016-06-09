@@ -159,7 +159,12 @@ void Search_case::save_maze()
 void Search_case::start_request(Position p)
 {
   if(start_status())
+  {
+    if(p == get_goal())
+      set_goal_status(false);
+
     emit unset(start_);
+  }
   else
     set_start_status(true);
 
@@ -169,7 +174,12 @@ void Search_case::start_request(Position p)
 void Search_case::goal_request(Position p)
 {
   if(goal_status())
+  {
+    if(p == get_start())
+      set_start_status(false);
+
     emit unset(goal_);
+  }
   else
     set_goal_status(true);
 
