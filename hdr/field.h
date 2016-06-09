@@ -68,6 +68,8 @@ signals:
 
   void report_start_request();
   void report_goal_request();
+  void report_wall_request();
+  void report_unset_wall_request();
 
 public slots:
 

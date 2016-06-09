@@ -168,12 +168,20 @@ void Field::mousePressEvent(QMouseEvent* m)
     set_mode(Mode::goal);
     set_goal_status(false);
 
-    emit report_goal_request(); // TODO dummy
+    emit report_goal_request();
   }
 
   if(get_wall_status() && (get_mode() == Mode::blocked))
+  {
     set_mode(Mode::space);
+
+    emit report_unset_wall_request();
+  }
   else if(get_wall_status()
           && (!((get_mode() == Mode::start) || (get_mode() == Mode::goal))))
+  {
     set_mode(Mode::blocked);
+
+    emit report_wall_request();
+  }
 }
