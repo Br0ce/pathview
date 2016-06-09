@@ -72,13 +72,13 @@ void Field::refresh_mode()
     this->setFrameStyle(QFrame::Panel | QFrame::Raised);
     break;
 
-  case Mode::start:
+  case Mode::goal:
 
     this->setStyleSheet("background-color: red");
     this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
     break;
 
-  case Mode::goal:
+  case Mode::start:
 
     this->setStyleSheet("background-color: green");
     this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
