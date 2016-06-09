@@ -85,6 +85,9 @@ void Maze_admin::build_maze(const Map& m)
       connect(f, SIGNAL(report_start_request()),
               this, SLOT(receive_start_request()));
 
+      connect(f, SIGNAL(report_goal_request()),
+              this, SLOT(receive_goal_request()));
+
       grid_->addWidget(f, i, j);
       fields_.push_back(f);
     }
@@ -101,25 +104,22 @@ void Maze_admin::remove_maze()
 }
 
 
-void Maze_admin::enable_responsive_mode(bool b)
+void Maze_admin::enable_responsive_mode(bool b, QString s)
 {
   if(b)
   {
-    if(auto r = qobject_cast<QPushButton*>(sender()))
-    {
-      Mode m = Mode::space;
+    Mode m = Mode::space;
 
-      if(r->text() == "set start")
-        m = Mode::start;
+    if(s == "set start")
+      m = Mode::start;
 
-      if(r->text() == "set goal")
-        m = Mode::goal;
+    if(s == "set goal")
+      m = Mode::goal;
 
-      if(r->text() == "set wall")
-        m = Mode::blocked;
+    if(s == "set wall")
+      m = Mode::blocked;
 
-      emit enable_responsive(m);
-    }
+    emit enable_responsive(m);
   }
 }
 
@@ -127,9 +127,28 @@ void Maze_admin::enable_responsive_mode(bool b)
 void Maze_admin::receive_start_request()
 {
   if(auto f = qobject_cast<Field*>(sender()))
-  {
     emit publish_start(f->get_position());
-  }
+
   emit disable_responsive();
-  emit unset_button();
+  emit uncheck_button();
+  //TODO uncheck old start
 }
+
+
+void Maze_admin::receive_goal_request()
+{
+  if(auto f = qobject_cast<Field*>(sender()))
+    emit publish_goal(f->get_position());
+
+  emit disable_responsive();
+  emit uncheck_button();
+  //TODO uncheck old goal
+}
+
+
+void Maze_admin::set_space(Position p)
+{
+  auto f = fields_.at(p.index());
+  f->set_mode(Mode::space);
+}
+

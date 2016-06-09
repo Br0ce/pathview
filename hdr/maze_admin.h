@@ -53,12 +53,15 @@ signals:
   void enable_responsive(Mode);
   void disable_responsive();
   void publish_start(Position);
-  void unset_button();
+  void publish_goal(Position);
+  void uncheck_button();
 
 public slots:
 
-  void enable_responsive_mode(bool b);
+  void enable_responsive_mode(bool b, QString s);
   void receive_start_request();
+  void receive_goal_request();
+  void set_space(Position p);
 
 private:
 
