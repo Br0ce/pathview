@@ -43,6 +43,9 @@
   qDebug() << Q_FUNC_INFO << "in Line" << __LINE__ << ":" << msg;
 
 
+#define MAX_WEIGHT 10000
+
+
 using Dim = std::pair<int, int>;
 using Index = int;
 using Map = Eigen::MatrixXi;
