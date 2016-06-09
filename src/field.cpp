@@ -132,6 +132,13 @@ void Field::set_responsive(Mode m)
     set_goal_status(true);
     break;
 
+  case Mode::blocked:
+    set_wall_status(true);
+
+  default:
+    // TODO
+    break;
+
   }
 }
 
@@ -148,7 +155,7 @@ void Field::mousePressEvent(QMouseEvent* m)
 {
   QTextEdit::mousePressEvent(m);
 
-  if(status_.at(0) && (get_mode() != Mode::blocked))
+  if(get_start_status() && (get_mode() != Mode::blocked))
   {
     set_mode(Mode::start);
     set_start_status(false);
@@ -156,11 +163,17 @@ void Field::mousePressEvent(QMouseEvent* m)
     emit report_start_request();
   }
 
-  if(status_.at(1) && (get_mode() != Mode::blocked))
+  if(get_goal_status() && (get_mode() != Mode::blocked))
   {
     set_mode(Mode::goal);
     set_goal_status(false);
 
-    emit report_start_request(); // TODO dummy
+    emit report_goal_request(); // TODO dummy
   }
+
+  if(get_wall_status() && (get_mode() == Mode::blocked))
+    set_mode(Mode::space);
+  else if(get_wall_status()
+          && (!((get_mode() == Mode::start) || (get_mode() == Mode::goal))))
+    set_mode(Mode::blocked);
 }

@@ -67,6 +67,7 @@ public:
 signals:
 
   void report_start_request();
+  void report_goal_request();
 
 public slots:
 
