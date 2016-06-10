@@ -24,17 +24,41 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include <QWidget>
 
-class State
+
+#include "defines.h"
+
+
+
+class State : public QWidget
 {
+
+  Q_OBJECT
 
 public:
 
-  State(int g = 1000);
+  State(Index i, QWidget* parent);
+  virtual ~State() = default;
+
+  double g() const;//TODO get_g
+  double h() const;
+  double f() const;
+
+  Index get_index() const;
+
+  void set_g(const double g);
+  void set_h(const double h);
+  void set_f(const double f);
+
+signals:
+
+  void update();
 
 private:
 
-  int g_;
+  Index index_;
+  double g_;
   double h_;
   double f_;
 

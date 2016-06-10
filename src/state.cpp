@@ -23,7 +23,39 @@
 #include "state.h"
 
 
-State::State(int g) :
-  g_(g),
+State::State(Index i, QWidget* parent) :
+  QWidget(parent),
+  index_(i),
+  g_(MAX_WEIGHT),
   h_(0),
   f_(g_ + h_) {}
+
+
+double State::g() const { return g_; }
+double State::h() const { return h_; }
+double State::f() const { return f_; }
+
+Index State::get_index() const { return index_; }
+
+
+void State::set_g(const double g)
+{
+  g_ = g;
+
+  emit update();
+}
+
+
+void State::set_h(const double h)
+{
+  h_ = h;
+
+  emit update();
+}
+
+void State::set_f(const double f) // ???
+{
+  f_ = f;
+
+  emit update();
+}
