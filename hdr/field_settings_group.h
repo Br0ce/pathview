@@ -45,6 +45,19 @@ public:
   explicit Field_settings_group(QWidget* parent);
   virtual ~Field_settings_group() = default;
 
+
+signals:
+
+  void display_request(Display d, bool b);
+
+public slots:
+
+  void cb_g_value_clicked(int i);
+  void cb_h_value_clicked(int i);
+  void cb_f_value_clicked(int i);
+
+  void set_uncheck();
+
 private:
 
   QGridLayout* g_layout_;
@@ -53,6 +66,7 @@ private:
   QCheckBox* cb_f_value_;
   QCheckBox* cb_rhs_value_;
   QCheckBox* cb_expanded_;
+
 };
 
 #endif // FIELD_SETTINGS_GROUP_H

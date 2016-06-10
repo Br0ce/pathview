@@ -48,6 +48,58 @@ Field_settings_group::Field_settings_group(QWidget* parent) :
   g_layout_->addWidget(cb_expanded_, 1, 1);
 
 
+  connect(cb_g_value_, SIGNAL(stateChanged(int)),
+          this, SLOT(cb_g_value_clicked(int)));
+
+  connect(cb_h_value_, SIGNAL(stateChanged(int)),
+          this, SLOT(cb_h_value_clicked(int)));
+
+  connect(cb_f_value_, SIGNAL(stateChanged(int)),
+          this, SLOT(cb_f_value_clicked(int)));
+
+
   this->setLayout(g_layout_);
 }
 
+
+void Field_settings_group::set_uncheck()
+{
+  cb_g_value_->setCheckState(Qt::Unchecked);
+  cb_h_value_->setCheckState(Qt::Unchecked);
+  cb_f_value_->setCheckState(Qt::Unchecked);
+  cb_rhs_value_->setCheckState(Qt::Unchecked);
+  cb_expanded_->setCheckState(Qt::Unchecked);
+}
+
+
+void Field_settings_group::cb_g_value_clicked(int i)
+{
+  bool b = false;
+
+  if(i == 2)
+    b = true;
+
+  emit display_request(Display::g_value, b);
+}
+
+
+void Field_settings_group::cb_h_value_clicked(int i)
+{
+  bool b = false;
+
+  if(i == 2)
+    b = true;
+
+  emit display_request(Display::h_value, b);
+}
+
+
+void Field_settings_group::cb_f_value_clicked(int i)
+{
+  bool b = false;
+
+  if(i == 2)
+    b = true;
+
+  emit display_request(Display::f_value, b);
+}
