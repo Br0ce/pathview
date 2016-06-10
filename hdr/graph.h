@@ -55,10 +55,19 @@ public:
   double get_edge_weight(const double d) const;
   void add_wall(const Position& p);
   void remove_wall(const Position& p);
+  std::vector<State*> get_states();
+
+signals:
+
+  void update_state(Index i);
+
+public slots:
+
+  void state_update();
 
 private:
 
-  std::vector<std::shared_ptr<State>> states_;
+  std::vector<State*> states_;
   Eigen::MatrixXd edges_;
 
 };

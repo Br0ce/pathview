@@ -33,7 +33,21 @@ void Graph::init_4_neighborhood(const Map& m)
 {
   int cnt = m.rows() * m.cols();
 
-  states_.resize(cnt, std::make_shared<State>());
+  /*
+  states_.resize(cnt, new State(this));
+
+  for(auto& s : states_)
+    connect(s, SIGNAL(update()), this, SLOT(state_update()));
+  */
+
+  states_.clear();
+
+  for(auto i = 0; i < cnt; ++i)
+  {
+    auto s = new State(i, this);
+    connect(s, SIGNAL(update()), this, SLOT(state_update()));
+    states_.push_back(s);
+  }
 
   Eigen::MatrixXd e(cnt, cnt);
   e.setZero();
@@ -92,4 +106,14 @@ void Graph::remove_wall(const Position& p)
     if(edges_(i, p.pos().second) > 1)
       edges_(i, p.pos().second) = 1;
   }
+}
+
+
+std::vector<State*> Graph::get_states() { return states_; }
+
+
+void Graph::state_update()
+{
+  if(auto s = qobject_cast<State*>(sender()))
+    emit update_state(s->get_index());
 }
