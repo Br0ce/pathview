@@ -55,6 +55,9 @@ Main_window::Main_window(QWidget* parent):
   connect(maze_group_, SIGNAL(load_maze_clicked(bool)),
           search_case_, SLOT(load_maze()));
 
+  connect(maze_group_, SIGNAL(load_maze_clicked(bool)),
+          field_settings_group_, SLOT(set_uncheck()));
+
   connect(maze_group_, SIGNAL(save_maze_clicked(bool)),
           search_case_, SLOT(save_maze()));
 
@@ -66,6 +69,9 @@ Main_window::Main_window(QWidget* parent):
 
   connect(maze_admin_, SIGNAL(uncheck_button()),
           maze_group_, SLOT(uncheck_set_button()));
+
+  connect(field_settings_group_, SIGNAL(display_request(Display, bool)),
+          maze_admin_, SLOT(display_dispatch(Display, bool)));
 
 
   settings_.setFallbacksEnabled(false);
