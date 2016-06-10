@@ -44,6 +44,9 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
 
   connect(this, SIGNAL(unset(Position)),
           maze_ad_, SLOT(set_space(Position)));
+
+  connect(graph_, SIGNAL(update_state(Index)),
+          maze_ad_, SLOT(update_field(Index)));
 }
 
 /*
@@ -66,7 +69,10 @@ QGridLayout* Search_case::get_maze_layout()
   map_.setZero();
   graph_->init_4_neighborhood(map_);
 
-  return maze_ad_->make_maze(map_);
+  auto tmp = maze_ad_->make_maze(map_);
+  maze_ad_->link_states(graph_->get_states());
+
+  return tmp;
 }
 
 
@@ -113,15 +119,19 @@ void Search_case::load_maze() // TODO split and unset set_start etc.
 
       map_ = std::move(m);
       Position::set_dimensions(std::make_pair(rows, cols));
+
+
+      graph_->init_4_neighborhood(map_);
+
+      emit refresh_maze(maze_ad_->make_maze(map_));
+
+      maze_ad_->link_states(graph_->get_states());
     }
   }
   catch(std::exception& e)
   {
     __LOG(e.what())
   }
-
-  graph_->init_4_neighborhood(map_);
-  emit refresh_maze(maze_ad_->make_maze(map_));
 }
 
 
@@ -213,3 +223,20 @@ bool Search_case::goal_status() const { return status_.at(1); }
 void Search_case::set_start_status(bool b) { status_.at(0) = b; }
 
 void Search_case::set_goal_status(bool b) { status_.at(1) = b; }
+
+/*
+void Search_case::link_states()
+{
+  for(const auto& s : graph_->get_states())
+  {
+    connect(s, SIGNAL(g_changed(double)),
+            maze_ad_, SLOT(publish_g_change(double)));
+
+    connect(s, SIGNAL(h_changed(double)),
+            maze_ad_, SLOT(publish_h_change(double)));
+
+    connect(s, SIGNAL(f_changed(double)),
+            maze_ad_, SLOT(publish_f_change(double)));
+  }
+}
+*/

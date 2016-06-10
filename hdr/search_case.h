@@ -80,6 +80,8 @@ public:
   void set_start_status(bool b);
   void set_goal_status(bool b);
 
+  void link_states();
+
 signals:
 
   void refresh_maze(QGridLayout* l);
