@@ -115,10 +115,12 @@ bool Position::check_upper_succ() const
   return ((index_ - dim_.second) >= 0);
 }
 
+
 bool Position::check_lower_succ() const
 {
   return ((index_ + dim_.second) < (dim_.first * dim_.second));
 }
+
 
 Dim Position::right_succ() const
 {
@@ -139,6 +141,8 @@ Dim Position::upper_succ() const
   return std::make_pair(std::floor((index_ - dim_.second) / dim_.second),
                         ((index_ - dim_.second) % dim_.second));
 }
+
+
 Dim Position::lower_succ() const
 {
   return std::make_pair(std::floor((index_ + dim_.second) / dim_.second),
