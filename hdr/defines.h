@@ -59,4 +59,9 @@ enum class Mode { space,
                   expanded
                 };
 
+enum class Display { g_value,
+                     h_value,
+                     f_value
+                   };
+
 #endif // DEFINES_H
