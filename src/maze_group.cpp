@@ -95,28 +95,34 @@ void Maze_group::pb_save_maze_clicked(bool b)
 
 void Maze_group::pb_set_start_clicked(bool b)
 {
-  auto p = qobject_cast<QPushButton*>(sender());
-  exclusiv(p);
+  if(auto p = qobject_cast<QPushButton*>(sender()))
+  {
+    exclusiv(p);
 
-  emit set_button_clicked(b, p->text());
+    emit set_button_clicked(b, p->text());
+  }
 }
 
 
 void Maze_group::pb_set_goal_clicked(bool b)
 {
-  auto p = qobject_cast<QPushButton*>(sender());
-  exclusiv(p);
+  if(auto p = qobject_cast<QPushButton*>(sender()))
+  {
+    exclusiv(p);
 
-  emit set_button_clicked(b, p->text());
+    emit set_button_clicked(b, p->text());
+  }
 }
 
 
 void Maze_group::pb_set_wall_clicked(bool b)
 {
-  auto p = qobject_cast<QPushButton*>(sender()); //TODO no repeat
-  exclusiv(p);
+  if(auto p = qobject_cast<QPushButton*>(sender())) //TODO no repeat
+  {
+    exclusiv(p);
 
-  emit set_button_clicked(b, p->text());
+    emit set_button_clicked(b, p->text());
+  }
 }
 
 
