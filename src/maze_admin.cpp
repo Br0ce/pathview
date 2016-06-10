@@ -49,6 +49,14 @@ QGridLayout* Maze_admin::make_maze(const Map& m)
   return grid_;
 }
 
+void Maze_admin::link_states(std::vector<State*> s)
+{
+  auto i = 0;
+
+  for(auto& f : fields_)
+    f->set_state(s.at(i++));
+}
+
 
 void Maze_admin::build_maze(const Dim& d)
 {
@@ -94,6 +102,9 @@ void Maze_admin::build_maze(const Map& m)
       connect(f, SIGNAL(report_unset_wall_request()),
               this, SLOT(receive_unset_wall_request()));
 
+      connect(this, SIGNAL(forward_display(Display, bool)),
+              f, SLOT(display(Display, bool)));
+
       grid_->addWidget(f, i, j);
       fields_.push_back(f);
     }
@@ -103,7 +114,7 @@ void Maze_admin::build_maze(const Map& m)
 
 void Maze_admin::remove_maze()
 {
-  for(auto f : fields_)
+  for(auto& f : fields_) //TODO
     delete f;
 
   fields_.clear();
@@ -166,7 +177,32 @@ void Maze_admin::receive_unset_wall_request()
 
 void Maze_admin::set_space(Position p)
 {
-  auto f = fields_.at(p.index());
-  f->set_mode(Mode::space);
+  fields_.at(p.index())->set_mode(Mode::space);
 }
 
+void Maze_admin::publish_g_change(double g)
+{
+  emit display_g_change(g);
+}
+
+
+void Maze_admin::publish_h_change(double h)
+{
+  emit display_h_change(h);
+}
+
+
+void Maze_admin::publish_f_change(double f)
+{
+  emit display_f_change(f);
+}
+
+void Maze_admin::update_field(Index i)
+{
+  fields_.at(i)->refresh_mode();
+}
+
+void Maze_admin::display_dispatch(Display d, bool b)
+{
+  emit forward_display(d, b);
+}
