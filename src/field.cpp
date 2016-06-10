@@ -28,7 +28,16 @@ Field::Field(const Position& p, const int cost, QWidget* parent) :
   QTextEdit(parent),
   pos_(p),
   mode_(Mode::space),
-  status_(3, false) // 0=start, 1=goal, 2=wall
+  respo_status_(3, false), // 0=start, 1=goal, 2=wall
+  displ_status_(5, false),
+  /**
+   * 0=g-value,
+   * 1=h-value,
+   * 2=f-value,
+   * 3=rhs-value,
+   * 4=expanded
+   */
+  state_(nullptr)
 {
   this->setObjectName(QStringLiteral("Field_%1").arg(pos_.index()));
 
@@ -41,9 +50,10 @@ Field::Field(const Position& p, const int cost, QWidget* parent) :
 
 void Field::init_gui()
 {
-  this->setFixedSize(60, 60);
+  this->setFixedSize(80, 80);
   this->setReadOnly(true);
   this->setLineWidth(3);
+  this->setFontPointSize(10);
   refresh_mode();
 }
 
@@ -64,36 +74,42 @@ void Field::refresh_mode()
 
     this->setStyleSheet("background-color: white");
     this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    this->setText(get_text());
     break;
 
   case Mode::blocked:
 
     this->setStyleSheet("background-color: black");
     this->setFrameStyle(QFrame::Panel | QFrame::Raised);
+    this->clear();
     break;
 
   case Mode::goal:
 
     this->setStyleSheet("background-color: red");
     this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    this->setText(get_text());
     break;
 
   case Mode::start:
 
     this->setStyleSheet("background-color: green");
     this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    this->setText(get_text());
     break;
 
   case Mode::path:
 
     this->setStyleSheet("background-color: blue");
     this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    this->setText(get_text());
     break;
 
   case Mode::expanded:
 
     this->setStyleSheet("background-color: yellow");
     this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    this->setText(get_text());
     break;
 
   default:
@@ -104,19 +120,36 @@ void Field::refresh_mode()
 }
 
 
+void Field::set_state(State* s) { state_ = s; }
+
 Position Field::get_position() const { return pos_; }
 
-bool Field::get_start_status() const { return status_.at(0); }
+bool Field::get_start_status() const { return respo_status_.at(0); }
 
-bool Field::get_goal_status() const { return status_.at(1); }
+bool Field::get_goal_status() const { return respo_status_.at(1); }
 
-bool Field::get_wall_status() const { return status_.at(2); }
+bool Field::get_wall_status() const { return respo_status_.at(2); }
 
-void Field::set_start_status(const bool b) { status_.at(0) = b; }
 
-void Field::set_goal_status(const bool b) { status_.at(1) = b; }
+void Field::set_start_status(const bool b) { respo_status_.at(0) = b; }
 
-void Field::set_wall_status(const bool b) { status_.at(2) = b; }
+void Field::set_goal_status(const bool b) { respo_status_.at(1) = b; }
+
+void Field::set_wall_status(const bool b) { respo_status_.at(2) = b; }
+
+
+bool Field::get_g_status() const { return displ_status_.at(0); }
+
+bool Field::get_h_status() const { return displ_status_.at(1); }
+
+bool Field::get_f_status() const { return displ_status_.at(2); }
+
+
+void Field::set_g_status(const bool b) { displ_status_.at(0) = b; }
+
+void Field::set_h_status(const bool b) { displ_status_.at(1) = b; }
+
+void Field::set_f_status(const bool b) { displ_status_.at(2) = b; }
 
 
 void Field::set_responsive(Mode m)
@@ -145,10 +178,9 @@ void Field::set_responsive(Mode m)
 
 void Field::unset_responsive()
 {
-  for(std::size_t i = 0; i < status_.size(); ++i)
-    status_.at(i) = false;
+  for(std::size_t i = 0; i < respo_status_.size(); ++i)
+    respo_status_.at(i) = false;
 }
-
 
 
 void Field::mousePressEvent(QMouseEvent* m)
@@ -184,4 +216,71 @@ void Field::mousePressEvent(QMouseEvent* m)
 
     emit report_wall_request();
   }
+}
+
+
+QString Field::get_text() const
+{
+
+  QString tmp;
+
+  if(state_)
+  {
+    QString t(":");
+    QString e("\n");
+
+    if(get_g_status())
+    {
+      QString g(QString::number(state_->g()));
+      tmp.append(QString("%1%2%3%4").arg("g", 3).arg(t).arg(g, 4).arg(e));
+    }
+
+    if(get_h_status())
+    {
+      QString h(QString::number(state_->h()));
+      tmp.append(QString("%1%2%3%4").arg("h", 3).arg(t).arg(h, 4).arg(e));
+    }
+
+    if(get_f_status())
+    {
+      QString f(QString::number(state_->f()));
+      tmp.append(QString("%1%2%3").arg("f", 3).arg(t).arg(f));
+    }
+  }
+
+  return tmp;
+}
+
+
+void Field::display(Display d, bool b)
+{
+  switch(d)
+  {
+
+  case Display::g_value :
+
+    if(b)
+      set_g_status(true);
+    else
+      set_g_status(false);
+    break;
+
+  case Display::h_value :
+
+    if(b)
+      set_h_status(true);
+    else
+      set_h_status(false);
+    break;
+
+  case Display::f_value :
+    if(b)
+      set_f_status(true);
+    else
+      set_f_status(false);
+    break;
+
+  }
+
+  refresh_mode();
 }

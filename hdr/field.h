@@ -34,6 +34,7 @@
 
 #include "defines.h"
 #include "position.h"
+#include "state.h"
 
 
 class Field : public QTextEdit
@@ -50,9 +51,11 @@ public:
   virtual ~Field() = default;
 
   void init_gui();
+
   void set_mode(const Mode& m);
   Mode get_mode() const;
-  void refresh_mode();
+
+  void set_state(State* s);
 
   Position get_position() const;
 
@@ -63,6 +66,17 @@ public:
   void set_start_status(const bool b);
   void set_goal_status(const bool b);
   void set_wall_status(const bool b);
+
+
+  bool get_g_status() const;
+  bool get_h_status() const;
+  bool get_f_status() const;
+
+  void set_g_status(const bool b);
+  void set_h_status(const bool b);
+  void set_f_status(const bool b);
+
+  QString get_text() const;
 
 signals:
 
@@ -75,6 +89,8 @@ public slots:
 
   void set_responsive(Mode m);
   void unset_responsive();
+  void refresh_mode();
+  void display(Display d, bool b);
 
 protected:
 
@@ -84,7 +100,9 @@ private:
 
   Position pos_;
   Mode mode_;
-  std::vector<bool> status_;
+  std::vector<bool> respo_status_;
+  std::vector<bool> displ_status_;
+  State* state_;
 
 };
 
