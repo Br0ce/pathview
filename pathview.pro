@@ -29,7 +29,8 @@ HEADERS += hdr/main_window.h \
            hdr/set_dim_dialog.h \
            hdr/search_case.h \
            hdr/maze_group.h \
-           hdr/field_settings_group.h
+           hdr/field_settings_group.h \
+           hdr/search_group.h
 
 
 SOURCES += src/main.cpp \
@@ -42,4 +43,5 @@ SOURCES += src/main.cpp \
            src/set_dim_dialog.cpp \
            src/search_case.cpp \
            src/maze_group.cpp \
-           src/field_settings_group.cpp
+           src/field_settings_group.cpp \
+           src/search_group.cpp
