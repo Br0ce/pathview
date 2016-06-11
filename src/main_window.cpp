@@ -36,6 +36,7 @@ Main_window::Main_window(QWidget* parent):
   dock_frame_(new QFrame(dock_widget_)),
   dock_layout_(new QVBoxLayout(dock_frame_)),
 
+  search_group_(new Search_group(dock_frame_)),
   field_settings_group_(new Field_settings_group(dock_frame_)),
   maze_group_(new Maze_group(dock_frame_)),
 
@@ -72,6 +73,7 @@ Main_window::Main_window(QWidget* parent):
 
   connect(field_settings_group_, SIGNAL(display_request(Display, bool)),
           maze_admin_, SLOT(display_dispatch(Display, bool)));
+
 
 
   settings_.setFallbacksEnabled(false);
@@ -144,7 +146,7 @@ void Main_window::init_gui()
 
   /* search-elements */
 
-  dock_layout_->addWidget(make_search_group(dock_widget_));
+  dock_layout_->addWidget(search_group_);
 
 
   /* stats-elements */
@@ -163,37 +165,6 @@ void Main_window::init_gui()
 
 
   dock_widget_->setWidget(dock_frame_);
-}
-
-
-QGroupBox* Main_window::make_search_group(QWidget* parent)
-{
-  auto g_box = new QGroupBox(tr("search"), parent); //dock_widget_
-
-  auto pb_search = new QPushButton(tr("search path"), g_box);
-  auto pb_go = new QPushButton(tr("go"), g_box);
-  auto pb_pause = new QPushButton(tr("pause"), g_box);
-
-  auto search_combo = new QComboBox(g_box);
-  search_combo->addItem(" A*");
-  search_combo->addItem(" D*-light");
-
-  connect(search_combo, SIGNAL(activated(int)),
-          this, SLOT(search_mode(int)));
-
-  auto g_layout = new QGridLayout(g_box);
-  g_layout->setSpacing(4);
-  g_layout->setSizeConstraint(QLayout::SetFixedSize);
-
-  g_layout->addWidget(search_combo, 0, 0, 2, 2);
-  g_layout->addWidget(pb_search, 2, 0, 2, 2);
-  g_layout->addWidget(pb_go, 4, 0, 1, 1);
-  g_layout->addWidget(pb_pause, 4, 1, 1, 1);
-
-
-  g_box->setLayout(g_layout);
-
-  return g_box;
 }
 
 
@@ -236,14 +207,7 @@ void Main_window::closeEvent(QCloseEvent* event)
   QWidget::closeEvent(event);
 }
 
-void Main_window::search_mode(int i)
-{
-  // TODO dummy
-  if(i == 0)
-    qDebug() << "A*";
-  if(i == 1)
-    qDebug() << "D*";
-}
+
 
 
 void Main_window::show_dim_dialog()

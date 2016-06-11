@@ -44,6 +44,7 @@
 #include "set_dim_dialog.h"
 #include "maze_group.h"
 #include "field_settings_group.h"
+#include "search_group.h"
 
 
 class Main_window : public QMainWindow
@@ -62,7 +63,6 @@ public:
   void init_gui();
   void init_dimensions();
 
-  QGroupBox* make_search_group(QWidget* parent);
   QGroupBox* make_stats_group(QWidget* parent);
 
 protected:
@@ -72,7 +72,6 @@ protected:
 private slots:
 
   void set_maze_layout(QGridLayout* l);
-  void search_mode(int i);
   void show_dim_dialog();
   void receive_dim_request(Dim d);
 
@@ -88,6 +87,7 @@ private:
   QFrame* dock_frame_;
   QVBoxLayout* dock_layout_;
 
+  Search_group* search_group_;
   Field_settings_group* field_settings_group_;
   Maze_group* maze_group_;
 
