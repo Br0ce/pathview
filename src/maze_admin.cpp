@@ -138,6 +138,8 @@ void Maze_admin::enable_responsive_mode(bool b, QString s)
 
     emit enable_responsive(m);
   }
+  else
+    emit disable_responsive();
 }
 
 
