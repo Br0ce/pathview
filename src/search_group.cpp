@@ -23,6 +23,7 @@
  */
 
 
+#include <iostream>
 
 #include "search_group.h"
 
@@ -38,8 +39,7 @@ Search_group::Search_group(QWidget* parent) :
 
   search_combo_(new QComboBox(parent))
 {
-  search_combo_->addItem(tr("Breadth first"));
-  search_combo_->addItem(tr("Depth first"));
+  search_combo_->addItem(tr("Uniform Cost"));
   search_combo_->addItem(tr("A*"));
   search_combo_->addItem(tr("D*-light"));
 
@@ -52,21 +52,22 @@ Search_group::Search_group(QWidget* parent) :
   g_layout_->addWidget(pb_pause_, 4, 1, 1, 1);
 
   connect(search_combo_, SIGNAL(currentIndexChanged(QString)),
-          this, SLOT(search_mode(QString)));
+          this, SLOT(cb_search_combo_changed(QString)));
+
+  connect(pb_search_, SIGNAL(clicked(bool)),
+          this, SLOT(pb_search_clicked()));
 
   this->setLayout(g_layout_);
 }
 
 
-void Search_group::search_mode(QString s)
+void Search_group::cb_search_combo_changed(QString s)
 {
-  // TODO dummy
-  if(s == "Breadth first")
-    qDebug() << "Breadth first";
-  if(s == "Depth first")
-    qDebug() << "Depth first";
-  if(s == "A*")
-    qDebug() << "A*";
-  if(s == "D*-light")
-    qDebug() << "D*-light";
+  emit search_mode_change(s);
+}
+
+
+void Search_group::pb_search_clicked()
+{
+  emit search_clicked();
 }

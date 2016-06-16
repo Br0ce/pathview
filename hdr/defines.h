@@ -45,23 +45,30 @@
 
 #define MAX_WEIGHT 10000
 
+class State;
 
 using Dim = std::pair<int, int>;
 using Index = int;
 using Map = Eigen::MatrixXi;
+using Matrix_d = Eigen::MatrixXd;
+using Vec_state = std::vector<State*>;
+using Vec_bool = std::vector<bool>;
 
 
 enum class Mode { space,
                   blocked,
                   start,
                   goal,
-                  path,
-                  expanded
+                  path
                 };
 
 enum class Display { g_value,
                      h_value,
-                     f_value
+                     f_value,
+                     expanded
                    };
+
+enum class Search { depth, breadth };
+
 
 #endif // DEFINES_H

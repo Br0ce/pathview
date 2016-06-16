@@ -1,8 +1,6 @@
-/** @file search_group.h
+/** @file uniform_cost.h
  *
- *
- * @brief
- *
+ * @brief Smallest unit in a maze.
  *
  * Copyright (C) 2016  @author Niklas Beck, beck@informatik.uni-bonn.de
  *
@@ -24,48 +22,23 @@
 
 
 
-#ifndef SEARCH_GROUP_H
-#define SEARCH_GROUP_H
+#ifndef UNIFORM_COST_H
+#define UNIFORM_COST_H
+
+#include <queue>
 
 
-#include <QGroupBox>
-#include <QGridLayout>
-#include <QPushButton>
-#include <QComboBox>
-
-#include "defines.h"
+#include "search_strategy.h"
 
 
-class Search_group : public QGroupBox
+
+class Uniform_cost : public Search_strategy
 {
-
-  Q_OBJECT
-
 public:
 
-  explicit Search_group(QWidget* parent);
-  virtual ~Search_group() = default;
-
-public slots:
-
-  void pb_search_clicked();
-  void cb_search_combo_changed(QString s);
-
-signals:
-
-  void search_clicked();
-  void search_mode_change(QString s);
-
-private:
-
-  QGridLayout* g_layout_;
-
-  QPushButton* pb_search_;
-  QPushButton* pb_go_;
-  QPushButton* pb_pause_;
-
-  QComboBox* search_combo_;
+  bool search(Graph* graph,
+              const Position& start,
+              const Position& goal);
 
 };
-
-#endif // SEARCH_GROUP_H
+#endif // UNIFORM_COST_H

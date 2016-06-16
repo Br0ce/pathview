@@ -33,8 +33,6 @@
 #include <QWidget>
 
 
-#include <Eigen/Dense>
-
 #include "defines.h"
 #include "state.h"
 #include "position.h"
@@ -48,14 +46,21 @@ class Graph : public QWidget
 public:
 
   explicit Graph(QWidget* parent = 0);
+
   virtual ~Graph() = default;
 
   void init_4_neighborhood(const Map& m);
 
-  double get_edge_weight(const double d) const;
   void add_wall(const Position& p);
   void remove_wall(const Position& p);
-  std::vector<State*> get_states();
+
+  Vec_state get_states();
+  State* get_state(const Position& p) const;
+
+  Vec_state get_succ(const Position& p) const;
+  Vec_state get_succ(const State* s) const;
+
+  double get_c(const State* a, const State* b) const;
 
 signals:
 
@@ -67,9 +72,10 @@ public slots:
 
 private:
 
-  std::vector<State*> states_;
-  Eigen::MatrixXd edges_;
+  Vec_state states_;
+  Matrix_d edges_;
 
+  double make_edge_weight(const double d) const;
 };
 
 #endif // GRAPH_H

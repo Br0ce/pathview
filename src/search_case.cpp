@@ -28,6 +28,8 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   QWidget(parent),
   maze_ad_(maze_ad),
   graph_(new Graph(this)),
+  uni_cost_(new Uniform_cost),
+  strategy_(uni_cost_), //TODO
   status_(2, false) // 0=start, 1=goal
 {
   connect(maze_ad_, SIGNAL(publish_start(Position)),
@@ -49,19 +51,17 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
           maze_ad_, SLOT(update_field(Index)));
 }
 
-/*
-void Search_case::resize_map(const Dim& d)
+
+Search_case::~Search_case()
 {
-  Position::set_dimensions(d);
-  map_.resize(d.first, d.second);
+  delete uni_cost_;
 }
 
-void Search_case::resize_map(Dim&& d)
+
+void Search_case::set_strategy(Search_strategy* strategy)
 {
-  Position::set_dimensions(d);
-  map_.resize(d.first, d.second);
+  strategy_ = strategy;
 }
-*/
 
 
 QGridLayout* Search_case::get_maze_layout()
@@ -103,7 +103,7 @@ void Search_case::load_maze() // TODO split and unset set_start etc.
       if((cols < 1) || (cols > 25))
         throw Pathview_error("cols are not in range");
 
-      Eigen::MatrixXi m(rows, cols);
+      Map m(rows, cols);
       std::istream_iterator<int> ii{f};
       std::istream_iterator<int> eos{};
       std::vector<int> v{ii, eos};
@@ -181,6 +181,7 @@ void Search_case::start_request(Position p)
   start_ = p;
 }
 
+
 void Search_case::goal_request(Position p)
 {
   if(goal_status())
@@ -200,6 +201,7 @@ void Search_case::goal_request(Position p)
 void Search_case::wall_request(Position p)
 {
   map_(p.pos().first, p.pos().second) = MAX_WEIGHT;
+
   graph_->add_wall(p);
 }
 
@@ -209,6 +211,7 @@ void Search_case::unset_wall_request(Position p)
   map_(p.pos().first, p.pos().second) = 0;
   graph_->remove_wall(p);
 }
+
 
 Position Search_case::get_start() const { return start_; }
 
@@ -224,19 +227,34 @@ void Search_case::set_start_status(bool b) { status_.at(0) = b; }
 
 void Search_case::set_goal_status(bool b) { status_.at(1) = b; }
 
-/*
-void Search_case::link_states()
+
+void Search_case::change_search_mode(QString s)
 {
-  for(const auto& s : graph_->get_states())
+  if(s == "Uniform Cost")
+    set_strategy(uni_cost_);
+}
+
+
+void Search_case::start_search()
+{
+  if(start_status() && goal_status())
   {
-    connect(s, SIGNAL(g_changed(double)),
-            maze_ad_, SLOT(publish_g_change(double)));
-
-    connect(s, SIGNAL(h_changed(double)),
-            maze_ad_, SLOT(publish_h_change(double)));
-
-    connect(s, SIGNAL(f_changed(double)),
-            maze_ad_, SLOT(publish_f_change(double)));
+    if(strategy_->search(graph_, start_, goal_))
+      show_path();
   }
 }
-*/
+
+
+void Search_case::show_path()
+{
+  auto s = graph_->get_state(goal_);
+
+  while(auto v = s->get_pred())
+  {
+    if(v->get_position() == start_) break;
+
+    maze_ad_->set_path(v->get_position());
+    s = v;
+  }
+}
+

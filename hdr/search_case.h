@@ -37,6 +37,8 @@
 #include "maze_admin.h"
 #include "graph.h"
 #include "position.h"
+#include "search_strategy.h"
+#include "uniform_cost.h"
 
 
 class Search_case : public QWidget
@@ -47,12 +49,10 @@ class Search_case : public QWidget
 public:
 
   explicit Search_case(Maze_admin* maze_ad, QWidget* parent = 0);
-  virtual ~Search_case() = default;
+  virtual ~Search_case(); // = default;
 
-  /*
-  void resize_map(const Dim& d); //TODO avoid overload
-  void resize_map(Dim&& d);
-  */
+
+  void set_strategy(Search_strategy* strategy);
 
   template<typename T>
   void resize_map(T&& d)
@@ -80,7 +80,7 @@ public:
   void set_start_status(bool b);
   void set_goal_status(bool b);
 
-  void link_states();
+  void show_path();
 
 signals:
 
@@ -95,15 +95,19 @@ public slots:
   void goal_request(Position p);
   void wall_request(Position p);
   void unset_wall_request(Position p);
+  void change_search_mode(QString s);
+  void start_search();
 
 private:
 
   Maze_admin* maze_ad_;
   Graph* graph_;
   Map map_;
+  Uniform_cost* uni_cost_;
+  Search_strategy* strategy_;
   Position start_;
   Position goal_;
-  std::vector<bool> status_;
+  Vec_bool status_;
 
 };
 

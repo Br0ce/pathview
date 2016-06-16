@@ -30,7 +30,9 @@ HEADERS += hdr/main_window.h \
            hdr/search_case.h \
            hdr/maze_group.h \
            hdr/field_settings_group.h \
-           hdr/search_group.h
+           hdr/search_group.h \
+           hdr/search_strategy.h \
+           hdr/uniform_cost.h
 
 
 SOURCES += src/main.cpp \
@@ -44,4 +46,5 @@ SOURCES += src/main.cpp \
            src/search_case.cpp \
            src/maze_group.cpp \
            src/field_settings_group.cpp \
-           src/search_group.cpp
+           src/search_group.cpp \
+           src/uniform_cost.cpp

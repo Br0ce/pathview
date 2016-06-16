@@ -92,7 +92,6 @@ void Maze_group::pb_save_maze_clicked(bool b)
 }
 
 
-
 void Maze_group::pb_set_start_clicked(bool b)
 {
   if(auto p = qobject_cast<QPushButton*>(sender()))
@@ -154,6 +153,7 @@ void Maze_group::exclusiv(const QPushButton* p)
     pb_set_goal_->setChecked(false);
   }
 }
+
 
 void Maze_group::uncheck_set_button()
 {

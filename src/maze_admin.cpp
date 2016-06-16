@@ -49,7 +49,7 @@ QGridLayout* Maze_admin::make_maze(const Map& m)
   return grid_;
 }
 
-void Maze_admin::link_states(std::vector<State*> s)
+void Maze_admin::link_states(Vec_state s)
 {
   auto i = 0;
 
@@ -121,6 +121,9 @@ void Maze_admin::remove_maze()
 }
 
 
+
+
+
 void Maze_admin::enable_responsive_mode(bool b, QString s)
 {
   if(b)
@@ -182,6 +185,14 @@ void Maze_admin::set_space(Position p)
   fields_.at(p.index())->set_mode(Mode::space);
 }
 
+
+void Maze_admin::set_path(Position p)
+{
+  fields_.at(p.index())->set_mode(Mode::path);
+}
+
+
+/*
 void Maze_admin::publish_g_change(double g)
 {
   emit display_g_change(g);
@@ -198,6 +209,8 @@ void Maze_admin::publish_f_change(double f)
 {
   emit display_f_change(f);
 }
+*/
+
 
 void Maze_admin::update_field(Index i)
 {

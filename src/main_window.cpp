@@ -74,7 +74,11 @@ Main_window::Main_window(QWidget* parent):
   connect(field_settings_group_, SIGNAL(display_request(Display, bool)),
           maze_admin_, SLOT(display_dispatch(Display, bool)));
 
+  connect(search_group_, SIGNAL(search_mode_change(QString)),
+          search_case_, SLOT(change_search_mode(QString)));
 
+  connect(search_group_, SIGNAL(search_clicked()),
+          search_case_, SLOT(start_search()));
 
   settings_.setFallbacksEnabled(false);
   read_settings();
@@ -107,11 +111,13 @@ void Main_window::init_dimensions()
   dim_dialog_->init_dim(search_case_->map_size());
 }
 
+
 void Main_window::set_maze_layout(QGridLayout* l)
 {
   dim_dialog_->init_dim(search_case_->map_size());
   main_widget_->setLayout(l);
 }
+
 
 void Main_window::init_gui()
 {
@@ -208,13 +214,12 @@ void Main_window::closeEvent(QCloseEvent* event)
 }
 
 
-
-
 void Main_window::show_dim_dialog()
 {
   dim_dialog_->show();
   dim_dialog_->exec();
 }
+
 
 void Main_window::receive_dim_request(Dim d)
 {

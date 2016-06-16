@@ -25,17 +25,27 @@
 
 State::State(Index i, QWidget* parent) :
   QWidget(parent),
-  index_(i),
+  index_(i), // TODO
+  pos_(i),
   g_(MAX_WEIGHT),
   h_(0),
-  f_(g_ + h_) {}
+  f_(g_ + h_),
+  pred_(nullptr),
+  expanded_(false) {}
 
 
 double State::g() const { return g_; }
 double State::h() const { return h_; }
 double State::f() const { return f_; }
 
-Index State::get_index() const { return index_; }
+
+Index State::get_index() const { return pos_.index(); }
+
+Position State::get_position() const { return pos_; }
+
+bool State::get_expanded() const { return expanded_; }
+
+State* State::get_pred() const { return pred_; }
 
 
 void State::set_g(const double g)
@@ -59,3 +69,14 @@ void State::set_f(const double f) // ???
 
   emit update();
 }
+
+
+void State::set_expanded()
+{
+  expanded_ = true;
+
+  emit update();
+}
+
+
+void State::set_pred(State* s) { pred_ = s; }

@@ -64,7 +64,9 @@ void Field::set_mode(const Mode& m)
   refresh_mode();
 }
 
+
 Mode Field::get_mode() const { return mode_; }
+
 
 void Field::refresh_mode()
 {
@@ -75,6 +77,10 @@ void Field::refresh_mode()
     this->setStyleSheet("background-color: white");
     this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
     this->setText(get_text());
+
+    if(get_expand_status())
+      show_expanded();
+
     break;
 
   case Mode::blocked:
@@ -105,12 +111,6 @@ void Field::refresh_mode()
     this->setText(get_text());
     break;
 
-  case Mode::expanded:
-
-    this->setStyleSheet("background-color: yellow");
-    this->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    this->setText(get_text());
-    break;
 
   default:
 
@@ -144,12 +144,16 @@ bool Field::get_h_status() const { return displ_status_.at(1); }
 
 bool Field::get_f_status() const { return displ_status_.at(2); }
 
+bool Field::get_expand_status() const { return displ_status_.at(4); }
+
 
 void Field::set_g_status(const bool b) { displ_status_.at(0) = b; }
 
 void Field::set_h_status(const bool b) { displ_status_.at(1) = b; }
 
 void Field::set_f_status(const bool b) { displ_status_.at(2) = b; }
+
+void Field::set_expand_status(const bool b) { displ_status_.at(4) = b; }
 
 
 void Field::set_responsive(Mode m)
@@ -252,6 +256,13 @@ QString Field::get_text() const
 }
 
 
+void Field::show_expanded()
+{
+  if(state_ && state_->get_expanded())
+    this->setStyleSheet("background-color: yellow");
+}
+
+
 void Field::display(Display d, bool b)
 {
   switch(d)
@@ -278,6 +289,13 @@ void Field::display(Display d, bool b)
       set_f_status(true);
     else
       set_f_status(false);
+    break;
+
+  case Display::expanded :
+    if(b)
+      set_expand_status(true);
+    else
+      set_expand_status(false);
     break;
 
   }

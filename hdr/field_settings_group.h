@@ -43,8 +43,8 @@ class Field_settings_group : public QGroupBox
 public:
 
   explicit Field_settings_group(QWidget* parent);
-  virtual ~Field_settings_group() = default;
 
+  virtual ~Field_settings_group() = default;
 
 signals:
 
@@ -55,6 +55,7 @@ public slots:
   void cb_g_value_clicked(int i);
   void cb_h_value_clicked(int i);
   void cb_f_value_clicked(int i);
+  void cb_expanded_clicked(int i);
 
   void set_uncheck();
 

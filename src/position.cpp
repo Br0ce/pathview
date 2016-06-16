@@ -148,3 +148,19 @@ Dim Position::lower_succ() const
   return std::make_pair(std::floor((index_ + dim_.second) / dim_.second),
                         ((index_ + dim_.second) % dim_.second));
 }
+
+std::vector<Position> Position::all_succ() const
+{
+  std::vector<Position> tmp;
+
+  if(this->check_right_succ())
+    tmp.push_back(Position(this->right_succ()));
+  if(this->check_lower_succ())
+    tmp.push_back(Position(this->lower_succ()));
+  if(this->check_left_succ())
+    tmp.push_back(Position(this->left_succ()));
+  if(this->check_upper_succ())
+    tmp.push_back(Position(this->upper_succ()));
+
+  return tmp;
+}

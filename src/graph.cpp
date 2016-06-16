@@ -29,16 +29,9 @@ Graph::Graph(QWidget* parent) :
   QWidget(parent) {}
 
 
-void Graph::init_4_neighborhood(const Map& m)
+void Graph::init_4_neighborhood(const Map& m) //TODO CHECK FOR get_succ()
 {
-  int cnt = m.rows() * m.cols();
-
-  /*
-  states_.resize(cnt, new State(this));
-
-  for(auto& s : states_)
-    connect(s, SIGNAL(update()), this, SLOT(state_update()));
-  */
+  const int cnt = m.rows() * m.cols();
 
   states_.clear();
 
@@ -49,7 +42,7 @@ void Graph::init_4_neighborhood(const Map& m)
     states_.push_back(s);
   }
 
-  Eigen::MatrixXd e(cnt, cnt);
+  Eigen::MatrixXd e(cnt, cnt); //TODO resize
   e.setZero();
   edges_ = std::move(e);
 
@@ -59,32 +52,32 @@ void Graph::init_4_neighborhood(const Map& m)
 
     if(p.check_right_succ())
     {
-      edges_(i, i + 1) = get_edge_weight(m(p.right_succ().first,
-                                           p.right_succ().second));
+      edges_(i, i + 1) = make_edge_weight(m(p.right_succ().first,
+                                            p.right_succ().second));
     }
 
     if(p.check_left_succ())
     {
-      edges_(i, i - 1) = get_edge_weight(m(p.left_succ().first,
-                                           p.left_succ().second));
+      edges_(i, i - 1) = make_edge_weight(m(p.left_succ().first,
+                                            p.left_succ().second));
     }
 
     if(p.check_upper_succ())
     {
-      edges_(i, i - m.cols()) = get_edge_weight(m(p.upper_succ().first,
+      edges_(i, i - m.cols()) = make_edge_weight(m(p.upper_succ().first,
                                 p.upper_succ().second));
     }
 
     if(p.check_lower_succ())
     {
-      edges_(i, i + m.cols()) = get_edge_weight(m(p.lower_succ().first,
+      edges_(i, i + m.cols()) = make_edge_weight(m(p.lower_succ().first,
                                 p.lower_succ().second));
     }
   }
 }
 
 
-double Graph::get_edge_weight(const double d) const
+double Graph::make_edge_weight(const double d) const
 {
   if(d == 0)
     return 1;
@@ -95,25 +88,65 @@ double Graph::get_edge_weight(const double d) const
 
 void Graph::add_wall(const Position& p)
 {
-  edges_.col(p.pos().second) *= MAX_WEIGHT;
+  const int max = edges_.rows();
+  for(int i = 0; i < max; ++i)
+  {
+    if(edges_(i, p.index()) > 0)
+      edges_(i, p.index()) = MAX_WEIGHT;
+  }
 }
 
 
 void Graph::remove_wall(const Position& p)
 {
-  for(int i = 0; i < edges_.rows(); ++i)
+  const int max = edges_.rows();
+  for(int i = 0; i < max; ++i)
   {
-    if(edges_(i, p.pos().second) > 1)
-      edges_(i, p.pos().second) = 1;
+    if(edges_(i, p.index()) > 1)
+      edges_(i, p.index()) = 1;
   }
 }
 
 
-std::vector<State*> Graph::get_states() { return states_; }
+Vec_state Graph::get_states() { return states_; }
 
 
 void Graph::state_update()
 {
   if(auto s = qobject_cast<State*>(sender()))
     emit update_state(s->get_index());
+}
+
+
+State* Graph::get_state(const Position& p) const
+{
+  return states_.at(p.index());
+}
+
+
+Vec_state Graph::get_succ(const Position& p) const
+{
+  Vec_state tmp;
+
+  const int max = states_.size();
+
+  for(int i = 0; i < max; ++i)
+  {
+    if(edges_(p.index(), i) > 0)
+      tmp.push_back(states_.at(i));
+  }
+  return tmp;
+}
+
+
+Vec_state Graph::get_succ(const State* s) const
+{
+  return get_succ(s->get_position());
+}
+
+
+
+double Graph::get_c(const State* a, const State* b) const
+{
+  return edges_(a->get_index(), b->get_index());
 }

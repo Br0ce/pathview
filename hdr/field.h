@@ -71,12 +71,15 @@ public:
   bool get_g_status() const;
   bool get_h_status() const;
   bool get_f_status() const;
+  bool get_expand_status() const;
 
   void set_g_status(const bool b);
   void set_h_status(const bool b);
   void set_f_status(const bool b);
+  void set_expand_status(const bool b);
 
   QString get_text() const;
+  void show_expanded();
 
 signals:
 
@@ -100,8 +103,8 @@ private:
 
   Position pos_;
   Mode mode_;
-  std::vector<bool> respo_status_;
-  std::vector<bool> displ_status_;
+  Vec_bool respo_status_;
+  Vec_bool displ_status_;
   State* state_;
 
 };

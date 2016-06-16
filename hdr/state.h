@@ -24,10 +24,14 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include <iostream> // TODO
+
+
 #include <QWidget>
 
 
 #include "defines.h"
+#include "position.h"
 
 
 
@@ -38,18 +42,27 @@ class State : public QWidget
 
 public:
 
-  State(Index i, QWidget* parent);
+  State(Index i, QWidget* parent = 0);
   virtual ~State() = default;
+
+
+  friend bool operator==(const State& l, const State& r);
 
   double g() const;//TODO get_g
   double h() const;
   double f() const;
 
   Index get_index() const;
+  Position get_position() const;
+  bool get_expanded() const;
+  State* get_pred() const;
 
   void set_g(const double g);
   void set_h(const double h);
   void set_f(const double f);
+  void set_expanded();
+  void set_pred(State* s);
+
 
 signals:
 
@@ -57,11 +70,23 @@ signals:
 
 private:
 
-  Index index_;
-  double g_;
+  Index index_; // TODO
+  Position pos_;
+  double g_; //TODO
   double h_;
   double f_;
+  State* pred_;
+  bool expanded_;
 
 };
+
+
+inline bool operator==(const State& l, const State& r)
+{ return (l.pos_ == r.pos_); }
+
+
+inline bool operator!=(const State& l, const State& r)
+{ return !(l == r); }
+
 
 #endif // STATE_H

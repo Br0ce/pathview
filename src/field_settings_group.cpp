@@ -57,6 +57,8 @@ Field_settings_group::Field_settings_group(QWidget* parent) :
   connect(cb_f_value_, SIGNAL(stateChanged(int)),
           this, SLOT(cb_f_value_clicked(int)));
 
+  connect(cb_expanded_, SIGNAL(stateChanged(int)),
+          this, SLOT(cb_expanded_clicked(int)));
 
   this->setLayout(g_layout_);
 }
@@ -102,4 +104,15 @@ void Field_settings_group::cb_f_value_clicked(int i)
     b = true;
 
   emit display_request(Display::f_value, b);
+}
+
+
+void Field_settings_group::cb_expanded_clicked(int i)
+{
+  bool b = false;
+
+  if(i == 2)
+    b = true;
+
+  emit display_request(Display::expanded, b);
 }

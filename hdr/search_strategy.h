@@ -1,10 +1,6 @@
-/** @file search_group.h
- *
- *
- * @brief
- *
- *
- * Copyright (C) 2016  @author Niklas Beck, beck@informatik.uni-bonn.de
+/*
+ * <one line to give the program's name and a brief idea of what it does.>
+ * Copyright (C) 2016  <copyright holder> <email>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,50 +18,31 @@
  *
  */
 
+#ifndef SEARCH_STRATEGY_H
+#define SEARCH_STRATEGY_H
 
-
-#ifndef SEARCH_GROUP_H
-#define SEARCH_GROUP_H
-
-
-#include <QGroupBox>
-#include <QGridLayout>
-#include <QPushButton>
-#include <QComboBox>
+#include <queue>
 
 #include "defines.h"
+#include "position.h"
+#include "graph.h"
 
 
-class Search_group : public QGroupBox
+class Search_strategy
 {
-
-  Q_OBJECT
-
 public:
 
-  explicit Search_group(QWidget* parent);
-  virtual ~Search_group() = default;
+  template<typename T>
+  using prio_queue = std::priority_queue<State*, Vec_state, T>;
 
-public slots:
 
-  void pb_search_clicked();
-  void cb_search_combo_changed(QString s);
+  Search_strategy() = default;
+  virtual ~Search_strategy() = default;
 
-signals:
 
-  void search_clicked();
-  void search_mode_change(QString s);
-
-private:
-
-  QGridLayout* g_layout_;
-
-  QPushButton* pb_search_;
-  QPushButton* pb_go_;
-  QPushButton* pb_pause_;
-
-  QComboBox* search_combo_;
-
+  virtual bool search(Graph* graph,
+                      const Position& start,
+                      const Position& goal) = 0;
 };
 
-#endif // SEARCH_GROUP_H
+#endif // SEARCH_STRATEGY_H
