@@ -150,3 +150,23 @@ double Graph::get_c(const State* a, const State* b) const
 {
   return edges_(a->get_index(), b->get_index());
 }
+
+
+double Graph::get_h(const Position& a, const Position& b) const
+{
+  auto x = std::abs(a.pos().first -
+                    b.pos().first);
+
+  auto y = std::abs(a.pos().second -
+                    b.pos().second);
+
+  return x + y;
+}
+
+
+
+void Graph::reset_all_states()
+{
+  for(auto& s : states_)
+    s->reset_state();
+}
