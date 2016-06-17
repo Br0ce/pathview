@@ -45,9 +45,10 @@ bool Uniform_cost::search(Graph* graph,
     if(current->get_position() == goal)
       return true;
 
+    current->set_expanded();
+
     for(auto& succ : graph->get_succ(current))
     {
-      succ->set_expanded();
 
       if(succ->g() > current->g() + graph->get_c(current, succ))
       {
