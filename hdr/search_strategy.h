@@ -34,6 +34,9 @@
 
 class Search_strategy : public QWidget
 {
+
+  Q_OBJECT
+
 public:
 
   template<typename T>
@@ -47,6 +50,7 @@ public:
   virtual bool search(Graph* graph,
                       const Position& start,
                       const Position& goal) = 0;
+
 };
 
 #endif // SEARCH_STRATEGY_H
