@@ -45,6 +45,7 @@
 #include "maze_group.h"
 #include "field_settings_group.h"
 #include "search_group.h"
+#include "stats_group.h"
 
 
 class Main_window : public QMainWindow
@@ -62,8 +63,6 @@ public:
   void save_settings();
   void init_gui();
   void init_dimensions();
-
-  QGroupBox* make_stats_group(QWidget* parent);
 
 protected:
 
@@ -88,6 +87,7 @@ private:
   QVBoxLayout* dock_layout_;
 
   Search_group* search_group_;
+  Stats_group* stats_group_;
   Field_settings_group* field_settings_group_;
   Maze_group* maze_group_;
 

@@ -37,6 +37,7 @@ Main_window::Main_window(QWidget* parent):
   dock_layout_(new QVBoxLayout(dock_frame_)),
 
   search_group_(new Search_group(dock_frame_)),
+  stats_group_(new Stats_group(dock_frame_)),
   field_settings_group_(new Field_settings_group(dock_frame_)),
   maze_group_(new Maze_group(dock_frame_)),
 
@@ -157,7 +158,8 @@ void Main_window::init_gui()
 
   /* stats-elements */
 
-  dock_layout_->addWidget(make_stats_group(dock_frame_));
+//   dock_layout_->addWidget(make_stats_group(dock_frame_));
+  dock_layout_->addWidget(stats_group_);
 
 
   /* field settings-elements */
@@ -171,38 +173,6 @@ void Main_window::init_gui()
 
 
   dock_widget_->setWidget(dock_frame_);
-}
-
-
-QGroupBox* Main_window::make_stats_group(QWidget* parent)
-{
-  auto g_box = (new QGroupBox(tr("stats"), parent)); // dock_frame_
-
-  auto l_edit_status = new QLineEdit(g_box);
-  l_edit_status->setReadOnly(true);
-  l_edit_status->setAlignment(Qt::AlignLeft);
-
-  auto l_edit_expanded = new QLineEdit(g_box);
-  l_edit_expanded->setReadOnly(true);
-  l_edit_expanded->setAlignment(Qt::AlignLeft);
-
-  auto l_edit_reached_in = new QLineEdit(g_box);
-  l_edit_reached_in->setReadOnly(true);
-  l_edit_reached_in->setAlignment(Qt::AlignLeft);
-
-  auto f_layout = new QFormLayout(g_box);
-
-  f_layout->setSpacing(4);
-  f_layout->setSizeConstraint(QLayout::SetFixedSize);
-
-  f_layout->addRow(tr("status"), l_edit_status); //TODO check parent
-  f_layout->addRow(tr("expanded"), l_edit_expanded);
-  f_layout->addRow(tr("reached in"), l_edit_reached_in);
-
-
-  g_box->setLayout(f_layout);
-
-  return g_box;
 }
 
 
