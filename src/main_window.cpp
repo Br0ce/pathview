@@ -158,7 +158,6 @@ void Main_window::init_gui()
 
   /* stats-elements */
 
-//   dock_layout_->addWidget(make_stats_group(dock_frame_));
   dock_layout_->addWidget(stats_group_);
 
 
