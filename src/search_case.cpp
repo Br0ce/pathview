@@ -51,7 +51,10 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   connect(graph_, SIGNAL(update_state(Index)),
           maze_ad_, SLOT(update_field(Index)));
 
-  connect(uni_cost_, SIGNAL(report_expanded(int)),
+  connect(uni_cost_, SIGNAL(report_exp_uni(int)),
+          this, SLOT(receive_expanded(int)));
+
+  connect(astar_, SIGNAL(report_exp_ast(int)),
           this, SLOT(receive_expanded(int)));
 }
 
