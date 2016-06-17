@@ -86,6 +86,9 @@ signals:
 
   void refresh_maze(QGridLayout* l);
   void unset(Position p);
+  void stats_reached(int i);
+  void stats_status(QString s);
+  void stats_expanded(int i);
 
 public slots:
 
