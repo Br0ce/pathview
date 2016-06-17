@@ -125,8 +125,19 @@ void Field_settings_group::change_enable(QString s)
 {
   if(s == "Uniform Cost")
   {
+    cb_g_value_->setEnabled(true);
     cb_h_value_->setEnabled(false);
     cb_f_value_->setEnabled(false);
     cb_rhs_value_->setEnabled(false);
+    cb_expanded_->setEnabled(true);
+  }
+
+  if(s == "A*")
+  {
+    cb_g_value_->setEnabled(true);
+    cb_h_value_->setEnabled(true);
+    cb_f_value_->setEnabled(true);
+    cb_rhs_value_->setEnabled(false);
+    cb_expanded_->setEnabled(true);
   }
 }
