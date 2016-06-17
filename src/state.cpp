@@ -80,3 +80,15 @@ void State::set_expanded()
 
 
 void State::set_pred(State* s) { pred_ = s; }
+
+
+void State::reset_state()
+{
+  g_ = MAX_WEIGHT;
+  h_ = 0;
+  f_ = g_ + h_;
+  pred_ = nullptr;
+  expanded_ = false;
+
+  emit update();
+}
