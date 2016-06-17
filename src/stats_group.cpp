@@ -73,3 +73,11 @@ void Stats_group::display_expanded(int i)
 {
   l_edit_expanded_->setText(QString::number(i));
 }
+
+
+void Stats_group::reset_display()
+{
+  l_edit_status_->setText("");
+  l_edit_reached_in_->setText("");
+  l_edit_expanded_->setText("");
+}

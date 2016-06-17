@@ -47,6 +47,7 @@ public slots:
   void display_reached(int i);
   void display_status(QString s);
   void display_expanded(int i);
+  void reset_display();
 
 private:
 
