@@ -23,12 +23,16 @@
 
 #include <queue>
 
+
+#include <QWidget>
+
+
 #include "defines.h"
 #include "position.h"
 #include "graph.h"
 
 
-class Search_strategy
+class Search_strategy : public QWidget
 {
 public:
 
@@ -36,7 +40,7 @@ public:
   using prio_queue = std::priority_queue<State*, Vec_state, T>;
 
 
-  Search_strategy() = default;
+  Search_strategy(QWidget* parent) : QWidget(parent) {}
   virtual ~Search_strategy() = default;
 
 
