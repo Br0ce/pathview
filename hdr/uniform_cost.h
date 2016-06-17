@@ -46,5 +46,9 @@ public:
               const Position& start,
               const Position& goal);
 
+signals:
+
+  void report_expanded(int i);
+
 };
 #endif // UNIFORM_COST_H

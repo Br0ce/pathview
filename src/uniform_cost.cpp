@@ -42,12 +42,18 @@ bool Uniform_cost::search(Graph* graph,
 
   open.push(s);
 
+  int cnt = 0;
+
   while(!open.empty())
   {
+    ++cnt;
     auto current = open.top();
 
     if(current->get_position() == goal)
+    {
+      emit report_expanded(cnt);
       return true;
+    }
 
     current->set_expanded();
 
@@ -63,5 +69,7 @@ bool Uniform_cost::search(Graph* graph,
     }
     open.pop();
   }
+
+  emit report_expanded(cnt);
   return false;
 }
