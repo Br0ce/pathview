@@ -28,7 +28,7 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   QWidget(parent),
   maze_ad_(maze_ad),
   graph_(new Graph(this)),
-  uni_cost_(new Uniform_cost),
+  uni_cost_(new Uniform_cost(this)),
   strategy_(uni_cost_), //TODO
   status_(2, false) // 0=start, 1=goal
 {
