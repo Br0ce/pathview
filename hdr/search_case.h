@@ -97,6 +97,7 @@ public slots:
   void unset_wall_request(Position p);
   void change_search_mode(QString s);
   void start_search();
+  void receive_expanded(int i);
 
 private:
 
