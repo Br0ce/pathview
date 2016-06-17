@@ -23,26 +23,34 @@
 
 #include <queue>
 
+
+#include <QWidget>
+
+
 #include "defines.h"
 #include "position.h"
 #include "graph.h"
 
 
-class Search_strategy
+class Search_strategy : public QWidget
 {
+
+  Q_OBJECT
+
 public:
 
   template<typename T>
   using prio_queue = std::priority_queue<State*, Vec_state, T>;
 
 
-  Search_strategy() = default;
+  Search_strategy(QWidget* parent) : QWidget(parent) {}
   virtual ~Search_strategy() = default;
 
 
   virtual bool search(Graph* graph,
                       const Position& start,
                       const Position& goal) = 0;
+
 };
 
 #endif // SEARCH_STRATEGY_H

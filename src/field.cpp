@@ -248,7 +248,7 @@ QString Field::get_text() const
     if(get_f_status())
     {
       QString f(QString::number(state_->f()));
-      tmp.append(QString("%1%2%3").arg("f", 3).arg(t).arg(f));
+      tmp.append(QString("%1%2%3").arg("f", 3).arg(t).arg(f, 4));
     }
   }
 

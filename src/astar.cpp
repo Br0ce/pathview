@@ -1,4 +1,4 @@
-/** @file uniform_cost.cpp
+/** @file astar.cpp
  *
  * @brief Smallest unit in a maze.
  *
@@ -21,26 +21,27 @@
  */
 
 
+#include "astar.h"
 
-#include "uniform_cost.h"
 
-
-Uniform_cost::Uniform_cost(QWidget* parent) :
+Astar::Astar(QWidget* parent) :
   Search_strategy(parent) {}
 
 
-bool Uniform_cost::search(Graph* graph,
-                          const Position& start,
-                          const Position& goal)
+bool Astar::search(Graph* graph,
+                   const Position& start,
+                   const Position& goal)
 {
-  auto greater_g = [](State * l, State * r) { return l->g() > r->g(); };
+  auto greater_f = [](State * l, State * r) { return l->f() > r->f(); };
 
-  prio_queue<decltype(greater_g)> open(greater_g);
+  prio_queue<decltype(greater_f)> open(greater_f);
 
   graph->reset_all_states();
 
   auto s = graph->get_state(start);
   s->set_g(0);
+  s->set_h(graph->get_h(start, goal));
+  s->set_f(s->g() + s->h());
 
   open.push(s);
 
@@ -52,7 +53,7 @@ bool Uniform_cost::search(Graph* graph,
 
     if(current->get_position() == goal)
     {
-      emit report_exp_uni(cnt);
+      emit report_exp_ast(cnt);
       return true;
     }
 
@@ -61,17 +62,18 @@ bool Uniform_cost::search(Graph* graph,
 
     for(auto& succ : graph->get_succ(current))
     {
-
       if(succ->g() > current->g() + graph->get_c(current, succ))
       {
         succ->set_g(current->g() + graph->get_c(current, succ));
         succ->set_pred(current);
+        succ->set_h(graph->get_h(succ->get_position(), goal));
+        succ->set_f(succ->g() + succ->h());
         open.push(succ);
       }
     }
     open.pop();
   }
 
-  emit report_exp_uni(cnt);
+  emit report_exp_ast(cnt);
   return false;
 }

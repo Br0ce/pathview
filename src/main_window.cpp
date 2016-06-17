@@ -51,6 +51,15 @@ Main_window::Main_window(QWidget* parent):
   connect(search_case_, SIGNAL(refresh_maze(QGridLayout*)),
           this, SLOT(set_maze_layout(QGridLayout*)));
 
+  connect(search_case_, SIGNAL(stats_reached(int)),
+          stats_group_, SLOT(display_reached(int)));
+
+  connect(search_case_, SIGNAL(stats_status(QString)),
+          stats_group_, SLOT(display_status(QString)));
+
+  connect(search_case_, SIGNAL(stats_expanded(int)),
+          stats_group_, SLOT(display_expanded(int)));
+
   connect(dim_dialog_, SIGNAL(publish_dim_request(Dim)),
           this, SLOT(receive_dim_request(Dim)));
 
@@ -78,8 +87,17 @@ Main_window::Main_window(QWidget* parent):
   connect(search_group_, SIGNAL(search_mode_change(QString)),
           search_case_, SLOT(change_search_mode(QString)));
 
+  connect(search_group_, SIGNAL(search_mode_change(QString)),
+          field_settings_group_, SLOT(change_enable(QString)));
+
   connect(search_group_, SIGNAL(search_clicked()),
           search_case_, SLOT(start_search()));
+
+  connect(search_group_, SIGNAL(clear_clicked()),
+          search_case_, SLOT(reset_maze()));
+
+  connect(search_group_, SIGNAL(clear_clicked()),
+          stats_group_, SLOT(reset_display()));
 
   settings_.setFallbacksEnabled(false);
   read_settings();

@@ -35,13 +35,13 @@ Stats_group::Stats_group(QWidget* parent) :
   l_edit_reached_in_(new QLineEdit(this))
 {
   l_edit_status_->setReadOnly(true);
-  l_edit_status_->setAlignment(Qt::AlignLeft);
+  l_edit_status_->setAlignment(Qt::AlignRight);
 
   l_edit_expanded_->setReadOnly(true);
-  l_edit_expanded_->setAlignment(Qt::AlignLeft);
+  l_edit_expanded_->setAlignment(Qt::AlignRight);
 
   l_edit_reached_in_->setReadOnly(true);
-  l_edit_reached_in_->setAlignment(Qt::AlignLeft);
+  l_edit_reached_in_->setAlignment(Qt::AlignRight);
 
   f_layout_->setSpacing(4);
   f_layout_->setSizeConstraint(QLayout::SetFixedSize);
@@ -53,3 +53,31 @@ Stats_group::Stats_group(QWidget* parent) :
   this->setLayout(f_layout_);
 }
 
+
+void Stats_group::display_reached(int i)
+{
+  if(i >= 0)
+    l_edit_reached_in_->setText(QString::number(i));
+  else
+    l_edit_reached_in_->setText("--");
+}
+
+
+void Stats_group::display_status(QString s)
+{
+  l_edit_status_->setText(s);
+}
+
+
+void Stats_group::display_expanded(int i)
+{
+  l_edit_expanded_->setText(QString::number(i));
+}
+
+
+void Stats_group::reset_display()
+{
+  l_edit_status_->setText("");
+  l_edit_reached_in_->setText("");
+  l_edit_expanded_->setText("");
+}

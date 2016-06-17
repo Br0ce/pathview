@@ -25,7 +25,6 @@
 #ifndef UNIFORM_COST_H
 #define UNIFORM_COST_H
 
-#include <queue>
 
 
 #include "search_strategy.h"
@@ -34,11 +33,21 @@
 
 class Uniform_cost : public Search_strategy
 {
+
+  Q_OBJECT
+
 public:
+
+  explicit Uniform_cost(QWidget* parent);
+  virtual ~Uniform_cost() = default;
 
   bool search(Graph* graph,
               const Position& start,
-              const Position& goal);
+              const Position& goal) override;
+
+signals:
+
+  void report_exp_uni(int i);
 
 };
 #endif // UNIFORM_COST_H

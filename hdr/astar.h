@@ -1,8 +1,6 @@
-/** @file search_group.h
+/** @file astar.h
  *
- *
- * @brief
- *
+ * @brief Smallest unit in a maze.
  *
  * Copyright (C) 2016  @author Niklas Beck, beck@informatik.uni-bonn.de
  *
@@ -23,51 +21,31 @@
  */
 
 
-
-#ifndef SEARCH_GROUP_H
-#define SEARCH_GROUP_H
-
-
-#include <QGroupBox>
-#include <QGridLayout>
-#include <QPushButton>
-#include <QComboBox>
-
-#include "defines.h"
+#ifndef ASTAR_H
+#define ASTAR_H
 
 
-class Search_group : public QGroupBox
+#include "search_strategy.h"
+
+
+class Astar : public Search_strategy
 {
 
   Q_OBJECT
 
 public:
 
-  explicit Search_group(QWidget* parent);
-  virtual ~Search_group() = default;
+  explicit Astar(QWidget* parent);
+  virtual ~Astar() = default;
 
-public slots:
-
-  void pb_search_clicked();
-  void cb_search_combo_changed(QString s);
-  void pb_clear_clicked();
+  bool search(Graph* graph,
+              const Position& start,
+              const Position& goal) override;
 
 signals:
 
-  void search_clicked();
-  void search_mode_change(QString s);
-  void clear_clicked();
-
-private:
-
-  QGridLayout* g_layout_;
-
-  QPushButton* pb_search_;
-  QPushButton* pb_go_;
-  QPushButton* pb_clear_;
-
-  QComboBox* search_combo_;
+  void report_exp_ast(int i);
 
 };
 
-#endif // SEARCH_GROUP_H
+#endif // ASTAR_H

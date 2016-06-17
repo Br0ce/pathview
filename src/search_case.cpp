@@ -28,7 +28,8 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   QWidget(parent),
   maze_ad_(maze_ad),
   graph_(new Graph(this)),
-  uni_cost_(new Uniform_cost),
+  uni_cost_(new Uniform_cost(this)),
+  astar_(new Astar(this)),
   strategy_(uni_cost_), //TODO
   status_(2, false) // 0=start, 1=goal
 {
@@ -49,6 +50,12 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
 
   connect(graph_, SIGNAL(update_state(Index)),
           maze_ad_, SLOT(update_field(Index)));
+
+  connect(uni_cost_, SIGNAL(report_exp_uni(int)),
+          this, SLOT(receive_expanded(int)));
+
+  connect(astar_, SIGNAL(report_exp_ast(int)),
+          this, SLOT(receive_expanded(int)));
 }
 
 
@@ -232,6 +239,8 @@ void Search_case::change_search_mode(QString s)
 {
   if(s == "Uniform Cost")
     set_strategy(uni_cost_);
+  if(s == "A*")
+    set_strategy(astar_);
 }
 
 
@@ -239,9 +248,30 @@ void Search_case::start_search()
 {
   if(start_status() && goal_status())
   {
+    maze_ad_->reset_path();
+
     if(strategy_->search(graph_, start_, goal_))
+    {
       show_path();
+      emit stats_status("good path");
+    }
+    else
+    {
+      emit stats_status("no path found");
+      emit stats_reached(-1);
+    }
   }
+  else
+  {
+    emit stats_status("set START and GOAL");
+    emit stats_reached(-1);
+  }
+}
+
+
+void Search_case::receive_expanded(int i)
+{
+  emit stats_expanded(i);
 }
 
 
@@ -249,12 +279,23 @@ void Search_case::show_path()
 {
   auto s = graph_->get_state(goal_);
 
+  int cnt = 0;
+
   while(auto v = s->get_pred())
   {
+    ++cnt;
     if(v->get_position() == start_) break;
 
     maze_ad_->set_path(v->get_position());
     s = v;
   }
+
+  emit stats_reached(cnt);
 }
 
+
+void Search_case::reset_maze()
+{
+  graph_->reset_all_states();
+  maze_ad_->reset_path();
+}

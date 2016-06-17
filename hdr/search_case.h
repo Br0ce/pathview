@@ -39,6 +39,7 @@
 #include "position.h"
 #include "search_strategy.h"
 #include "uniform_cost.h"
+#include "astar.h"
 
 
 class Search_case : public QWidget
@@ -86,6 +87,9 @@ signals:
 
   void refresh_maze(QGridLayout* l);
   void unset(Position p);
+  void stats_reached(int i);
+  void stats_status(QString s);
+  void stats_expanded(int i);
 
 public slots:
 
@@ -97,6 +101,8 @@ public slots:
   void unset_wall_request(Position p);
   void change_search_mode(QString s);
   void start_search();
+  void receive_expanded(int i);
+  void reset_maze();
 
 private:
 
@@ -104,6 +110,7 @@ private:
   Graph* graph_;
   Map map_;
   Uniform_cost* uni_cost_;
+  Astar* astar_;
   Search_strategy* strategy_;
   Position start_;
   Position goal_;

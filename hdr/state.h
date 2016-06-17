@@ -63,6 +63,7 @@ public:
   void set_expanded();
   void set_pred(State* s);
 
+  void reset_state();
 
 signals:
 

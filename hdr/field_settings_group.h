@@ -59,6 +59,8 @@ public slots:
 
   void set_uncheck();
 
+  void change_enable(QString s);
+
 private:
 
   QGridLayout* g_layout_;

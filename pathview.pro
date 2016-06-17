@@ -33,7 +33,8 @@ HEADERS += hdr/main_window.h \
            hdr/stats_group.h \
            hdr/search_group.h \
            hdr/search_strategy.h \
-           hdr/uniform_cost.h
+           hdr/uniform_cost.h \
+           hdr/astar.h
 
 
 SOURCES += src/main.cpp \
@@ -49,4 +50,5 @@ SOURCES += src/main.cpp \
            src/field_settings_group.cpp \
            src/stats_group.cpp \
            src/search_group.cpp \
-           src/uniform_cost.cpp
+           src/uniform_cost.cpp \
+           src/astar.cpp

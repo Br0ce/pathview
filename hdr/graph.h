@@ -61,6 +61,9 @@ public:
   Vec_state get_succ(const State* s) const;
 
   double get_c(const State* a, const State* b) const;
+  double get_h(const Position& a, const Position& b) const;
+
+  void reset_all_states();
 
 signals:
 
