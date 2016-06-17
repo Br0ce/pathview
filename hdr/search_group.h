@@ -50,11 +50,13 @@ public slots:
 
   void pb_search_clicked();
   void cb_search_combo_changed(QString s);
+  void pb_clear_clicked();
 
 signals:
 
   void search_clicked();
   void search_mode_change(QString s);
+  void clear_clicked();
 
 private:
 
@@ -62,7 +64,7 @@ private:
 
   QPushButton* pb_search_;
   QPushButton* pb_go_;
-  QPushButton* pb_pause_;
+  QPushButton* pb_clear_;
 
   QComboBox* search_combo_;
 

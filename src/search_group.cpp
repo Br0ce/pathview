@@ -34,7 +34,7 @@ Search_group::Search_group(QWidget* parent) :
   g_layout_(new QGridLayout(this)),
   pb_search_(new QPushButton(tr("search path"), parent)),
   pb_go_(new QPushButton(tr("go"), parent)),
-  pb_pause_(new QPushButton(tr("pause"), parent)),
+  pb_clear_(new QPushButton(tr("clear"), parent)),
 
   search_combo_(new QComboBox(parent))
 {
@@ -48,13 +48,17 @@ Search_group::Search_group(QWidget* parent) :
   g_layout_->addWidget(search_combo_, 0, 0, 2, 2);
   g_layout_->addWidget(pb_search_, 2, 0, 2, 2);
   g_layout_->addWidget(pb_go_, 4, 0, 1, 1);
-  g_layout_->addWidget(pb_pause_, 4, 1, 1, 1);
+  g_layout_->addWidget(pb_clear_, 4, 1, 1, 1);
 
   connect(search_combo_, SIGNAL(currentIndexChanged(QString)),
           this, SLOT(cb_search_combo_changed(QString)));
 
   connect(pb_search_, SIGNAL(clicked(bool)),
           this, SLOT(pb_search_clicked()));
+
+  connect(pb_clear_, SIGNAL(clicked(bool)),
+          this, SLOT(pb_clear_clicked()));
+
 
   this->setLayout(g_layout_);
 }
@@ -69,4 +73,10 @@ void Search_group::cb_search_combo_changed(QString s)
 void Search_group::pb_search_clicked()
 {
   emit search_clicked();
+}
+
+
+void Search_group::pb_clear_clicked()
+{
+  emit clear_clicked();
 }
