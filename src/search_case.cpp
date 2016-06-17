@@ -245,6 +245,8 @@ void Search_case::start_search()
 {
   if(start_status() && goal_status())
   {
+    maze_ad_->reset_path();
+
     if(strategy_->search(graph_, start_, goal_))
     {
       show_path();
@@ -288,3 +290,9 @@ void Search_case::show_path()
   emit stats_reached(cnt);
 }
 
+
+void Search_case::reset_maze()
+{
+  graph_->reset_all_states();
+  maze_ad_->reset_path();
+}

@@ -102,6 +102,7 @@ public slots:
   void change_search_mode(QString s);
   void start_search();
   void receive_expanded(int i);
+  void reset_maze();
 
 private:
 
