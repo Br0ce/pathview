@@ -34,7 +34,13 @@
 
 class Uniform_cost : public Search_strategy
 {
+
+  Q_OBJECT
+
 public:
+
+  explicit Uniform_cost(QWidget* parent);
+  virtual ~Uniform_cost() = default;
 
   bool search(Graph* graph,
               const Position& start,

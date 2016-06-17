@@ -25,6 +25,10 @@
 #include "uniform_cost.h"
 
 
+Uniform_cost::Uniform_cost(QWidget* parent) :
+  Search_strategy(parent) {}
+
+
 bool Uniform_cost::search(Graph* graph,
                           const Position& start,
                           const Position& goal)
