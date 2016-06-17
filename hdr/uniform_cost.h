@@ -25,7 +25,6 @@
 #ifndef UNIFORM_COST_H
 #define UNIFORM_COST_H
 
-#include <queue>
 
 
 #include "search_strategy.h"
@@ -44,11 +43,11 @@ public:
 
   bool search(Graph* graph,
               const Position& start,
-              const Position& goal);
+              const Position& goal) override;
 
 signals:
 
-  void report_expanded(int i);
+  void report_exp_uni(int i);
 
 };
 #endif // UNIFORM_COST_H

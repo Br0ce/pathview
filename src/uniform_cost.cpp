@@ -37,6 +37,8 @@ bool Uniform_cost::search(Graph* graph,
 
   prio_queue<decltype(greater_g)> open(greater_g);
 
+  graph->reset_all_states();
+
   auto s = graph->get_state(start);
   s->set_g(0);
 
@@ -46,15 +48,15 @@ bool Uniform_cost::search(Graph* graph,
 
   while(!open.empty())
   {
-    ++cnt;
     auto current = open.top();
 
     if(current->get_position() == goal)
     {
-      emit report_expanded(cnt);
+      emit report_exp_uni(cnt);
       return true;
     }
 
+    ++cnt;
     current->set_expanded();
 
     for(auto& succ : graph->get_succ(current))
@@ -70,6 +72,6 @@ bool Uniform_cost::search(Graph* graph,
     open.pop();
   }
 
-  emit report_expanded(cnt);
+  emit report_exp_uni(cnt);
   return false;
 }
