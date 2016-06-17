@@ -39,6 +39,7 @@
 #include "position.h"
 #include "search_strategy.h"
 #include "uniform_cost.h"
+#include "astar.h"
 
 
 class Search_case : public QWidget
@@ -108,6 +109,7 @@ private:
   Graph* graph_;
   Map map_;
   Uniform_cost* uni_cost_;
+  Astar* astar_;
   Search_strategy* strategy_;
   Position start_;
   Position goal_;

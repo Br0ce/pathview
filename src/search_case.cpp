@@ -29,6 +29,7 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   maze_ad_(maze_ad),
   graph_(new Graph(this)),
   uni_cost_(new Uniform_cost(this)),
+  astar_(new Astar(this)),
   strategy_(uni_cost_), //TODO
   status_(2, false) // 0=start, 1=goal
 {
@@ -235,6 +236,8 @@ void Search_case::change_search_mode(QString s)
 {
   if(s == "Uniform Cost")
     set_strategy(uni_cost_);
+  if(s == "A*")
+    set_strategy(astar_);
 }
 
 
