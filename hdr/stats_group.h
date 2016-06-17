@@ -42,6 +42,12 @@ public:
   explicit Stats_group(QWidget* parent);
   virtual ~Stats_group() = default;
 
+public slots:
+
+  void display_reached(int i);
+  void display_status(QString s);
+  void display_expanded(int i);
+
 private:
 
   QFormLayout* f_layout_;
