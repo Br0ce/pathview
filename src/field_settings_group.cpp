@@ -47,6 +47,9 @@ Field_settings_group::Field_settings_group(QWidget* parent) :
   g_layout_->addWidget(cb_rhs_value_, 0, 1);
   g_layout_->addWidget(cb_expanded_, 1, 1);
 
+  cb_h_value_->setEnabled(false);
+  cb_f_value_->setEnabled(false);
+  cb_rhs_value_->setEnabled(false);
 
   connect(cb_g_value_, SIGNAL(stateChanged(int)),
           this, SLOT(cb_g_value_clicked(int)));
@@ -115,4 +118,15 @@ void Field_settings_group::cb_expanded_clicked(int i)
     b = true;
 
   emit display_request(Display::expanded, b);
+}
+
+
+void Field_settings_group::change_enable(QString s)
+{
+  if(s == "Uniform Cost")
+  {
+    cb_h_value_->setEnabled(false);
+    cb_f_value_->setEnabled(false);
+    cb_rhs_value_->setEnabled(false);
+  }
 }

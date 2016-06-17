@@ -78,6 +78,9 @@ Main_window::Main_window(QWidget* parent):
   connect(search_group_, SIGNAL(search_mode_change(QString)),
           search_case_, SLOT(change_search_mode(QString)));
 
+  connect(search_group_, SIGNAL(search_mode_change(QString)),
+          field_settings_group_, SLOT(change_enable(QString)));
+
   connect(search_group_, SIGNAL(search_clicked()),
           search_case_, SLOT(start_search()));
 
