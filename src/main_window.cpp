@@ -51,6 +51,15 @@ Main_window::Main_window(QWidget* parent):
   connect(search_case_, SIGNAL(refresh_maze(QGridLayout*)),
           this, SLOT(set_maze_layout(QGridLayout*)));
 
+  connect(search_case_, SIGNAL(stats_reached(int)),
+          stats_group_, SLOT(display_reached(int)));
+
+  connect(search_case_, SIGNAL(stats_status(QString)),
+          stats_group_, SLOT(display_status(QString)));
+
+  connect(search_case_, SIGNAL(stats_expanded(int)),
+          stats_group_, SLOT(display_expanded(int)));
+
   connect(dim_dialog_, SIGNAL(publish_dim_request(Dim)),
           this, SLOT(receive_dim_request(Dim)));
 
