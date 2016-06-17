@@ -23,7 +23,6 @@
  */
 
 
-#include <iostream>
 
 #include "search_group.h"
 
