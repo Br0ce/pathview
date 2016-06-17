@@ -121,9 +121,6 @@ void Maze_admin::remove_maze()
 }
 
 
-
-
-
 void Maze_admin::enable_responsive_mode(bool b, QString s)
 {
   if(b)
@@ -189,6 +186,16 @@ void Maze_admin::set_space(Position p)
 void Maze_admin::set_path(Position p)
 {
   fields_.at(p.index())->set_mode(Mode::path);
+}
+
+
+void Maze_admin::reset_path()
+{
+  for(auto& f : fields_)
+  {
+    if(f->get_mode() == Mode::path)
+      f->set_mode(Mode::space);
+  }
 }
 
 

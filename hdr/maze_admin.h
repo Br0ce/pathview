@@ -51,6 +51,7 @@ public:
   QGridLayout* make_maze(const Map& m);
   void link_states(Vec_state s);
   void set_path(Position p);
+  void reset_path();
 
 signals:
 
