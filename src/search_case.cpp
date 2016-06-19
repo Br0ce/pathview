@@ -30,6 +30,7 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   graph_(new Graph(this)),
   uni_cost_(new Uniform_cost(this)),
   astar_(new Astar(this)),
+  dstar_(new Dstar(this)),
   strategy_(uni_cost_), //TODO
   status_(2, false) // 0=start, 1=goal
 {
@@ -55,6 +56,9 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
           this, SLOT(receive_expanded(int)));
 
   connect(astar_, SIGNAL(report_exp_ast(int)),
+          this, SLOT(receive_expanded(int)));
+
+  connect(dstar_, SIGNAL(report_exp_dst(int)),
           this, SLOT(receive_expanded(int)));
 }
 
@@ -241,6 +245,8 @@ void Search_case::change_search_mode(QString s)
     set_strategy(uni_cost_);
   if(s == "A*")
     set_strategy(astar_);
+  if(s == "D*-light")
+    set_strategy(dstar_);
 }
 
 

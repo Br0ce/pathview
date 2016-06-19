@@ -40,6 +40,7 @@
 #include "search_strategy.h"
 #include "uniform_cost.h"
 #include "astar.h"
+#include "dstar.h"
 
 
 class Search_case : public QWidget
@@ -111,6 +112,7 @@ private:
   Map map_;
   Uniform_cost* uni_cost_;
   Astar* astar_;
+  Dstar* dstar_;
   Search_strategy* strategy_;
   Position start_;
   Position goal_;
