@@ -199,6 +199,12 @@ void Maze_admin::reset_path()
 }
 
 
+void Maze_admin::set_start(Position p)
+{
+  fields_.at(p.index())->set_mode(Mode::start);
+}
+
+
 /*
 void Maze_admin::publish_g_change(double g)
 {

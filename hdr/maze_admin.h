@@ -52,6 +52,7 @@ public:
   void link_states(Vec_state s);
   void set_path(Position p);
   void reset_path();
+  void set_start(Position p);
 
 signals:
 
