@@ -71,11 +71,13 @@ public:
   bool get_g_status() const;
   bool get_h_status() const;
   bool get_f_status() const;
+  bool get_rhs_status() const;
   bool get_expand_status() const;
 
   void set_g_status(const bool b);
   void set_h_status(const bool b);
   void set_f_status(const bool b);
+  void set_rhs_status(const bool b);
   void set_expand_status(const bool b);
 
   QString get_text() const;

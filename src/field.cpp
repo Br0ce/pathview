@@ -144,6 +144,8 @@ bool Field::get_h_status() const { return displ_status_.at(1); }
 
 bool Field::get_f_status() const { return displ_status_.at(2); }
 
+bool Field::get_rhs_status() const { return displ_status_.at(3); }
+
 bool Field::get_expand_status() const { return displ_status_.at(4); }
 
 
@@ -152,6 +154,8 @@ void Field::set_g_status(const bool b) { displ_status_.at(0) = b; }
 void Field::set_h_status(const bool b) { displ_status_.at(1) = b; }
 
 void Field::set_f_status(const bool b) { displ_status_.at(2) = b; }
+
+void Field::set_rhs_status(const bool b) { displ_status_.at(3) = b; }
 
 void Field::set_expand_status(const bool b) { displ_status_.at(4) = b; }
 
@@ -236,19 +240,25 @@ QString Field::get_text() const
     if(get_g_status())
     {
       QString g(QString::number(state_->g()));
-      tmp.append(QString("%1%2%3%4").arg("g", 3).arg(t).arg(g, 4).arg(e));
+      tmp.append(QString("%1%2%3%4").arg("g", -4).arg(t).arg(g, 4).arg(e));
     }
 
     if(get_h_status())
     {
       QString h(QString::number(state_->h()));
-      tmp.append(QString("%1%2%3%4").arg("h", 3).arg(t).arg(h, 4).arg(e));
+      tmp.append(QString("%1%2%3%4").arg("h", -4).arg(t).arg(h, 4).arg(e));
     }
 
     if(get_f_status())
     {
       QString f(QString::number(state_->f()));
-      tmp.append(QString("%1%2%3").arg("f", 3).arg(t).arg(f, 4));
+      tmp.append(QString("%1%2%3").arg("f", -4).arg(t).arg(f, 4));
+    }
+
+    if(get_rhs_status())
+    {
+      QString rhs(QString::number(state_->rhs()));
+      tmp.append(QString("%1%2%3").arg("rhs", -3).arg(t).arg(rhs, 4));
     }
   }
 
@@ -289,6 +299,13 @@ void Field::display(Display d, bool b)
       set_f_status(true);
     else
       set_f_status(false);
+    break;
+
+  case Display::rhs_value :
+    if(b)
+      set_rhs_status(true);
+    else
+      set_rhs_status(false);
     break;
 
   case Display::expanded :
