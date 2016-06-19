@@ -55,6 +55,7 @@ public slots:
   void cb_g_value_clicked(int i);
   void cb_h_value_clicked(int i);
   void cb_f_value_clicked(int i);
+  void cb_rhs_value_clicked(int i);
   void cb_expanded_clicked(int i);
 
   void set_uncheck();
