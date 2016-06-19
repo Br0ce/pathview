@@ -51,6 +51,7 @@ public:
   double g() const;//TODO get_g
   double h() const;
   double f() const;
+  double rhs() const;
 
   Index get_index() const;
   Position get_position() const;
@@ -60,6 +61,7 @@ public:
   void set_g(const double g);
   void set_h(const double h);
   void set_f(const double f);
+  void set_rhs(const double rhs);
   void set_expanded();
   void set_pred(State* s);
 
@@ -76,6 +78,7 @@ private:
   double g_; //TODO
   double h_;
   double f_;
+  double rhs_;
   State* pred_;
   bool expanded_;
 
