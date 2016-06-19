@@ -64,10 +64,6 @@ signals:
   void publish_unset_wall(Position);
   void uncheck_button();
 
-//   void display_g_change(double);
-//   void display_h_change(double);
-//   void display_f_change(double);
-
   void forward_display(Display, bool);
 
 public slots:
@@ -78,10 +74,6 @@ public slots:
   void receive_wall_request();
   void receive_unset_wall_request();
   void set_space(Position p);
-
-//   void publish_g_change(double g);
-//   void publish_h_change(double h);
-//   void publish_f_change(double f);
 
   void update_field(Index i);
 

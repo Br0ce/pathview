@@ -205,26 +205,6 @@ void Maze_admin::set_start(Position p)
 }
 
 
-/*
-void Maze_admin::publish_g_change(double g)
-{
-  emit display_g_change(g);
-}
-
-
-void Maze_admin::publish_h_change(double h)
-{
-  emit display_h_change(h);
-}
-
-
-void Maze_admin::publish_f_change(double f)
-{
-  emit display_f_change(f);
-}
-*/
-
-
 void Maze_admin::update_field(Index i)
 {
   fields_.at(i)->refresh_mode();
