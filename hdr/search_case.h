@@ -104,6 +104,7 @@ public slots:
   void start_search();
   void receive_expanded(int i);
   void reset_maze();
+  void exec_go();
 
 private:
 
@@ -116,6 +117,7 @@ private:
   Search_strategy* strategy_;
   Position start_;
   Position goal_;
+  Position next_;
   Vec_bool status_;
 
 };

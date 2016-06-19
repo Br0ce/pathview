@@ -292,6 +292,7 @@ void Search_case::show_path()
     ++cnt;
     if(v->get_position() == start_) break;
 
+    next_ = v->get_position();
     maze_ad_->set_path(v->get_position());
     s = v;
   }
@@ -304,4 +305,12 @@ void Search_case::reset_maze()
 {
   graph_->reset_all_states();
   maze_ad_->reset_path();
+}
+
+
+void Search_case::exec_go()
+{
+  maze_ad_->set_start(next_);
+  maze_ad_->set_path(start_);
+  start_ = next_;
 }
