@@ -65,6 +65,7 @@ enum class Mode { space,
 enum class Display { g_value,
                      h_value,
                      f_value,
+                     rhs_value,
                      expanded
                    };
 
