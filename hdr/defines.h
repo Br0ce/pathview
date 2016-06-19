@@ -68,7 +68,4 @@ enum class Display { g_value,
                      expanded
                    };
 
-enum class Search { depth, breadth };
-
-
 #endif // DEFINES_H
