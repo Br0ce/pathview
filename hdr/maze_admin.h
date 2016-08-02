@@ -53,6 +53,8 @@ public:
   void set_path(Position p);
   void reset_path();
   void set_start(Position p);
+  Mode get_mode(const Position p);
+  bool pathable(const Position p);
 
 signals:
 

@@ -205,6 +205,11 @@ void Maze_admin::set_start(Position p)
 }
 
 
+Mode Maze_admin::get_mode(const Position p)
+{
+  return fields_.at(p.index())->get_mode();
+}
+
 void Maze_admin::update_field(Index i)
 {
   fields_.at(i)->refresh_mode();
@@ -213,4 +218,10 @@ void Maze_admin::update_field(Index i)
 void Maze_admin::display_dispatch(Display d, bool b)
 {
   emit forward_display(d, b);
+}
+
+
+bool Maze_admin::pathable(const Position p)
+{
+  return ((get_mode(p) != Mode::start) && (get_mode(p) != Mode::goal));
 }
