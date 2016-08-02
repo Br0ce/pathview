@@ -1,0 +1,60 @@
+language: cpp
+
+sudo: required
+
+dist: trusty
+
+compiler:
+  - gcc
+  - clang
+
+os:
+  - linux
+  - osx
+
+env:
+  - CONFIG=RELEASE
+  - CONFIG=DEBUG
+
+before_install:
+
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
+
+         sudo add-apt-repository ppa:beineri/opt-qt551-trusty -y
+      && sudo apt-get update -qq;
+
+    else
+
+         brew update;
+
+    fi
+
+install:
+
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
+
+         sudo apt-get install qt55base qt55declarative qt55tools -y
+      && sudo apt-get install -qq libeigen3-dev;
+
+    else
+
+         brew install qt5
+      && chmod -R 755 /usr/local/opt/qt5/*
+      && brew install eigen;
+
+    fi
+
+script:
+
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
+
+          source /opt/qt55/bin/qt55-env.sh
+      && /opt/qt55/bin/qmake;
+
+    else
+
+     /usr/local/opt/qt5/bin/qmake;
+
+    fi
+
+  - make
