@@ -57,6 +57,7 @@ public:
   Position get_position() const;
   bool get_expanded() const;
   State* get_pred() const;
+  Key get_key() const;
 
   void set_g(const double g);
   void set_h(const double h);
@@ -79,7 +80,8 @@ private:
   double h_;
   double f_;
   double rhs_;
-  State* pred_;
+  Key key_;
+  State* pred_; // TODO not needed
   bool expanded_;
 
 };
@@ -93,4 +95,21 @@ inline bool operator!=(const State& l, const State& r)
 { return !(l == r); }
 
 
+/**
+ * @brief output States members to std::cout for debugging
+ *
+ * @param os ...
+ * @param s ...
+ * @return std::ostream&
+ */
+inline std::ostream& operator<<(std::ostream& os, State* s)
+{
+  os << "x  : " << s->get_position().pos().first << "\n";
+  os << "y  : " << s->get_position().pos().second << "\n";
+  os << "g  : " << s->g() << "\n";
+  os << "h  : " << s->h() << "\n";
+  os << "f  : " << s->f() << "\n";
+  os << "rhs: " << s->rhs() << "\n\n";
+  return os;
+}
 #endif // STATE_H
