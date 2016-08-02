@@ -25,6 +25,7 @@
 #define SEARCH_CASE_H
 
 #include <fstream>
+#include <algorithm>
 
 
 #include <QWidget>
@@ -75,12 +76,15 @@ public:
 
   Position get_start() const;
   Position get_goal() const;
+  Position get_next() const;
 
   bool start_status() const;
   bool goal_status() const;
+  bool dstar_status() const;
 
   void set_start_status(bool b);
   void set_goal_status(bool b);
+  void set_dstar_status(bool b);
 
   void show_path();
 
@@ -118,6 +122,7 @@ private:
   Position start_;
   Position goal_;
   Position next_;
+  Position next_dstar_;
   Vec_bool status_;
 
 };

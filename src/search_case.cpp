@@ -32,7 +32,7 @@ Search_case::Search_case(Maze_admin* maze_ad, QWidget* parent) :
   astar_(new Astar(this)),
   dstar_(new Dstar(this)),
   strategy_(uni_cost_), //TODO
-  status_(2, false) // 0=start, 1=goal
+  status_(3, false) // 0=start, 1=goal, 2=reverse
 {
   connect(maze_ad_, SIGNAL(publish_start(Position)),
           this, SLOT(start_request(Position)));
@@ -233,20 +233,35 @@ bool Search_case::start_status() const { return status_.at(0); }
 
 bool Search_case::goal_status() const { return status_.at(1); }
 
+bool Search_case::dstar_status() const { return status_.at(2); }
+
 
 void Search_case::set_start_status(bool b) { status_.at(0) = b; }
 
 void Search_case::set_goal_status(bool b) { status_.at(1) = b; }
 
+void Search_case::set_dstar_status(bool b) { status_.at(2) = b; }
+
 
 void Search_case::change_search_mode(QString s)
 {
   if(s == "Uniform Cost")
+  {
     set_strategy(uni_cost_);
+    set_dstar_status(false);
+  }
+
   if(s == "A*")
+  {
     set_strategy(astar_);
+    set_dstar_status(false);
+  }
+
   if(s == "D*-light")
+  {
     set_strategy(dstar_);
+    set_dstar_status(true);
+  }
 }
 
 
@@ -283,18 +298,41 @@ void Search_case::receive_expanded(int i)
 
 void Search_case::show_path()
 {
-  auto s = graph_->get_state(goal_);
+  auto begin = goal_; // TODO
+  auto end = start_;
+
+  if(dstar_status())
+  {
+    begin = start_;
+    end = goal_;
+  }
+
+  auto c = graph_->get_state(begin);
 
   int cnt = 0;
+  bool first = true;
 
-  while(auto v = s->get_pred())
+  while(c->get_position() != end)
   {
     ++cnt;
-    if(v->get_position() == start_) break;
 
-    next_ = v->get_position();
-    maze_ad_->set_path(v->get_position());
-    s = v;
+    auto succ = graph_->get_succ(c);
+
+    c = *(std::min_element(succ.cbegin(),
+                           succ.cend(),
+    [](State * l, State * r) { return l->g() < r->g(); }));
+
+    if(maze_ad_->pathable(c->get_position()))
+    {
+      maze_ad_->set_path(c->get_position());
+      next_ = c->get_position();
+
+      if(first)
+      {
+        next_dstar_ = c->get_position();
+        first = false;
+      }
+    }
   }
 
   emit stats_reached(cnt);
@@ -310,7 +348,22 @@ void Search_case::reset_maze()
 
 void Search_case::exec_go()
 {
+  if(dstar_status())
+    next_ = next_dstar_;
+
   maze_ad_->set_start(next_);
   maze_ad_->set_path(start_);
   start_ = next_;
+}
+
+
+Position Search_case::get_next() const
+{
+  auto succ = graph_->get_succ(graph_->get_state(start_));
+
+  auto n = *(std::min_element(succ.cbegin(),
+                              succ.cend(),
+  [](State * l, State * r) { return l->g() < r->g(); }));
+
+  return n->get_position();
 }
