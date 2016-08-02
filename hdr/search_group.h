@@ -51,12 +51,14 @@ public slots:
   void pb_search_clicked();
   void cb_search_combo_changed(QString s);
   void pb_clear_clicked();
+  void pb_go_clicked();
 
 signals:
 
   void search_clicked();
   void search_mode_change(QString s);
   void clear_clicked();
+  void go_clicked();
 
 private:
 

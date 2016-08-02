@@ -59,6 +59,9 @@ Search_group::Search_group(QWidget* parent) :
   connect(pb_clear_, SIGNAL(clicked(bool)),
           this, SLOT(pb_clear_clicked()));
 
+  connect(pb_go_, SIGNAL(clicked(bool)),
+          this, SLOT(pb_go_clicked()));
+
 
   this->setLayout(g_layout_);
 }
@@ -79,4 +82,10 @@ void Search_group::pb_search_clicked()
 void Search_group::pb_clear_clicked()
 {
   emit clear_clicked();
+}
+
+
+void Search_group::pb_go_clicked()
+{
+  emit go_clicked();
 }

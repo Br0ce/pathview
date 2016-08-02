@@ -63,6 +63,9 @@ Field_settings_group::Field_settings_group(QWidget* parent) :
   connect(cb_expanded_, SIGNAL(stateChanged(int)),
           this, SLOT(cb_expanded_clicked(int)));
 
+  connect(cb_rhs_value_, SIGNAL(stateChanged(int)),
+          this, SLOT(cb_rhs_value_clicked(int)));
+
   this->setLayout(g_layout_);
 }
 
@@ -110,6 +113,17 @@ void Field_settings_group::cb_f_value_clicked(int i)
 }
 
 
+void Field_settings_group::cb_rhs_value_clicked(int i)
+{
+  bool b = false;
+
+  if(i == 2)
+    b = true;
+
+  emit display_request(Display::rhs_value, b);
+}
+
+
 void Field_settings_group::cb_expanded_clicked(int i)
 {
   bool b = false;
@@ -126,8 +140,11 @@ void Field_settings_group::change_enable(QString s)
   if(s == "Uniform Cost")
   {
     cb_g_value_->setEnabled(true);
+    cb_h_value_->setCheckState(Qt::Unchecked);
     cb_h_value_->setEnabled(false);
+    cb_f_value_->setCheckState(Qt::Unchecked);
     cb_f_value_->setEnabled(false);
+    cb_rhs_value_->setCheckState(Qt::Unchecked);
     cb_rhs_value_->setEnabled(false);
     cb_expanded_->setEnabled(true);
   }
@@ -137,7 +154,18 @@ void Field_settings_group::change_enable(QString s)
     cb_g_value_->setEnabled(true);
     cb_h_value_->setEnabled(true);
     cb_f_value_->setEnabled(true);
+    cb_rhs_value_->setCheckState(Qt::Unchecked);
     cb_rhs_value_->setEnabled(false);
+    cb_expanded_->setEnabled(true);
+  }
+
+  if(s == "D*-light")
+  {
+    cb_g_value_->setEnabled(true);
+    cb_h_value_->setEnabled(true);
+    cb_f_value_->setCheckState(Qt::Unchecked);
+    cb_f_value_->setEnabled(false);
+    cb_rhs_value_->setEnabled(true);
     cb_expanded_->setEnabled(true);
   }
 }

@@ -96,8 +96,12 @@ Main_window::Main_window(QWidget* parent):
   connect(search_group_, SIGNAL(clear_clicked()),
           search_case_, SLOT(reset_maze()));
 
+  connect(search_group_, SIGNAL(go_clicked()),
+          search_case_, SLOT(exec_go()));
+
   connect(search_group_, SIGNAL(clear_clicked()),
           stats_group_, SLOT(reset_display()));
+
 
   settings_.setFallbacksEnabled(false);
   read_settings();

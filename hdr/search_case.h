@@ -25,6 +25,7 @@
 #define SEARCH_CASE_H
 
 #include <fstream>
+#include <algorithm>
 
 
 #include <QWidget>
@@ -40,6 +41,7 @@
 #include "search_strategy.h"
 #include "uniform_cost.h"
 #include "astar.h"
+#include "dstar.h"
 
 
 class Search_case : public QWidget
@@ -74,12 +76,15 @@ public:
 
   Position get_start() const;
   Position get_goal() const;
+  Position get_next() const;
 
   bool start_status() const;
   bool goal_status() const;
+  bool dstar_status() const;
 
   void set_start_status(bool b);
   void set_goal_status(bool b);
+  void set_dstar_status(bool b);
 
   void show_path();
 
@@ -103,6 +108,7 @@ public slots:
   void start_search();
   void receive_expanded(int i);
   void reset_maze();
+  void exec_go();
 
 private:
 
@@ -111,9 +117,12 @@ private:
   Map map_;
   Uniform_cost* uni_cost_;
   Astar* astar_;
+  Dstar* dstar_;
   Search_strategy* strategy_;
   Position start_;
   Position goal_;
+  Position next_;
+  Position next_dstar_;
   Vec_bool status_;
 
 };

@@ -87,6 +87,9 @@ int main(int argc, char** argv)
 {
   QApplication app(argc, argv);
 
+  app.setStyle("plastique");
+  app.setPalette(app.style()->standardPalette());
+
   #ifdef QT_VERSION_5_4_REACHED
   qInstallMessageHandler(log_to_file);
   #endif

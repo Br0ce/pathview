@@ -1,8 +1,6 @@
-/** @file field_settings_group.h
+/** @file dstar.h
  *
- *
- * @brief
- *
+ * @brief Smallest unit in a maze.
  *
  * Copyright (C) 2016  @author Niklas Beck, beck@informatik.uni-bonn.de
  *
@@ -23,54 +21,40 @@
  */
 
 
-
-#ifndef FIELD_SETTINGS_GROUP_H
-#define FIELD_SETTINGS_GROUP_H
-
-
-#include <QGroupBox>
-#include <QGridLayout>
-#include <QCheckBox>
+#ifndef DSTAR_H
+#define DSTAR_H
 
 
-#include <defines.h>
+#include "search_strategy.h"
 
-class Field_settings_group : public QGroupBox
+
+class Dstar : public Search_strategy
 {
 
   Q_OBJECT
 
 public:
 
-  explicit Field_settings_group(QWidget* parent);
+  explicit Dstar(QWidget* parent);
+  virtual ~Dstar() = default;
 
-  virtual ~Field_settings_group() = default;
+  bool search(Graph* graph,
+              const Position& start,
+              const Position& goal) override;
+
+  void update_state(State* s,
+                    const Position& start,
+                    const Position& goal,
+                    Graph* graph);
 
 signals:
 
-  void display_request(Display d, bool b);
-
-public slots:
-
-  void cb_g_value_clicked(int i);
-  void cb_h_value_clicked(int i);
-  void cb_f_value_clicked(int i);
-  void cb_rhs_value_clicked(int i);
-  void cb_expanded_clicked(int i);
-
-  void set_uncheck();
-
-  void change_enable(QString s);
+  void report_exp_dst(int i);
 
 private:
 
-  QGridLayout* g_layout_;
-  QCheckBox* cb_g_value_;
-  QCheckBox* cb_h_value_;
-  QCheckBox* cb_f_value_;
-  QCheckBox* cb_rhs_value_;
-  QCheckBox* cb_expanded_;
+  Vec_state open_;
 
 };
 
-#endif // FIELD_SETTINGS_GROUP_H
+#endif // DSTAR_H

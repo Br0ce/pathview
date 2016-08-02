@@ -164,7 +164,6 @@ double Graph::get_h(const Position& a, const Position& b) const
 }
 
 
-
 void Graph::reset_all_states()
 {
   for(auto& s : states_)

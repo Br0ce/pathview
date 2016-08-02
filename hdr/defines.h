@@ -48,6 +48,7 @@
 class State;
 
 using Dim = std::pair<int, int>;
+using Key = std::pair<double, double>;
 using Index = int;
 using Map = Eigen::MatrixXi;
 using Matrix_d = Eigen::MatrixXd;
@@ -65,10 +66,8 @@ enum class Mode { space,
 enum class Display { g_value,
                      h_value,
                      f_value,
+                     rhs_value,
                      expanded
                    };
-
-enum class Search { depth, breadth };
-
 
 #endif // DEFINES_H
