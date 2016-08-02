@@ -48,6 +48,7 @@
 class State;
 
 using Dim = std::pair<int, int>;
+using Key = std::pair<double, double>;
 using Index = int;
 using Map = Eigen::MatrixXi;
 using Matrix_d = Eigen::MatrixXd;
