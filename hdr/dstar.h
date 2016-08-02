@@ -42,9 +42,18 @@ public:
               const Position& start,
               const Position& goal) override;
 
+  void update_state(State* s,
+                    const Position& start,
+                    const Position& goal,
+                    Graph* graph);
+
 signals:
 
   void report_exp_dst(int i);
+
+private:
+
+  Vec_state open_;
 
 };
 

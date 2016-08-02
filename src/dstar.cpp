@@ -32,27 +32,97 @@ bool Dstar::search(Graph* graph,
                    const Position& start,
                    const Position& goal)
 {
-  /*
-  auto greater_k = [](State* l, State* r)
-  {
-    return std::tie(std::min(l->g(), l->rhs() + l->h()),
-                    std::min(l->g(), l->rhs())) >
-           std::tie(std::min(r->g(), r->rhs() + r->h()),
-                    std::min(r->g(), r->rhs()));
-  };
-
-  prio_queue<decltype(greater_k)> open(greater_k);
 
   auto s = graph->get_state(start);
-  s->set_g(MAX_WEIGHT);
   s->set_rhs(MAX_WEIGHT);
+  s->set_g(MAX_WEIGHT);
 
   auto g = graph->get_state(goal);
-  g->set_g(MAX_WEIGHT);
-  g->set_rhs(0);
+  auto g_elem = std::find(open_.begin(), open_.end(), g);
+  if(g_elem == open_.end())
+  {
+    g->set_rhs(0);
+    g->set_g(MAX_WEIGHT);
+    open_.push_back(g);
+  }
+  g->set_h(graph->get_h(start, g->get_position()));
 
-  open.push(g);
-  */
 
-  return false;
+  auto current = g;
+
+  auto search_limit = graph->get_states().size() * 2;
+
+  std::size_t cnt = 0;
+  while((current->get_key() < s->get_key()) || (s->rhs() != s->g()))
+  {
+    if(cnt > search_limit)
+    {
+      emit report_exp_dst(cnt);
+      return false;
+    }
+
+    ++cnt;
+    current->set_expanded();
+
+    if(current->g() > current->rhs())
+    {
+      current->set_g(current->rhs());
+      for(auto& pred : graph->get_succ(current)) // succ = pred
+        update_state(pred, start, goal, graph);
+    }
+    else
+    {
+      current->set_g(MAX_WEIGHT);
+      update_state(current, start, goal, graph);
+      for(auto& pred : graph->get_succ(current)) // succ = pred
+        update_state(pred, start, goal, graph);
+    }
+
+    auto it_elem = std::find(open_.begin(), open_.end(), current);
+    if(it_elem != open_.end())
+      open_.erase(it_elem);
+
+    current = *(std::min_element(open_.begin(),
+                                 open_.end(),
+                                 [](State * l, State * r)
+    { return l->get_key() < r->get_key(); }));
+
+  }
+
+  emit report_exp_dst(cnt);
+
+  return true;
+}
+
+
+void Dstar::update_state(State* s,
+                         const Position& start,
+                         const Position& goal,
+                         Graph* graph)
+{
+  if(!s->get_expanded())
+    s->set_g(MAX_WEIGHT);
+
+  if(s->get_position() != goal)
+  {
+    auto tmp_rhs = s->rhs();
+    for(auto& succ : graph->get_succ(s))
+    {
+      if(tmp_rhs > (succ->g() + graph->get_c(succ, s)))
+      {
+        tmp_rhs = succ->g() + graph->get_c(succ, s);
+      }
+    }
+    s->set_rhs(tmp_rhs);
+  }
+
+  auto it_elem = std::find(open_.begin(), open_.end(), s);
+  if(it_elem != open_.end())
+    open_.erase(it_elem);
+
+  if(s->g() != s->rhs())
+  {
+    s->set_h(graph->get_h(start, s->get_position()));
+    open_.push_back(s);
+  }
 }
