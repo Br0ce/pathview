@@ -65,7 +65,6 @@ bool Astar::search(Graph* graph,
       if(succ->g() > current->g() + graph->get_c(current, succ))
       {
         succ->set_g(current->g() + graph->get_c(current, succ));
-        succ->set_pred(current);
         succ->set_h(graph->get_h(succ->get_position(), goal));
         succ->set_f(succ->g() + succ->h());
         open.push(succ);
