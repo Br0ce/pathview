@@ -8,8 +8,8 @@ TEMPLATE = app
 TARGET = pathview
 
 CONFIG += c++11
-CONFIG += release
-# CONFIG += debug
+#CONFIG += release
+CONFIG += debug
 
 INCLUDEPATH += ./hdr/
 INCLUDEPATH += /usr/include/eigen3
